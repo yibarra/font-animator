@@ -1,0 +1,11 @@
+.form {
+  background-color: white;
+  color: black;
+  left: 0px;
+  position: absolute;
+  top: 0px;
+
+  &--btn-instance {
+    font-family: inherit;
+  }
+}
