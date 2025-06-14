@@ -37,7 +37,6 @@ export interface IGlyphsState {
   empty: () => void
   remove: (id: string) => void
   updateGlyphFrames: (id: string, frames: IGlyph['frames']) => void
-  updateGlyphProperties: (id: string, newProps: Record<string, string | number>) => void
   selectGlyph: (index: string) => void
   setCurrent: (glyph: IGlyph | null) => void
 }
@@ -45,6 +44,7 @@ export interface IGlyphsState {
 export interface IGlyphsContext extends Pick<IGlyphsState, 'glyphs' | 'current' | 'setCurrent'>{
   getGlyph: (index: number) => Glyph | undefined
   getGlyphVariation: (index: number, variants: number[]) => Glyph | undefined
+  setGlyphFrameProperties: (index: number, properties: ShapeConfig) => void
   setGlyphFramePosition: (frameIndex: number, position: [number, number]) => void
   setGlyphInstance: (frameIndex: number, vars: number[]) => void
 }

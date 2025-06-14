@@ -1,5 +1,5 @@
 import type { HTMLAttributes } from 'react'
-import { UseLoadFontContext } from '../../../../contexts/LoadFont/LoadFont'
+import { UseFontContext } from '../../../../contexts/Font/Font'
 
 import styles from './styles.module.scss'
 import { UseFontSettingsContext } from '../../../../contexts/FontSettings/FontSettings'
@@ -7,7 +7,7 @@ import { UseGlyphsContext } from '../../../../contexts/Glyphs/Glyphs'
 
 const Form = (props: HTMLAttributes<HTMLDivElement>) => {
   const { axes } = UseFontSettingsContext()
-  const { font } = UseLoadFontContext()
+  const { font, handleFileChange } = UseFontContext()
   const { current, glyphs, setGlyphInstance } = UseGlyphsContext()
 
   // on handle instance
@@ -32,15 +32,31 @@ const Form = (props: HTMLAttributes<HTMLDivElement>) => {
   const currentGlyphData = glyphs.find((g) => g.id === current)
   const glyph = font?.stringsForGlyph(currentGlyphData?.charIndex ?? 70)
   
-  console.info(glyph, currentGlyphData?.charIndex, glyphs, current)
   return (
     <div className={styles['form']}>
+      <label>NOVA FONT</label>
+      <label htmlFor="file-upload">Escolha um arquivo:</label>
+      <input
+        type="file"
+        id="file-upload"
+        onChange={handleFileChange}
+      />
+
       <div>
         <label>Cor de Preenchimento:</label>
-        <input type="color" id="fillColor" value="#333333" />
+        <input type="color" id="fillColor" />
 
         <label>Tamanho da Fonte (px):</label>
-        <input type="number" id="fontSize" value="40" min="1" />
+        <input type="number" id="fontSize" min="1" />
+
+        <label>Posição X:</label>
+        <input type="number" id="posX" />
+
+        <label>Posição Y:</label>
+        <input type="number" id="posY" />
+
+        <label>Rotação (graus):</label>
+        <input type="number" id="rotation" />
       </div>
       <div>
         <p>Instances</p>
@@ -65,27 +81,31 @@ const Form = (props: HTMLAttributes<HTMLDivElement>) => {
       <div>
         <div>
           <h3>Traço</h3>
+            <label>Padrão de Traços (Ex: '5 5' para pontilhado):</label>
+            <input type="text" id="dash"  />
+
           <label>Cor do Traço:</label>
-          <input type="color" id="strokeColor" value="#999999" />
+          <input type="color" id="strokeColor" />
 
           <label>Espessura do Traço (px):</label>
-          <input type="number" id="strokeWidth" value="0" min="0" />
+          <input type="number" id="stroke" min="0" />
 
-          <h3>Alinhamento</h3>
-          <label>Alinhamento Horizontal:</label>
-          <select id="textAnchor">
-              <option value="start">Início</option>
-              <option value="middle" selected>Meio</option>
-              <option value="end">Fim</option>
+          <label>Extremidades do Traço:</label>
+          <select
+            id="lineCap"
+          >
+              <option value="butt">Quadrado (Padrão)</option>
+              <option value="round">Redondo</option>
+              <option value="square">Quadrado (Estendido)</option>
           </select>
 
-          <label>Alinhamento Vertical:</label>
-          <select id="dominantBaseline">
-              <option value="alphabetic">Alfabética</option>
-              <option value="middle" selected>Meio (Central)</option>
-              <option value="hanging">Superior</option>
-              <option value="text-before-edge">Borda Superior do Texto</option>
-              <option value="text-after-edge">Borda Inferior do Texto</option>
+          <label htmlFor="strokeLinejoin">Cantos do Traço:</label> {/* Novo! */}
+          <select
+              id="lineJoin"
+          >
+              <option value="miter">Pontiagudo (Padrão)</option>
+              <option value="round">Redondo</option>
+              <option value="bevel">Chanfrado</option>
           </select>
         </div>
       </div>

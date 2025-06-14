@@ -1,13 +1,13 @@
 import { createContext, useCallback, useContext, useEffect, useMemo } from 'react'
 
 import FontSettingsProvider from '../FontSettings'
-import type { ILoadFontContext, ILoadFontProvider } from './interfaces'
+import type { IFontContext, IFontProvider } from './interfaces'
 
 import { useFontStore } from './store'
 
-const LoadFontContext = createContext({} as ILoadFontContext)
+const FontContext = createContext({} as IFontContext)
 
-const LoadFontProvider = ({ children }: ILoadFontProvider ) => {
+const FontProvider = ({ children }: IFontProvider ) => {
   const { loadInitialFont, onReadFile, ...store } = useFontStore()
 
   // handle file change
@@ -19,12 +19,12 @@ const LoadFontProvider = ({ children }: ILoadFontProvider ) => {
 
   // use effect
   useEffect(() => {
-    loadInitialFont('/fonts/canal-brasil.ttf') 
+    loadInitialFont('/fonts/font.ttf') 
   }, [loadInitialFont])
 
   // render
   return (
-    <LoadFontContext.Provider
+    <FontContext.Provider
       value={useMemo(() => ({
         ...store,
         handleFileChange
@@ -36,21 +36,21 @@ const LoadFontProvider = ({ children }: ILoadFontProvider ) => {
       <FontSettingsProvider>
         {children}
       </FontSettingsProvider>
-    </LoadFontContext.Provider>
+    </FontContext.Provider>
   )
 }
 
-const UseLoadFontContext = () => {
-  const context = useContext(LoadFontContext)
+const UseFontContext = () => {
+  const context = useContext(FontContext)
 
   if (context === undefined) {
     throw new Error(
-      'LoadFontContext must be used within a LoadFontProvider'
+      'FontContext must be used within a FontProvider'
     )
   }
 
   return context
 }
 
-export { LoadFontContext, LoadFontProvider, UseLoadFontContext }
-export default LoadFontProvider
+export { FontContext, FontProvider, UseFontContext }
+export default FontProvider

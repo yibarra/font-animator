@@ -1,7 +1,8 @@
 import { createContext, useCallback, useContext, useMemo } from 'react'
+import type { ShapeConfig } from 'konva/lib/Shape'
 
 import { useGlyphsStore } from './store'
-import { UseLoadFontContext } from '../LoadFont/LoadFont'
+import { UseFontContext } from '../Font/Font'
 import { UseFontSettingsContext } from '../FontSettings/FontSettings'
 import type { IGlyphsContext, IGlyphsProvider } from './interfaces'
 
@@ -10,12 +11,10 @@ const GlyphsContext = createContext({} as IGlyphsContext)
 
 // glyph provider
 const GlyphsProvider = ({ children }: IGlyphsProvider) => {
-  const { font } = UseLoadFontContext()
+  const { font } = UseFontContext()
   const { axes } = UseFontSettingsContext()
 
-  const store = useGlyphsStore()
-
-  const { current, glyphs, setCurrent, updateGlyphFrames } = store
+  const { current, glyphs, setCurrent, updateGlyphFrames } = useGlyphsStore()
 
   // get glyph
   const getGlyph = useCallback((index: number) => font?.getGlyph(index), [font])
@@ -72,6 +71,26 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
     }
   }, [current, glyphs, updateGlyphFrames])
 
+    // set glyph frame properties
+  const setGlyphFrameProperties = useCallback((frameIndex: number, properties: ShapeConfig) => {
+    if (current === null) {
+      return 
+    }
+
+    const selected = glyphs.find((glyph) => glyph.id === current)
+
+    if (selected) {
+      const frames = selected.frames
+
+      frames[frameIndex] = {
+        ...frames[frameIndex],
+        properties,
+      }
+
+      updateGlyphFrames(selected.id, frames)
+    }
+  }, [current, glyphs, updateGlyphFrames])
+
   // render
   return (
     <GlyphsContext.Provider
@@ -81,6 +100,7 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
           glyphs,
           getGlyph,
           setGlyphFramePosition,
+          setGlyphFrameProperties,
           getGlyphVariation,
           setCurrent,
           setGlyphInstance,
@@ -89,6 +109,7 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
           glyphs,
           getGlyph,
           setGlyphFramePosition,
+          setGlyphFrameProperties,
           getGlyphVariation,
           setCurrent,
           setGlyphInstance,

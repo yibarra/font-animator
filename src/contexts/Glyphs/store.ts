@@ -13,11 +13,17 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
         wdth: 30,
         wght: 0
       },
+      position: [10, 600],
       properties: {
         fill: 'blue',
-        fontSize: 124
+        fontSize: 124,
+        stroke: 'orange',
+        strokeWidth: 2,
+        dash: [100, 10],
+        lineCap: 'butt',
+        lineJoin: 'bevel',
+        rotation: 10,
       },
-      position: [10, 600],
     }],
   }, {
     id: '2',
@@ -31,7 +37,13 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
       position: [100, 400],
       properties: {
         fill: 'red',
-        fontSize: 124
+        fontSize: 124,
+        stroke: 'none',
+        strokeWidth: 0,
+        dash: [0, 0],
+        lineCap: 'butt',
+        lineJoin: 'bevel',
+        rotation: 0,
       },
     }],
   }],
@@ -63,14 +75,6 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
   updateGlyphFrames: (id, frames) => set((state) => ({
     glyphs: state.glyphs.map((glyph) =>
       glyph.id === id ? { ...glyph, frames } : glyph
-    ),
-  })),
-
-  // update properties svg
-  updateGlyphProperties: (id) => set((state) => ({
-    //  properties: { ...glyph.properties, ...newProps }, newProps
-    glyphs: state.glyphs.map((glyph) => 
-      glyph.id === id ? { ...glyph } : glyph
     ),
   })),
 

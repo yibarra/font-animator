@@ -1,17 +1,17 @@
 import { createContext, useCallback, useMemo, useContext } from 'react'
 
 import type { IFontSettingsContext, IFontSettingsProvider } from './interfaces'
-import { UseLoadFontContext } from '../LoadFont/LoadFont'
+import type { IGlyphPoint } from '../Glyphs/interfaces'
+import { UseFontContext } from '../Font/Font'
 import { convertPathToSvg, extractGlyphPoints } from './utils'
 import LettersProvider from '../Glyphs'
-import type { IGlyphPoint } from '../Glyphs/interfaces'
 
 // load font context
 const FontSettingsContext = createContext({} as IFontSettingsContext)
 
 // load font provider
 const FontSettingsProvider = ({ children }: IFontSettingsProvider ) => {
-  const { font } = UseLoadFontContext()
+  const { font } = UseFontContext()
   const axes = useMemo(() => (font?.variationAxes), [font?.variationAxes])
 
   // get axes

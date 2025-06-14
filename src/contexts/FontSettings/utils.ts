@@ -1,5 +1,5 @@
 import type { PathCommand } from 'fontkit'
-import type { BoundingBox, IGlyphPoint } from '../Glyphs/interfaces'
+import type { IGlyphPoint } from '../Glyphs/interfaces'
 
 // convert to svg
 export const convertPathToSvg = (commands: PathCommand[], fontSize: number, unitsPerEm: number): string => {
@@ -87,33 +87,4 @@ export const extractGlyphPoints = (commands: PathCommand[], fontSize: number, un
   })
 
   return points
-}
-
-// get bounding box
-export const getBoundingBox = (points: IGlyphPoint[]): BoundingBox | null => {
-  if (points.length === 0) {
-    return null
-  }
-
-  let minX = points[0].x
-  let minY = points[0].y
-  let maxX = points[0].x
-  let maxY = points[0].y
-
-  // find min/max
-  points.forEach(point => {
-    minX = Math.min(minX, point.x)
-    minY = Math.min(minY, point.y)
-    maxX = Math.max(maxX, point.x)
-    maxY = Math.max(maxY, point.y)
-  })
-
-  return {
-    minX,
-    minY,
-    maxX,
-    maxY,
-    width: Math.round(maxX - minX),
-    height: Math.round(maxY - minY),
-  }
 }

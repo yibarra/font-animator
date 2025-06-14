@@ -9,8 +9,8 @@ export interface IFontState {
   setFontLoaded: (loaded: boolean) => void
 }
 
-export interface ILoadFontContext extends Omit<IFontState, 'loadInitialFont' | 'setFontLoaded' | 'onReadFile'> {
+export interface IFontContext extends Omit<IFontState, 'loadInitialFont' | 'setFontLoaded' | 'onReadFile'> {
   handleFileChange(event: ChangeEvent<HTMLInputElement>): void
 }
 
-export type ILoadFontProvider = PropsWithChildren
+export type IFontProvider = PropsWithChildren

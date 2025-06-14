@@ -1,20 +1,20 @@
-import { useState } from 'react'
 import { Group, Path, Shape } from 'react-konva'
 import type { Context } from 'konva/lib/Context'
-
-import { UseFontSettingsContext } from '../../contexts/FontSettings/FontSettings'
-import type { IGlyphProps } from './interfaces'
-import { UseGlyphsContext } from '../../contexts/Glyphs/Glyphs'
-import Select from './Composite/Select'
 import type { KonvaEventObject } from 'konva/lib/Node'
 
+import { UseFontSettingsContext } from '../../contexts/FontSettings/FontSettings'
+import { UseGlyphsContext } from '../../contexts/Glyphs/Glyphs'
+import Select from './Composite/Select'
+import { useGlyphStore } from './store'
+import type { IGlyphProps } from './interfaces'
+
 const Glyph = ({ current, data }: IGlyphProps) => {
+  const { currentFrame, isDragging, setIsDragging } = useGlyphStore()
+
   const { setCurrent, setGlyphFramePosition } = UseGlyphsContext()
   const { getPathDataAndPointsForGlyph } = UseFontSettingsContext()
 
-  const [isDragging, setIsDragging] = useState(false)
-
-  const frame = data.frames[0]
+  const frame = data.frames[currentFrame]
 
   const numericAxes = Object.fromEntries(
     Object.entries(frame.axes).map(([key, value]) => [key, Number(value)])
