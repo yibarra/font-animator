@@ -1,14 +1,29 @@
+import { useState } from 'react'
 import { Group, Path, Shape } from 'react-konva'
 import type { Context } from 'konva/lib/Context'
 
 import { UseFontSettingsContext } from '../../contexts/FontSettings/FontSettings'
 import type { IGlyphProps } from './interfaces'
+import { UseGlyphsContext } from '../../contexts/Glyphs/Glyphs'
+import Select from './Composite/Select'
+import type { KonvaEventObject } from 'konva/lib/Node'
 
-const Glyph = ({ glyph }: IGlyphProps) => {
-  console.info(glyph, '-----')
+const Glyph = ({ current, data }: IGlyphProps) => {
+  const { setCurrent, setGlyphFramePosition } = UseGlyphsContext()
   const { getPathDataAndPointsForGlyph } = UseFontSettingsContext()
 
-  const { path, points } = getPathDataAndPointsForGlyph(glyph.charIndex, {...glyph.frames[0]}, 126)
+  const [isDragging, setIsDragging] = useState(false)
+
+  const frame = data.frames[0]
+
+  const numericAxes = Object.fromEntries(
+    Object.entries(frame.axes).map(([key, value]) => [key, Number(value)])
+  )
+
+  const { path, points } = getPathDataAndPointsForGlyph(
+    data.charIndex, numericAxes,
+    Number(frame.properties?.fontSize ?? 12)
+  )
 
   const drawPoints = (context: Context) => {
     points.forEach((point) => {
@@ -16,13 +31,13 @@ const Glyph = ({ glyph }: IGlyphProps) => {
       context.arc(
         point.x, 
         point.y, 
-        point.type === 'on-curve' ? 4 : 3, 
+        point.type === 'on-curve' ? 1 : 1, 
         0, 
         Math.PI * 2, 
         false
       )
       context.closePath()
-      context.fillStyle = point.type === 'on-curve' ? 'transparent' : 'orange'
+      context.fillStyle = point.type === 'on-curve' ? 'white' : 'orange'
       context.fill()
 
       context.strokeStyle = 'white'
@@ -31,16 +46,32 @@ const Glyph = ({ glyph }: IGlyphProps) => {
     })
   }
 
+  const onHandleDragEnd = (event: KonvaEventObject<DragEvent>) => {
+    if (!isDragging && !current) {
+      return
+    }
+
+    console.info(event)
+
+    const { x, y } = event.target.attrs
+
+    setGlyphFramePosition(0, [Number(x), Number(y)])
+    setIsDragging(false)
+  }
+
   return (
     <Group
-      draggable
-      x={glyph.position[0]}
-      y={glyph.position[1]}
+      draggable={true}
+      onDragStart={() => current && setIsDragging(true)}
+      onDragEnd={onHandleDragEnd}
+      onClick={() => setCurrent(data ?? null)}
+      x={frame.position[0]}
+      y={frame.position[1]}
       scaleY={-1}
       scaleX={1}
     >
       <Path
-        {...glyph.properties}
+        {...frame.properties}
         data={path}
       />
 
@@ -48,6 +79,8 @@ const Glyph = ({ glyph }: IGlyphProps) => {
         fill="transparent"
         sceneFunc={drawPoints}
       />
+
+      {current && (<Select padding={20} points={points} />)}
     </Group>
   )
 }

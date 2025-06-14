@@ -1,9 +1,10 @@
 import { createContext, useCallback, useMemo, useContext } from 'react'
 
-import type { IFontSettingsContext, IFontSettingsProvider, IGlyphPoint } from './interfaces'
+import type { IFontSettingsContext, IFontSettingsProvider } from './interfaces'
 import { UseLoadFontContext } from '../LoadFont/LoadFont'
 import { convertPathToSvg, extractGlyphPoints } from './utils'
 import LettersProvider from '../Glyphs'
+import type { IGlyphPoint } from '../Glyphs/interfaces'
 
 // load font context
 const FontSettingsContext = createContext({} as IFontSettingsContext)
@@ -24,7 +25,7 @@ const FontSettingsProvider = ({ children }: IFontSettingsProvider ) => {
 
   // get path data - remove
   const getPathDataAndPointsForGlyph = useCallback(
-    (id: number, coords: Record<string, number>, size: number): {
+    (id: number, coords: Record<string, string | number>, size: number): {
       path: string
       points: IGlyphPoint[]
     } => {
@@ -46,7 +47,7 @@ const FontSettingsProvider = ({ children }: IFontSettingsProvider ) => {
       }
 
       return { path: '', points: [] }
-    }, [font])
+  }, [font])
 
   // render
   return (
@@ -70,7 +71,7 @@ const FontSettingsProvider = ({ children }: IFontSettingsProvider ) => {
   )
 }
 
-function UseFontSettingsContext() {
+const UseFontSettingsContext = () => {
   const context = useContext(FontSettingsContext)
 
   if (context === undefined) {

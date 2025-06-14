@@ -5,8 +5,8 @@ import { setFontFace } from './utils'
 import type { IFontState } from './interfaces'
 
 export const useFontStore = create<IFontState>((set) => ({
-  fontLoaded: false,
   font: undefined,
+  fontLoaded: false,
   setFontLoaded: (loaded) => set({ fontLoaded: loaded }),
 
   // loads initial font from public directory

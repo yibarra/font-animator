@@ -1,4 +1,4 @@
-import { Font } from 'fontkit'
+import type { Font } from 'fontkit'
 
 declare module 'fontkit' {
   // Re-declara la función 'create' con las sobrecargas que necesitamos.

@@ -5,14 +5,14 @@ import Glyph from '../../components/Glyph'
 import Form from '../../components/Glyph/Composite/Form'
 
 const Main = () => {
-  const { glyphs } = UseGlyphsContext()
+  const { glyphs, current } = UseGlyphsContext()
 
   return (
     <>
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
           {Array.isArray(glyphs) && glyphs.map((glyph, index) =>
-            <Glyph glyph={glyph} key={index} />
+            <Glyph current={current === glyph.id} data={glyph} key={index} />
           )}
         </Layer>
       </Stage>

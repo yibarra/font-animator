@@ -8,28 +8,32 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
     id: '1',
     charIndex: 16,
     easing: 'lineal',
-    position: [10, 100],
-    duration: 10000,
     frames: [{
-      wdth: 30,
-      wght: 0
+      axes: {
+        wdth: 30,
+        wght: 0
+      },
+      properties: {
+        fill: 'blue',
+        fontSize: 124
+      },
+      position: [10, 600],
     }],
-    properties: {
-      fill: 'blue'
-    }
   }, {
     id: '2',
     charIndex: 17,
     easing: 'lineal',
-    position: [110, 100],
-    duration: 10000,
     frames: [{
-      wdth: 100,
-      wght: 100
+      axes: {
+        wdth: 100,
+        wght: 100,
+      },
+      position: [100, 400],
+      properties: {
+        fill: 'red',
+        fontSize: 124
+      },
     }],
-    properties: {
-      fill: 'red'
-    }
   }],
 
   // add glyph
@@ -40,8 +44,11 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
     const glyph: IGlyph = {
       id,
       ...newGlyph,
-      frames: [],
-      properties: defaultProperties,
+      frames: [{
+        axes: {},
+        position: [0, 0],
+        properties: defaultProperties,
+      }],
     }
 
     return { glyphs: [...state.glyphs, glyph] }
@@ -60,9 +67,10 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
   })),
 
   // update properties svg
-  updateGlyphProperties: (id, newProps) => set((state) => ({
-    glyphs: state.glyphs.map((glyph) =>
-      glyph.id === id ? { ...glyph, properties: { ...glyph.properties, ...newProps } } : glyph
+  updateGlyphProperties: (id) => set((state) => ({
+    //  properties: { ...glyph.properties, ...newProps }, newProps
+    glyphs: state.glyphs.map((glyph) => 
+      glyph.id === id ? { ...glyph } : glyph
     ),
   })),
 
@@ -70,15 +78,15 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
   empty: () => set({ glyphs: [] }),
 
   // set current
-  setCurrent: (glyph) => set({ current: glyph }),
+  setCurrent: (glyph) => set({ current: glyph?.id }),
 
   // select glyph
   selectGlyph: (id) => set((state) => {
     if (id === null) {
-      return { current: null }; // clear current
+      return { current: null } // clear current
     }
 
-    const selected = state.glyphs.find(glyph => glyph.id === id)
-    return { current: selected || null } // set selected glyph or null if not found
+    const selected = state.glyphs.find((glyph) => glyph.id === id)?.id
+    return { current: selected ?? null } // set selected glyph or null if not found
   }),
 }))
