@@ -1,3 +1,5 @@
+import type { IFrame } from "../Glyphs/interfaces"
+
 // convert Uint8Array to a base64 string for @font-face injection
 export const Uint8ToString = (u8a: Uint8Array): string => {
   const CHUNK_SIZE = 8192 // chunk size for apply performance
@@ -30,4 +32,17 @@ export const setFontFace = (fontBuffer: Uint8Array, name: string): void => {
   }
 
   style.textContent = fontFace
+}
+
+// get font variation settings
+export const getFontVariationSettings = (axes: IFrame['axes']): string => {
+  const settings = []
+
+  for (const tag in axes) {
+    if (Object.prototype.hasOwnProperty.call(axes, tag)) {
+      settings.push(`'${tag}' ${axes[tag]}`)
+    }
+  }
+
+  return settings.join(', ')
 }

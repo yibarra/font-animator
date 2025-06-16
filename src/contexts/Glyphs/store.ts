@@ -6,7 +6,8 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
   current: null,
   glyphs: [{
     id: '1',
-    charIndex: 16,
+    charIndex: 12,
+    currentFrame: 0,
     easing: 'lineal',
     frames: [{
       axes: {
@@ -28,6 +29,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
   }, {
     id: '2',
     charIndex: 17,
+    currentFrame: 0,
     easing: 'lineal',
     frames: [{
       axes: {
@@ -56,6 +58,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
     const glyph: IGlyph = {
       id,
       ...newGlyph,
+      currentFrame: 0,
       frames: [{
         axes: {},
         position: [0, 0],

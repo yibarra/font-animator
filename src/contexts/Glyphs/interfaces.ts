@@ -26,6 +26,7 @@ export interface IFrame {
 export interface IGlyph {
   id: string
   charIndex: number
+  currentFrame: number
   easing: string
   frames: IFrame[]
 }

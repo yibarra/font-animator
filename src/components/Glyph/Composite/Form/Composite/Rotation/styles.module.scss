@@ -1,0 +1,102 @@
+.rotation {
+  height: 44px;
+  position: relative;
+  width: 44px;
+
+  &--grid,
+  &--glyph {
+    position: absolute;
+  }
+
+  &--grid {
+    height: 100%;
+    left: 0;
+    top: 0;
+    width: 100%;
+
+    &:before,
+    &:after {
+      background: transparent;
+      
+      content: '';
+      left: 50%;
+      opacity: 0.2;
+      position: absolute;
+      top: 50%;
+      transform: translate3d(-50%, -50%, 0px);
+    }
+
+    &:before {
+      border-bottom: 1px dashed var(--primary-color);
+      height: 1px;
+      width: 100%;
+    }
+
+    &:after {
+      height: 100%;
+      border-left: 1px dashed var(--primary-color);
+      width: 1px;
+    }
+  }
+
+  &--glyph {
+    border: 2px solid var(--primary-color);
+    height: 14px;
+    left: 50%;
+    top: 50%;
+    transform-origin: left top;
+    width: 14px;
+
+    &:before,
+    &:after {
+      background: var(--primary-color);
+      content: '';
+      height: 6px;
+      left: 50%;
+      position: absolute;
+      transform: translate3d(-50%, 0px, 0px);
+      width: 2px;
+    }
+
+    &:before {
+      bottom: 100%;
+    }
+
+    &:after {
+      top: 100%;
+    }
+  }
+
+  &--progress {
+    &--pie {
+      border-radius: 50%;
+      background: linear-gradient(to right, var(--primary-color) 50%, var(--primary-bg-back) 50%);
+      overflow: hidden;
+      height: 30px;
+      width: 30px;
+      left: 50%;
+      opacity: 0.3;
+      position: absolute;
+      top: 50%;
+      transform: translate3d(-50%, -50%, 0px) scaleX(-1);
+      z-index: 0;
+
+      &--bg {
+        border-radius: 0 100% 100% 0 / 50%;
+        display: block;
+        height: 100%;
+        margin-left: 50%;
+        transform-origin: left;
+
+        &[data-pie='left'] {
+          background: var(--primary-color);
+        }
+        
+        &[data-pie='right'] {
+          background: var(--primary-bg-back);
+        }
+      }
+
+    }
+  }
+}

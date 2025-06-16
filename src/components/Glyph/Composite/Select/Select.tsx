@@ -1,5 +1,4 @@
 import { Shape } from 'react-konva'
-import type { Context } from 'konva/lib/Context'
 
 import type { ISelectProps } from './interfaces'
 

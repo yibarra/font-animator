@@ -1,0 +1,77 @@
+.frame {
+  align-items: center;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  height: 350px;
+  position: relative;
+  width: 350px;
+
+  &--current {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    position: relative;
+    justify-content: center;
+    width: 100%;
+    
+    &--glyph {
+      height: fit-content;
+      font-size: 124px;
+      position: relative;
+      text-align: center;
+      width: fit-content;
+
+      &:before {
+        border: 1px solid var(--primary-color);
+        content: '';
+        left: 50%;
+        height: 200px;
+        position: absolute;
+        transform: translate3d(-50%, -50%, 0px);
+        top: 50%;
+        width: 200px;
+      }
+    }
+
+    &--pos {
+      bottom: 20px;
+      font-size: 12px;
+      left: 20px;
+      position: absolute;
+    }
+
+    
+  }
+
+  &--option {
+    position: absolute;
+
+    &[data-type="rotation"] {
+      right: 20px;
+      top: 20px;
+    }
+  }
+
+  &:after {
+    border: 1px solid var(--primary-color);
+    content: '';
+    left: 50%;
+    height: calc(100% - 20px);
+    position: absolute;
+    transform: translate3d(-50%, -50%, 0px);
+    top: 50%;
+    width: calc(100% - 20px);
+  }
+  
+  
+  &:before {
+    background: var(--primary-bg-back);
+    content: '';
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+}

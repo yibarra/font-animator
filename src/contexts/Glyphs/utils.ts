@@ -2,7 +2,7 @@ import type { Glyph } from 'fontkit'
 import type { BoundingBox } from './interfaces'
 
 // get bounding box
-export const getBoundingBoxGlyph = (
+export const getBoundingBoxGlyph = ( // remove
   bbox: Glyph['bbox'],
   fontSize: number,
   unitsPerEm: number

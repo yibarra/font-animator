@@ -9,12 +9,12 @@ import { useGlyphStore } from './store'
 import type { IGlyphProps } from './interfaces'
 
 const Glyph = ({ current, data }: IGlyphProps) => {
-  const { currentFrame, isDragging, setIsDragging } = useGlyphStore()
+  const { isDragging, setIsDragging } = useGlyphStore()
 
   const { setCurrent, setGlyphFramePosition } = UseGlyphsContext()
   const { getPathDataAndPointsForGlyph } = UseFontSettingsContext()
 
-  const frame = data.frames[currentFrame]
+  const frame = data.frames[data.currentFrame]
 
   const numericAxes = Object.fromEntries(
     Object.entries(frame.axes).map(([key, value]) => [key, Number(value)])
