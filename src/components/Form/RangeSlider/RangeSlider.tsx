@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import type { IRangeSlider } from './interfaces'
 import styles from './styles.module.scss'
@@ -12,7 +12,20 @@ const RangeSlider = ({
 }: IRangeSlider) => {
   const initialValue = Math.max(min, Math.min(max, defaultValue))
   const [value, setValue] = useState(initialValue)
+
   const inputRef = useRef<HTMLInputElement>(null)
+  const markerRef = useRef<HTMLDivElement>(null)
+
+  const updateMarkerPosition = useCallback(() => {
+    if (inputRef.current && markerRef.current) {
+      const input = inputRef.current
+      const marker = markerRef.current
+      const thumbWidth = 16
+      const fraction = (Number(input.value ?? 0) - min) / (max - min)
+      
+      marker.style.left = `calc(${fraction * 100}% + ${(0.5 - fraction) * thumbWidth}px)`
+    }
+  }, [max, min, inputRef])
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseFloat(event.target.value)
@@ -24,7 +37,11 @@ const RangeSlider = ({
     }
   }
 
-  const percent = ((value - min) / (max - min)) * 100
+  useEffect(() => {
+    updateMarkerPosition()
+  }, [value, min, max, updateMarkerPosition])
+
+//  const percent = ((value - min) / (max - min)) * 100
 
   return (
     <div className={styles['range-slider']}>
@@ -40,17 +57,17 @@ const RangeSlider = ({
         />
 
         <div
+          ref={markerRef}
           className={styles['range-slider--value-marker']}
-          style={{
-            left: `${percent}%`  // ((value - min) / (max - min)) * 100 + '%'
-          }}
         >
           {value}
         </div>
 
         <div className={styles['range-slider--min-max-labels']}>
-          <span>{min}</span>
-          <span>{max}</span>
+          <span className={styles['range-slider--min-max-labels--value']}>
+            {String(min).padStart(2, '0')}
+          </span>
+          <span className={styles['range-slider--min-max-labels--value']}>{max}</span>
         </div>
       </div>
     </div>

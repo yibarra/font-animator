@@ -58,14 +58,12 @@ const Form = (props: HTMLAttributes<HTMLDivElement>) => {
         <div className={styles['form--group--size']}>
           <label className={styles['form--group--label']}>Size</label>
           <div className={styles['form--group--size']}>
-            <input
-              type="range"
-              id="fontSize"
-              min="0"
-              max="30" // Defini o valor máximo como 30
-              step="1" // Permite passos de 1 em 1 (pixels)
-              // value={formState.strokeWidth} // Garante que o slider reflita o estado atual
-              // onChange={handleRangeChange} // Use sua função existente para inputs de range
+            <FormComp.RangeSlider
+              min={10}
+              max={30}
+              step={1}
+              defaultValue={12}
+              onChange={(e) => console.info(e)}
             />
           </div>
         </div>
@@ -103,14 +101,13 @@ const Form = (props: HTMLAttributes<HTMLDivElement>) => {
             <div className={styles['form--group--size']}>
               <label className={styles['form--group--label']}>Size</label>
               <div className={styles['form--group--size']}>
-                <input
-                  type="range"
+                <FormComp.RangeSlider
                   id="strokeWidth"
-                  min="0"
-                  max="30" // Defini o valor máximo como 30
-                  step="1" // Permite passos de 1 em 1 (pixels)
-                  // value={formState.strokeWidth} // Garante que o slider reflita o estado atual
-                  // onChange={handleRangeChange} // Use sua função existente para inputs de range
+                  min={10}
+                  max={30}
+                  step={1}
+                  defaultValue={12}
+                  onChange={(e) => console.info(e)}
                 />
               </div>
             </div>
@@ -119,24 +116,22 @@ const Form = (props: HTMLAttributes<HTMLDivElement>) => {
           <div className={styles['form--group']} data-group="2">
             <label className={styles['form--group--label']}>Dash</label>
             <div className={styles['form--group--dash']}>
-              <input
-                type="range"
+              <FormComp.RangeSlider
                 id="dashLength"
-                min="0"
-                max="30"
-                step="1"
-                // value={formState.dashLength}
-                // onChange={handleRangeChange} // Reutiliza handleRangeChange
+                min={10}
+                max={30}
+                step={1}
+                defaultValue={12}
+                onChange={(e) => console.info(e)}
               />
 
-              <input
-                type="range"
+              <FormComp.RangeSlider
                 id="dashGap"
-                min="0"
-                max="30"
-                step="1"
-                // value={formState.dashGap}
-                // onChange={handleRangeChange} // Reutiliza handleRangeChange
+                min={10}
+                max={30}
+                step={1}
+                defaultValue={12}
+                onChange={(e) => console.info(e)}
               />
             </div>
           </div>
