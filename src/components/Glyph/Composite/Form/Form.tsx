@@ -6,6 +6,7 @@ import { UseFontSettingsContext } from '../../../../contexts/FontSettings/FontSe
 import { UseGlyphsContext } from '../../../../contexts/Glyphs/Glyphs'
 import Frames from './Composite/Frames'
 import Frame from './Composite/Frame'
+import { default as FormComp } from '../../../Form'
 
 const Form = (props: HTMLAttributes<HTMLDivElement>) => {
   const { axes } = UseFontSettingsContext()
@@ -48,16 +49,25 @@ const Form = (props: HTMLAttributes<HTMLDivElement>) => {
 
       <Frame glyph={currentGlyphData} />
 
-      <div>
-
-        <div>
-          <label>Color</label>
-          <input type="color" id="fillColor" />
+      <div className={styles['form--group']} data-group="1">
+        <div className={styles['form--group--color']}>
+          <label className={styles['form--group--label']}>Color</label>
+          <input type="color" id="fill" />
         </div>
 
-        <div>
-          <label>Size</label>
-          <input type="number" id="fontSize" min="1" />
+        <div className={styles['form--group--size']}>
+          <label className={styles['form--group--label']}>Size</label>
+          <div className={styles['form--group--size']}>
+            <input
+              type="range"
+              id="fontSize"
+              min="0"
+              max="30" // Defini o valor máximo como 30
+              step="1" // Permite passos de 1 em 1 (pixels)
+              // value={formState.strokeWidth} // Garante que o slider reflita o estado atual
+              // onChange={handleRangeChange} // Use sua função existente para inputs de range
+            />
+          </div>
         </div>
       </div>
 
@@ -69,23 +79,32 @@ const Form = (props: HTMLAttributes<HTMLDivElement>) => {
       <div>
         <h2>Axes</h2>
         <p>These axes define how the font can change its appearance.</p>
+
+        <div className={styles['form--group']}>
+          {axes && Object.keys(axes ?? {}).map((axe, i) => (
+            <div key={i}>
+              <label className={styles['form--group--label']}>{axes && axes[axe]?.name}</label>
+              <FormComp.RangeSlider {...axes[axe]} onChange={(e) => console.info(e)} />
+            </div>
+          ))}
+        </div>
       </div>
 
       <div>
         <h2>Stroke</h2>
 
         <div>
-          <div>
-            <div>
-              <label>Color</label>
+          <div className={styles['form--group']} data-group="1">
+            <div className={styles['form--group--color']}>
+              <label className={styles['form--group--label']}>Color</label>
               <input type="color" id="strokeColor" />
             </div>
 
-            <div>
-              <label>Size</label>
-              <div>
+            <div className={styles['form--group--size']}>
+              <label className={styles['form--group--label']}>Size</label>
+              <div className={styles['form--group--size']}>
                 <input
-                  type="range" // Mudei de "number" para "range"
+                  type="range"
                   id="strokeWidth"
                   min="0"
                   max="30" // Defini o valor máximo como 30
@@ -93,51 +112,50 @@ const Form = (props: HTMLAttributes<HTMLDivElement>) => {
                   // value={formState.strokeWidth} // Garante que o slider reflita o estado atual
                   // onChange={handleRangeChange} // Use sua função existente para inputs de range
                 />
-                <span>{30}</span> {/* Exibe o valor numérico ao lado do slider */}
               </div>
             </div>
           </div>
 
-          <div>
-            <label>Dash</label>
-            <div>
+          <div className={styles['form--group']} data-group="2">
+            <label className={styles['form--group--label']}>Dash</label>
+            <div className={styles['form--group--dash']}>
               <input
                 type="range"
-                id="dashLength" // Este ID corresponde à nova propriedade no estado
+                id="dashLength"
                 min="0"
                 max="30"
                 step="1"
                 // value={formState.dashLength}
                 // onChange={handleRangeChange} // Reutiliza handleRangeChange
               />
-              <span>{0}</span>
 
               <input
                 type="range"
-                id="dashGap" // Este ID corresponde à nova propriedade no estado
+                id="dashGap"
                 min="0"
                 max="30"
                 step="1"
                 // value={formState.dashGap}
                 // onChange={handleRangeChange} // Reutiliza handleRangeChange
               />
-              <span>{0}</span>
             </div>
           </div>
 
-          <div className={styles['form--line-cap']}>
-            <label>Line Cap</label>
-            <div>
+          <div className={styles['form--group']}>
+            <label className={styles['form--group--label']}>Line Cap</label>
+
+            <div className={styles['form--line--group']}>
               <label htmlFor="lineCap-butt">
               <input
                 type="radio"
                 id="lineCap-butt"
-                name="lineCap" // Mesmo 'name' para todas as opções de lineCap
+                name="lineCap"
                 value="butt"
+                checked
                 // checked={formState.strokeLinecap === 'butt'}
                 // onChange={handleInputChange} // Reutiliza sua função existente
               />
-              Butt (default)
+              <label>Butt</label>
             </label>
 
             <label htmlFor="lineCap-round">
@@ -149,7 +167,7 @@ const Form = (props: HTMLAttributes<HTMLDivElement>) => {
                 // checked={formState.strokeLinecap === 'round'}
                 // onChange={handleInputChange}
               />
-              Round
+              <label>Round</label>
             </label>
 
             <label htmlFor="lineCap-square">
@@ -161,23 +179,24 @@ const Form = (props: HTMLAttributes<HTMLDivElement>) => {
                 // checked={formState.strokeLinecap === 'square'}
                 // onChange={handleInputChange}
               />
-              Square
+              <label>Square</label>
             </label>
             </div>
           </div>
 
-          <div className={styles['form--line-join']}>
-            <label>Line Join</label>
-            <div>
+          <div className={styles['form--group']}>
+            <label className={styles['form--group--label']}>Line Join</label>
+
+            <div className={styles['form--line--group']}>
               <label htmlFor="lineJoin-miter">
                 <input
                   type="radio"
                   id="lineJoin-miter"
-                  name="lineJoin" // Use o mesmo 'name' para todos os radios do grupo
+                  name="lineJoin"
                   value="miter"
                   // checked={formState.strokeLinejoin === 'miter'} // Verifica se este é o valor selecionado
                 />
-                Miter (Default)
+                <label>Miter</label>
               </label>
 
               <label htmlFor="lineJoin-round">
@@ -188,7 +207,7 @@ const Form = (props: HTMLAttributes<HTMLDivElement>) => {
                   value="round"
                   // checked={formState.strokeLinejoin === 'round'}
                 />
-                Round
+                <label>Round</label>
               </label>
 
               <label htmlFor="lineJoin-bevel">
@@ -199,7 +218,7 @@ const Form = (props: HTMLAttributes<HTMLDivElement>) => {
                   value="bevel"
                   // checked={formState.strokeLinejoin === 'bevel'}
                 />
-                Bevel
+                <label>Bevel</label>
               </label>
             </div>
           </div>

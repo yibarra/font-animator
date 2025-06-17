@@ -15,8 +15,10 @@ const Frame = ({ glyph }: IFrame) => {
   return (
     <div className={styles['frame']}>
       <div className={styles['frame--option']} data-type="char">
-        charIndex
-        <p>{glyph?.charIndex}</p>
+        <p className={styles['frame--option--title']}>Char Index</p>
+        <p className={styles['frame--option--description']}>
+          <strong>{glyph?.charIndex}</strong>
+        </p>
       </div>
 
       <div className={styles['frame--option']} data-type="rotation">
@@ -30,14 +32,19 @@ const Frame = ({ glyph }: IFrame) => {
           fontVariationSettings: getFontVariationSettings(frame?.axes ?? {})
         }}
       >
-        {font?.getGlyph(glyph?.charIndex ?? 0).name}
+        <span /><span /><span /><span />
+        <h4
+          style={{ color: frame?.properties.fill?.toString() }}
+        >
+          {font?.getGlyph(glyph?.charIndex ?? 0).name}
+        </h4>
       </div>
 
       <div className={styles['frame--option']} data-type="position">
-        <p>Position</p>
-        <p>
-          x: {frame.position[0]}
-          y: {frame.position[1]}
+        <p className={styles['frame--option--title']}>Position</p>
+        <p className={styles['frame--option--description']}>
+          x: <strong>{frame.position[0]}</strong>
+          y: <strong>{frame.position[1]}</strong>
         </p>
       </div>
     </div>

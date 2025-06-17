@@ -1,0 +1,37 @@
+.range-slider {
+  padding: 40px 0 0px;
+  position: relative;
+  width: 100%;
+
+  &--min-max-labels {
+    display: flex;
+    justify-content: space-between;
+    letter-spacing: -0.05rem;
+    width: 100%;
+  }
+
+  &--value-marker {
+    background: var(--primary-color);
+    color: var(--secondary-color);
+    font-size: 12px;
+    letter-spacing: -0.05rem;
+    padding: 4px 8px;
+    position: absolute;
+    pointer-events: none;
+    text-align: center;
+    top: 10px;
+    transform: translate3d(-50%, 0px, 0px);
+    width: 40px;
+
+    &:before {
+      background: var(--primary-color);
+      content: '';
+      height: 10px;
+      left: 50%;
+      position: absolute;
+      transform: translate3d(-50%, 0px, 0px) rotate(45deg);
+      top: calc(100% - 6px);
+      width: 10px;
+    }
+  }
+}

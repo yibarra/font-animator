@@ -1,0 +1,20 @@
+.progress {
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate3d(-50%, -50%, 0px);
+
+  &--bar {
+    stroke: var(--primary-color);
+    stroke-linecap: square;
+  }
+
+  &--pie {
+    fill: var(--primary-color);
+    opacity: 0.1;
+  }
+
+  &--svg {
+    display: block;
+  }
+}

@@ -3,6 +3,8 @@
   color: black;
   right: 0px;
   height: 100%;
+  overflow: hidden;
+  overflow-y: auto;
   position: absolute;
   top: 0px;
   max-width: 350px;
@@ -16,5 +18,59 @@
     height: 40px;
     font-family: inherit;
     width: 40px;
+  }
+
+  &--group {
+    padding: 10px 20px;
+    width: 100%;
+
+    &--dash {
+      display: flex;
+      gap: 20px;
+      width: 100%;
+    }
+
+    &--size {
+      flex: 1;
+      margin: 0 0 0 auto;
+    }
+
+    &--label {
+      background: var(--primary-color);
+      color: var(--secondary-color);
+      display: flex;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1rem;
+      padding: 4px 20px 4px 10px;
+      text-transform: uppercase;
+      width: fit-content;
+    }
+
+    &[data-group="1"] {
+      display: flex;
+      gap: 20px;
+      flex-flow: row nowrap;
+
+      &:last-child {
+        flex: 1;
+        margin: 0 0 0 auto;
+      }
+    }
+
+    &[data-group="2"] {
+      display: flex;
+      flex-flow: column wrap;
+      gap: 20px;
+    }
+  }
+
+  &--line {
+    &--group {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      padding: 20px 0px 0px;
+    }
   }
 }

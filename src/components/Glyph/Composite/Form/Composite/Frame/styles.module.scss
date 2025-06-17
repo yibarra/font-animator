@@ -16,11 +16,81 @@
     width: 100%;
     
     &--glyph {
-      height: fit-content;
+      align-items: center;
+      display: flex;
+      height: 200px;
+      justify-content: center;
       font-size: 124px;
       position: relative;
       text-align: center;
-      width: fit-content;
+      width: 200px;
+
+      > span {
+        background: transparent;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        pointer-events: none;
+        top: 0;
+        width: 100%;
+
+        &:after,
+        &:before {
+          background: var(--primary-color);
+          height: 40px;
+          content: '';
+          position: absolute;
+          width: 4px;
+        }
+
+        &:first-child {
+          &:after,
+          &:before {
+            left: -3px;
+            top: -1px;
+          }
+
+          &:before {
+            transform: rotate(90deg) translate(-20px, -18px);
+          }
+        }
+
+        &:nth-child(2) {
+          &:after,
+          &:before {
+            right: -3px;
+            top: -1px;
+          }
+
+          &:before {
+            transform: rotate(-90deg) translate(20px, -18px);
+          }
+        }
+
+        &:nth-child(3) {
+          &:after,
+          &:before {
+            right: -3px;
+            bottom: -1px;
+          }
+
+          &:before {
+            transform: rotate(-90deg) translate(-20px, -18px);
+          }
+        }
+
+        &:nth-child(4) {
+          &:after,
+          &:before {
+            bottom: -1px;
+            left: -3px;
+          }
+
+          &:before {
+            transform: rotate(-90deg) translate(-20px, 18px);
+          }
+        }
+      }
 
       &:before {
         border: 1px solid var(--primary-color);
@@ -33,44 +103,58 @@
         width: 200px;
       }
     }
-
-    &--pos {
-      bottom: 20px;
-      font-size: 12px;
-      left: 20px;
-      position: absolute;
-    }
-
-    
   }
 
   &--option {
+    letter-spacing: -0.05rem;
     position: absolute;
 
-    &[data-type="rotation"] {
-      right: 20px;
-      top: 20px;
+    &--description {
+      display: flex;
+      gap: 8px;
+      line-height: 1rem;
+      letter-spacing: -0.05rem;
     }
+
+    &--title {
+      font-size: 12px;
+    }
+
+    &[data-type="rotation"] {
+      right: 30px;
+      top: 30px;
+    }
+
+    &[data-type="position"] {
+      bottom: 30px;
+      left: 30px;
+    }
+
+    &[data-type="char"] {
+      left: 30px;
+      top: 30px;
+    }
+  }
+
+  &:after,
+  &:before {
+    content: '';
+    position: absolute;
   }
 
   &:after {
     border: 1px solid var(--primary-color);
-    content: '';
     left: 50%;
-    height: calc(100% - 20px);
-    position: absolute;
+    height: calc(100% - 40px);
     transform: translate3d(-50%, -50%, 0px);
     top: 50%;
-    width: calc(100% - 20px);
+    width: calc(100% - 40px);
   }
-  
   
   &:before {
     background: var(--primary-bg-back);
-    content: '';
     height: 100%;
     left: 0;
-    position: absolute;
     top: 0;
     width: 100%;
   }

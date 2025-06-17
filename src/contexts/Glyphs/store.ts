@@ -14,7 +14,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
         wdth: 30,
         wght: 0
       },
-      position: [10, 600],
+      position: [240, 600],
       properties: {
         fill: 'blue',
         fontSize: 124,
@@ -23,7 +23,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
         dash: [100, 10],
         lineCap: 'butt',
         lineJoin: 'bevel',
-        rotation: 10,
+        rotation: 180,
       },
     }],
   }, {
