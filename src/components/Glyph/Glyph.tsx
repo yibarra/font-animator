@@ -64,7 +64,7 @@ const Glyph = ({ current, data }: IGlyphProps) => {
       draggable={true}
       onDragStart={() => current && setIsDragging(true)}
       onDragEnd={onHandleDragEnd}
-      onClick={() => setCurrent(data ?? null)}
+      onClick={() => setCurrent(data)}
       x={frame.position[0]}
       y={frame.position[1]}
       scaleY={-1}

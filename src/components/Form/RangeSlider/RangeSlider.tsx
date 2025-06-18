@@ -2,13 +2,15 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 import type { IRangeSlider } from './interfaces'
 import styles from './styles.module.scss'
+import { debounce } from './helper'
 
 const RangeSlider = ({
   defaultValue = 50,
   max = 100,
   min = 0,
-  onChange,
+  onHandler,
   step = 1,
+  ...props
 }: IRangeSlider) => {
   const initialValue = Math.max(min, Math.min(max, defaultValue))
   const [value, setValue] = useState(initialValue)
@@ -16,10 +18,19 @@ const RangeSlider = ({
   const inputRef = useRef<HTMLInputElement>(null)
   const markerRef = useRef<HTMLDivElement>(null)
 
+  const debouncedOnChangeComplete = useRef(
+    debounce((value: number) => {
+      if (typeof onHandler === 'function') {
+        onHandler(value)
+      }
+    }, 400)
+  )
+
   const updateMarkerPosition = useCallback(() => {
     if (inputRef.current && markerRef.current) {
       const input = inputRef.current
       const marker = markerRef.current
+
       const thumbWidth = 16
       const fraction = (Number(input.value ?? 0) - min) / (max - min)
       
@@ -31,22 +42,19 @@ const RangeSlider = ({
     const newValue = parseFloat(event.target.value)
 
     setValue(newValue)
-
-    if (onChange) {
-      onChange(newValue)
-    }
+    debouncedOnChangeComplete.current(newValue)
   }
 
+  // update
   useEffect(() => {
     updateMarkerPosition()
   }, [value, min, max, updateMarkerPosition])
-
-//  const percent = ((value - min) / (max - min)) * 100
 
   return (
     <div className={styles['range-slider']}>
       <div className={styles['range-slider--wrapper']}>
         <input
+          {...props}
           max={max}
           min={min}
           step={step}
@@ -63,11 +71,11 @@ const RangeSlider = ({
           {value}
         </div>
 
-        <div className={styles['range-slider--min-max-labels']}>
-          <span className={styles['range-slider--min-max-labels--value']}>
+        <div className={styles['range-slider--labels']}>
+          <span className={styles['range-slider--labels--value']}>
             {String(min).padStart(2, '0')}
           </span>
-          <span className={styles['range-slider--min-max-labels--value']}>{max}</span>
+          <span className={styles['range-slider--labels--value']}>{max}</span>
         </div>
       </div>
     </div>

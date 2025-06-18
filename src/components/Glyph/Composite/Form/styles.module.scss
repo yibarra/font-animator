@@ -47,6 +47,38 @@
       width: fit-content;
     }
 
+    &--title {
+      display: flex;
+      gap: 0px;
+      flex-flow: column wrap;
+      letter-spacing: -0.05rem;
+      padding: 20px;
+      position: relative;
+      width: 100%;
+
+      p {
+        font-size: 10px;
+      }
+
+      h2 {
+        line-height: 1rem;
+        font-size: 18px;
+        font-weight: 400;
+        text-transform: uppercase;
+      }
+
+      &:before {
+        background: var(--primary-color);
+        content: '';
+        height: calc(100% - 20px);
+        left: 0px;
+        position: absolute;
+        top: 50%;
+        transform: translate3d(0px, -50%, 0px);
+        width: 4px;
+      }
+    }
+
     &[data-group="1"] {
       display: flex;
       gap: 20px;

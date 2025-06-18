@@ -17,7 +17,7 @@ const Main = () => {
         </Layer>
       </Stage>
       
-      <Form />
+      <Form current={current} />
     </>
   )
 }

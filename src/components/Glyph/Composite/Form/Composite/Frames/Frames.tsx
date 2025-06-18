@@ -5,7 +5,6 @@ import styles from './styles.module.scss'
 
 const Frames = ({ glyph }: IFrames) => {
   const { font } = UseFontContext()
-  console.info(glyph, font?.getGlyph(glyph?.charIndex ?? 0))
 
   return (
     <div className={styles['frames']}>

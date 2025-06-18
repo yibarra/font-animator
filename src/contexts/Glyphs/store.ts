@@ -16,7 +16,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
       },
       position: [240, 600],
       properties: {
-        fill: 'blue',
+        fill: '#434bb1',
         fontSize: 124,
         stroke: 'orange',
         strokeWidth: 2,
@@ -38,7 +38,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
       },
       position: [100, 400],
       properties: {
-        fill: 'red',
+        fill: '#df2b0c',
         fontSize: 124,
         stroke: 'none',
         strokeWidth: 0,

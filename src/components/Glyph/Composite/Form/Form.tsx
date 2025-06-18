@@ -1,17 +1,20 @@
-import type { HTMLAttributes } from 'react'
+import { useEffect, useState, type HTMLAttributes } from 'react'
 import { UseFontContext } from '../../../../contexts/Font/Font'
 
 import styles from './styles.module.scss'
 import { UseFontSettingsContext } from '../../../../contexts/FontSettings/FontSettings'
 import { UseGlyphsContext } from '../../../../contexts/Glyphs/Glyphs'
-import Frames from './Composite/Frames'
 import Frame from './Composite/Frame'
 import { default as FormComp } from '../../../Form'
+import Axes from './Composite/Axes/Axes'
+import Stroke from './Composite/Stroke/Stroke'
 
-const Form = (props: HTMLAttributes<HTMLDivElement>) => {
+const Form = ({ current, ...props }: HTMLAttributes<HTMLDivElement> & { current: string | null }) => {
+  const [currentForm, setCurrentForm] = useState<string | null>(null)
+
   const { axes } = UseFontSettingsContext()
   const { font, handleFileChange } = UseFontContext()
-  const { current, glyphs, setGlyphInstance } = UseGlyphsContext()
+  const { glyphs, setGlyphInstance, setGlyphFrameProperties } = UseGlyphsContext()
 
   // on handle instance
   const onHandleInstance = (vars: number[]) => {
@@ -34,6 +37,17 @@ const Form = (props: HTMLAttributes<HTMLDivElement>) => {
 
   const currentGlyphData = glyphs.find((g) => g.id === current)
   const glyph = font?.stringsForGlyph(currentGlyphData?.charIndex ?? 70)
+  const currentFrame = 0
+
+  console.info(currentForm, 'current form')
+
+  useEffect(() => {
+    setCurrentForm(current)
+  }, [setCurrentForm, current])
+
+  if (current === null) {
+    return
+  }
   
   return (
     <div className={styles['form']}>
@@ -52,7 +66,12 @@ const Form = (props: HTMLAttributes<HTMLDivElement>) => {
       <div className={styles['form--group']} data-group="1">
         <div className={styles['form--group--color']}>
           <label className={styles['form--group--label']}>Color</label>
-          <input type="color" id="fill" />
+          <input
+            type="color"
+            defaultValue={String(currentGlyphData?.frames[currentFrame].properties.fill ?? '#000')}
+            id="fill"
+            onChange={(e) => setGlyphFrameProperties(currentFrame, { fill: e.target.value })}
+          />
         </div>
 
         <div className={styles['form--group--size']}>
@@ -60,173 +79,18 @@ const Form = (props: HTMLAttributes<HTMLDivElement>) => {
           <div className={styles['form--group--size']}>
             <FormComp.RangeSlider
               min={10}
-              max={30}
+              max={240}
               step={1}
               defaultValue={12}
-              onChange={(e) => console.info(e)}
+              onHandler={(value) => setGlyphFrameProperties(currentFrame, { fontSize: Number(value) })}
             />
           </div>
         </div>
       </div>
 
-      <div>
-        frames
-         <Frames glyph={currentGlyphData} />
-      </div>
+      <Axes current={current} currentFrame={currentFrame} />
 
-      <div>
-        <h2>Axes</h2>
-        <p>These axes define how the font can change its appearance.</p>
-
-        <div className={styles['form--group']}>
-          {axes && Object.keys(axes ?? {}).map((axe, i) => (
-            <div key={i}>
-              <label className={styles['form--group--label']}>{axes && axes[axe]?.name}</label>
-              <FormComp.RangeSlider {...axes[axe]} onChange={(e) => console.info(e)} />
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div>
-        <h2>Stroke</h2>
-
-        <div>
-          <div className={styles['form--group']} data-group="1">
-            <div className={styles['form--group--color']}>
-              <label className={styles['form--group--label']}>Color</label>
-              <input type="color" id="strokeColor" />
-            </div>
-
-            <div className={styles['form--group--size']}>
-              <label className={styles['form--group--label']}>Size</label>
-              <div className={styles['form--group--size']}>
-                <FormComp.RangeSlider
-                  id="strokeWidth"
-                  min={10}
-                  max={30}
-                  step={1}
-                  defaultValue={12}
-                  onChange={(e) => console.info(e)}
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className={styles['form--group']} data-group="2">
-            <label className={styles['form--group--label']}>Dash</label>
-            <div className={styles['form--group--dash']}>
-              <FormComp.RangeSlider
-                id="dashLength"
-                min={10}
-                max={30}
-                step={1}
-                defaultValue={12}
-                onChange={(e) => console.info(e)}
-              />
-
-              <FormComp.RangeSlider
-                id="dashGap"
-                min={10}
-                max={30}
-                step={1}
-                defaultValue={12}
-                onChange={(e) => console.info(e)}
-              />
-            </div>
-          </div>
-
-          <div className={styles['form--group']}>
-            <label className={styles['form--group--label']}>Line Cap</label>
-
-            <div className={styles['form--line--group']}>
-              <label htmlFor="lineCap-butt">
-              <input
-                type="radio"
-                id="lineCap-butt"
-                name="lineCap"
-                value="butt"
-                checked
-                // checked={formState.strokeLinecap === 'butt'}
-                // onChange={handleInputChange} // Reutiliza sua função existente
-              />
-              <label>Butt</label>
-            </label>
-
-            <label htmlFor="lineCap-round">
-              <input
-                type="radio"
-                id="lineCap-round"
-                name="lineCap"
-                value="round"
-                // checked={formState.strokeLinecap === 'round'}
-                // onChange={handleInputChange}
-              />
-              <label>Round</label>
-            </label>
-
-            <label htmlFor="lineCap-square">
-              <input
-                type="radio"
-                id="lineCap-square"
-                name="lineCap"
-                value="square"
-                // checked={formState.strokeLinecap === 'square'}
-                // onChange={handleInputChange}
-              />
-              <label>Square</label>
-            </label>
-            </div>
-          </div>
-
-          <div className={styles['form--group']}>
-            <label className={styles['form--group--label']}>Line Join</label>
-
-            <div className={styles['form--line--group']}>
-              <label htmlFor="lineJoin-miter">
-                <input
-                  type="radio"
-                  id="lineJoin-miter"
-                  name="lineJoin"
-                  value="miter"
-                  // checked={formState.strokeLinejoin === 'miter'} // Verifica se este é o valor selecionado
-                />
-                <label>Miter</label>
-              </label>
-
-              <label htmlFor="lineJoin-round">
-                <input
-                  type="radio"
-                  id="lineJoin-round"
-                  name="lineJoin"
-                  value="round"
-                  // checked={formState.strokeLinejoin === 'round'}
-                />
-                <label>Round</label>
-              </label>
-
-              <label htmlFor="lineJoin-bevel">
-                <input
-                  type="radio"
-                  id="lineJoin-bevel"
-                  name="lineJoin"
-                  value="bevel"
-                  // checked={formState.strokeLinejoin === 'bevel'}
-                />
-                <label>Bevel</label>
-              </label>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        {currentGlyphData?.frames.map((frame, index) => (
-          <div key={index}>
-            1 frame, agregar glyph y tambien la lista
-          </div>
-        ))}
-      </div>
+      <Stroke currentFrame={currentFrame} glyph={currentGlyphData} />
 
       <div>
         <h2>Axes</h2>

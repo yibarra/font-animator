@@ -44,6 +44,7 @@ export interface IGlyphsState {
 
 export interface IGlyphsContext extends Pick<IGlyphsState, 'glyphs' | 'current' | 'setCurrent'>{
   getGlyph: (index: number) => Glyph | undefined
+  setGlyphFrameAxes: (index: number, axe: string, value: number) => void
   getGlyphVariation: (index: number, variants: number[]) => Glyph | undefined
   setGlyphFrameProperties: (index: number, properties: ShapeConfig) => void
   setGlyphFramePosition: (frameIndex: number, position: [number, number]) => void
