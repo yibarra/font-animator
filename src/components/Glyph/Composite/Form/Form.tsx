@@ -6,6 +6,7 @@ import Frame from './Composite/Frame'
 import { default as FormComp } from '../../../Form'
 import Axes from './Composite/Axes/Axes'
 import Stroke from './Composite/Stroke/Stroke'
+import Frames from './Composite/Frames'
 import type { IForm } from './interfaces'
 
 const Form = ({ glyph, ...props }: IForm) => {
@@ -57,6 +58,7 @@ const Form = ({ glyph, ...props }: IForm) => {
         </div>
       </div>
 
+      <Frames glyph={glyph} />
       <Axes currentFrame={currentFrame} glyph={glyph} />
       <Stroke currentFrame={currentFrame} glyph={glyph} />
     </div>

@@ -4,6 +4,7 @@
   display: flex;
   justify-content: center;
   height: 350px;
+  margin: 0 0 20px;
   position: relative;
   width: 350px;
 
@@ -36,7 +37,7 @@
 
         &:after,
         &:before {
-          background: var(--primary-color);
+          background: var(--bg-panel);
           height: 40px;
           content: '';
           position: absolute;
@@ -93,7 +94,7 @@
       }
 
       &:before {
-        border: 1px solid var(--primary-color);
+        border: 1px solid var(--bg-panel);
         content: '';
         left: 50%;
         height: 200px;
@@ -106,6 +107,7 @@
   }
 
   &--option {
+    color: var(--bg-panel);
     letter-spacing: -0.05rem;
     position: absolute;
 
@@ -143,7 +145,7 @@
   }
 
   &:after {
-    border: 1px solid var(--primary-color);
+    border: 1px solid var(--bg-panel);
     left: 50%;
     height: calc(100% - 40px);
     transform: translate3d(-50%, -50%, 0px);

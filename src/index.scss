@@ -24,10 +24,20 @@
   --secondary-color: #FFF;
 
   --primary-bg-back: #d7d7d7dd;
+
+  /* Fondos */
+  --bg-main: #2f2e2e;
+  --bg-panel: #38383e;
+  --border-subtle: #404040;
+  --bg-hover-active: #4D4D4D;
+
+  /* Texto */
+  --text-main: #E0E0E0;
+  --text-secondary: #A0A0A0;
 }
 
 body {
-  background-color: var(--primary-bg-back);
+  background-color: var(--bg-main);
   height: 100dvh;
   margin: 0;
   position: relative;
@@ -47,6 +57,8 @@ input[type="radio"] {
 }
 
 input[type="radio"] + label {
+  color: var(--text-main);
+  font-size: 12px;
   letter-spacing: -0.05rem;
   position: relative;
   padding: 0 0 0 30px;

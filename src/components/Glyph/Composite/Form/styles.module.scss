@@ -1,6 +1,7 @@
 .form {
-  background-color: white;
-  color: black;
+  background-color: var(--bg-panel);
+  box-shadow: 5px 0px 10px rgba(0, 0, 0, 0.5);
+  color: var(--bg-panel);
   right: 0px;
   height: 100%;
   overflow: hidden;
@@ -44,7 +45,7 @@
 
     &:before,
     &:after {
-      background: var(--secondary-color);
+      background: var(--bg-panel);
       content: '';
       height: 100%;
       left: 0;
@@ -89,6 +90,7 @@
 
     &--title {
       display: flex;
+      color: var(--secondary-color);
       gap: 0px;
       flex-flow: column wrap;
       letter-spacing: -0.05rem;
@@ -108,7 +110,7 @@
       }
 
       &:before {
-        background: var(--primary-color);
+        background: var(--secondary-color);
         content: '';
         height: calc(100% - 20px);
         left: 0px;
@@ -116,6 +118,7 @@
         top: 50%;
         transform: translate3d(0px, -50%, 0px);
         width: 4px;
+        z-index: 3;
       }
     }
 
@@ -133,7 +136,7 @@
     &[data-group="2"] {
       display: flex;
       flex-flow: column wrap;
-      gap: 20px;
+      gap: 0px;
     }
   }
 

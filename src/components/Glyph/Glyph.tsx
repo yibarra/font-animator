@@ -1,18 +1,22 @@
-import { Group, Path, Shape } from 'react-konva'
+import { useEffect, useRef } from 'react'
+import { Group, Path, Shape, Transformer } from 'react-konva'
 import type { Context } from 'konva/lib/Context'
 import type { KonvaEventObject } from 'konva/lib/Node'
 
 import { UseFontSettingsContext } from '../../contexts/FontSettings/FontSettings'
 import { UseGlyphsContext } from '../../contexts/Glyphs/Glyphs'
-import Select from './Composite/Select'
 import { useGlyphStore } from './store'
 import type { IGlyphProps } from './interfaces'
+import type { Transformer as ITransformer } from 'konva/lib/shapes/Transformer'
+import type { Shape as IShape } from 'konva/lib/Shape'
 
 const Glyph = ({ current, data }: IGlyphProps) => {
   const { isDragging, setIsDragging } = useGlyphStore()
-
-  const { setCurrent, setGlyphFramePosition } = UseGlyphsContext()
+  const { setCurrent, setGlyphFramePosition, setGlyphFrameProperties } = UseGlyphsContext()
   const { getPathDataAndPointsForGlyph } = UseFontSettingsContext()
+
+  const shapeRef = useRef(null)
+  const trRef = useRef<ITransformer>(null)
 
   const frame = data.frames[data.currentFrame]
 
@@ -50,14 +54,22 @@ const Glyph = ({ current, data }: IGlyphProps) => {
     if (!isDragging && !current) {
       return
     }
-
-    console.info(event)
-
+    
     const { x, y } = event.target.attrs
 
     setGlyphFramePosition(0, [Number(x), Number(y)])
     setIsDragging(false)
   }
+
+  const onUpdateTransform = (rotation: number) => {
+    setGlyphFrameProperties(0, { rotation })
+  }
+
+  useEffect(() => {
+    if (current && trRef?.current && shapeRef.current) {
+      trRef?.current?.nodes([shapeRef.current])
+    }
+  }, [current])
 
   return (
     <Group
@@ -73,6 +85,21 @@ const Glyph = ({ current, data }: IGlyphProps) => {
       <Path
         {...frame.properties}
         data={path}
+        ref={shapeRef}
+        onTransformEnd={() => {
+          const node = shapeRef?.current as IShape | null
+
+          if (node) {
+            // const scaleX = node.scaleX()
+            // const scaleY = node.scaleY()
+            onUpdateTransform(node.rotation())
+
+
+            // x: node.x(),
+            // y: node.y(),
+            
+          }
+        }}
       />
 
       <Shape
@@ -80,7 +107,21 @@ const Glyph = ({ current, data }: IGlyphProps) => {
         sceneFunc={drawPoints}
       />
 
-      {current && (<Select padding={20} points={points} />)}
+      {current && (
+        <Transformer
+          ref={trRef}
+          anchorCornerRadius={12}
+          padding={20}
+          flipEnabled={false}
+          boundBoxFunc={(oldBox, newBox) => {
+            if (Math.abs(newBox.width) < 5 || Math.abs(newBox.height) < 5) {
+              return oldBox
+            }
+
+            return newBox
+          }}
+        />
+      )}
     </Group>
   )
 }

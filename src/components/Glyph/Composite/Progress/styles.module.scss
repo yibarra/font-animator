@@ -5,12 +5,12 @@
   transform: translate3d(-50%, -50%, 0px);
 
   &--bar {
-    stroke: var(--primary-color);
+    stroke: var(--bg-panel);
     stroke-linecap: square;
   }
 
   &--pie {
-    fill: var(--primary-color);
+    fill: var(--bg-panel);
     opacity: 0.1;
   }
 
