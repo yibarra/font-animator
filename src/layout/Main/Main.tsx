@@ -17,7 +17,7 @@ const Main = () => {
         </Layer>
       </Stage>
       
-      <Form current={current} />
+      <Form glyph={glyphs.find((i) => i.id === current)} />
     </>
   )
 }

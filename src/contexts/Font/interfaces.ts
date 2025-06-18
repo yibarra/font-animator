@@ -1,8 +1,14 @@
 import type { Font } from 'fontkit'
 import type { ChangeEvent, PropsWithChildren } from 'react'
 
+interface FontOver extends Font {
+  fvar?: {
+    instance: { coord: number[]}[]
+  }
+}
+
 export interface IFontState {
-  font: Font | undefined
+  font: FontOver | undefined
   fontLoaded: boolean
   loadInitialFont: (fontFileName: string) => Promise<void>
   onReadFile: (file: File) => Promise<void>

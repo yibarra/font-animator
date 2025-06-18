@@ -1,6 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo } from 'react'
 
-import FontSettingsProvider from '../FontSettings'
 import type { IFontContext, IFontProvider } from './interfaces'
 
 import { useFontStore } from './store'
@@ -33,9 +32,7 @@ const FontProvider = ({ children }: IFontProvider ) => {
         handleFileChange,
     ])}
     >
-      <FontSettingsProvider>
-        {children}
-      </FontSettingsProvider>
+      {children}
     </FontContext.Provider>
   )
 }

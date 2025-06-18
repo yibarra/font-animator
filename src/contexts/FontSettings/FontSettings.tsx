@@ -4,7 +4,6 @@ import type { IFontSettingsContext, IFontSettingsProvider } from './interfaces'
 import type { IGlyphPoint } from '../Glyphs/interfaces'
 import { UseFontContext } from '../Font/Font'
 import { convertPathToSvg, extractGlyphPoints } from './utils'
-import LettersProvider from '../Glyphs'
 
 // load font context
 const FontSettingsContext = createContext({} as IFontSettingsContext)
@@ -64,9 +63,7 @@ const FontSettingsProvider = ({ children }: IFontSettingsProvider ) => {
         ]
       )}
     >
-      <LettersProvider>
-        {children}
-      </LettersProvider>
+      {children}
     </FontSettingsContext.Provider>
   )
 }

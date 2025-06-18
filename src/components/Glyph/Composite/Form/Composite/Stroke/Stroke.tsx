@@ -4,6 +4,8 @@ import Form from '../../../../../Form'
 import styles from '../../styles.module.scss'
 
 const Stroke = ({ glyph, currentFrame = 0 }: { glyph: IGlyph; currentFrame: number }) => {
+  const frame = glyph?.frames[currentFrame]
+  
   const { setGlyphFrameProperties } = UseGlyphsContext()
 
   return (
@@ -27,10 +29,10 @@ const Stroke = ({ glyph, currentFrame = 0 }: { glyph: IGlyph; currentFrame: numb
             <p className={styles['form--group--label']}>Size</p>
             <div className={styles['form--group--size']}>
               <Form.RangeSlider
-                min={10}
+                min={0}
                 max={30}
                 step={1}
-                defaultValue={12}
+                defaultValue={frame?.properties.strokeWidth}
                 onHandler={(value) => setGlyphFrameProperties(currentFrame, { strokeWidth: value })}
               />
             </div>
@@ -42,20 +44,18 @@ const Stroke = ({ glyph, currentFrame = 0 }: { glyph: IGlyph; currentFrame: numb
           <div className={styles['form--group--dash']}>
             <Form.RangeSlider
               id="dashLength"
-              min={10}
+              min={0}
               max={30}
               step={1}
-              defaultValue={12}
-              onHandler={(value) => setGlyphFrameProperties(currentFrame, { dash: [value ,value] })}
+              onHandler={(value) => setGlyphFrameProperties(currentFrame, { dash: [value, frame?.properties?.dash ? frame?.properties?.dash[1] : 0] })}
             />
 
             <Form.RangeSlider
               id="dashGap"
-              min={10}
+              min={0}
               max={30}
               step={1}
-              defaultValue={12}
-              onHandler={(value) => setGlyphFrameProperties(currentFrame, { dash: [value ,value] })}
+              onHandler={(value) => setGlyphFrameProperties(currentFrame, { dash: [frame?.properties?.dash ? frame?.properties?.dash[0] : 0, value] })}
             />
           </div>
         </div>
@@ -66,7 +66,7 @@ const Stroke = ({ glyph, currentFrame = 0 }: { glyph: IGlyph; currentFrame: numb
           <div className={styles['form--line--group']}>
             <label>
               <input
-                checked={glyph.frames[currentFrame].properties.lineCap === 'butt'}
+                checked={glyph?.frames[currentFrame].properties.lineCap === 'butt'}
                 id="line-cap--butt"
                 type="radio"
                 name="lineCap"
@@ -78,7 +78,7 @@ const Stroke = ({ glyph, currentFrame = 0 }: { glyph: IGlyph; currentFrame: numb
 
             <label>
               <input
-                checked={glyph.frames[currentFrame].properties.lineCap === 'round'}
+                checked={glyph?.frames[currentFrame].properties.lineCap === 'round'}
                 id="line-cap--round"
                 type="radio"
                 name="lineCap"
@@ -90,7 +90,7 @@ const Stroke = ({ glyph, currentFrame = 0 }: { glyph: IGlyph; currentFrame: numb
 
           <label>
             <input
-              checked={glyph.frames[currentFrame].properties.lineCap === 'square'}
+              checked={glyph?.frames[currentFrame].properties.lineCap === 'square'}
               id="line-cap--square"
               type="radio"
               name="lineCap"
@@ -108,7 +108,7 @@ const Stroke = ({ glyph, currentFrame = 0 }: { glyph: IGlyph; currentFrame: numb
           <div className={styles['form--line--group']}>
             <label>
               <input
-                checked={glyph.frames[currentFrame].properties.lineJoin === 'miter'}
+                checked={glyph?.frames[currentFrame].properties.lineJoin === 'miter'}
                 id="line-join--miter"
                 type="radio"
                 name="lineJoin"
@@ -120,7 +120,7 @@ const Stroke = ({ glyph, currentFrame = 0 }: { glyph: IGlyph; currentFrame: numb
 
             <label >
               <input
-                checked={glyph.frames[currentFrame].properties.lineJoin === 'round'}
+                checked={glyph?.frames[currentFrame].properties.lineJoin === 'round'}
                 id="line-join--round"
                 type="radio"
                 name="lineJoin"
@@ -132,7 +132,7 @@ const Stroke = ({ glyph, currentFrame = 0 }: { glyph: IGlyph; currentFrame: numb
 
             <label>
               <input
-                checked={glyph.frames[currentFrame].properties.lineJoin === 'bevel'}
+                checked={glyph?.frames[currentFrame].properties.lineJoin === 'bevel'}
                 id="line-join--bevel"
                 type="radio"
                 name="lineJoin"

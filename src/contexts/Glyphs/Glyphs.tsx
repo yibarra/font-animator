@@ -6,6 +6,7 @@ import { UseFontContext } from '../Font/Font'
 import { UseFontSettingsContext } from '../FontSettings/FontSettings'
 import type { IGlyph, IGlyphsContext, IGlyphsProvider } from './interfaces'
 import { useSearchStore } from '../Search/store'
+import { getUrlParam } from './utils'
 
 // glyph context
 const GlyphsContext = createContext({} as IGlyphsContext)
@@ -16,10 +17,21 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
   const { axes } = UseFontSettingsContext()
 
   const { current, glyphs, setCurrent, updateGlyphFrames } = useGlyphsStore()
-  const { removeParam, setParam, urlParams } = useSearchStore()
+  const { removeParam, setParam } = useSearchStore()
 
   // get glyph
   const getGlyph = useCallback((index: number) => font?.getGlyph(index), [font])
+
+  // get current glyph updata
+  const getCurrentGlyph = useCallback(() => {
+    const id = getUrlParam('current')
+
+    if (!id) {
+      return 
+    }
+
+    return glyphs.find((glyph) => glyph.id === id)
+  }, [glyphs])
 
   // set current glyph contexts
   const setCurrentGlyphContexts = useCallback((glyph: IGlyph | null) => {
@@ -45,14 +57,10 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
 
   // set glyph instance
   const setGlyphInstance = useCallback((frameIndex: number, vars: number[]) => {
-    if (!urlParams['current']) {
-      return 
-    }
+    const glyph = getCurrentGlyph()
 
-    const selected = glyphs.find((glyph) => glyph.id === urlParams['current'])
-
-    if (selected && axes instanceof Object) {
-      const frames = selected.frames
+    if (glyph && axes instanceof Object) {
+      const frames = glyph.frames
       const entries = Object.keys(axes).map((key, index) => [key, vars[index]])
 
       frames[frameIndex] = {
@@ -60,21 +68,16 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
         axes: Object.fromEntries(entries)
       }
 
-      updateGlyphFrames(selected.id, frames)
+      updateGlyphFrames(glyph.id, frames)
     }
-  }, [axes, urlParams, glyphs, updateGlyphFrames])
+  }, [axes, getCurrentGlyph, updateGlyphFrames])
 
   // set glyph frame axes
   const setGlyphFrameAxes = useCallback((frameIndex: number, axe: string, value: number) => {
-    console.info(urlParams['current'], axe, value)
-    if (!urlParams['current']) {
-      return 
-    }
+    const glyph = getCurrentGlyph()
 
-    const selected = glyphs.find((glyph) => glyph.id === urlParams['current'])
-
-    if (selected) {
-      const frames = selected.frames
+    if (glyph) {
+      const frames = glyph.frames
 
       frames[frameIndex] = {
         ...frames[frameIndex],
@@ -84,40 +87,32 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
         }
       }
 
-      updateGlyphFrames(selected.id, frames)
+      updateGlyphFrames(glyph.id, frames)
     }
-  }, [glyphs, updateGlyphFrames, urlParams])
+  }, [getCurrentGlyph, updateGlyphFrames])
 
   // set glyph frame position
   const setGlyphFramePosition = useCallback((frameIndex: number, position: [number, number]) => {
-    if (current === null) {
-      return 
-    }
+    const glyph = getCurrentGlyph()
 
-    const selected = glyphs.find((glyph) => glyph.id === current)
-
-    if (selected) {
-      const frames = selected.frames
+    if (glyph) {
+      const frames = glyph.frames
 
       frames[frameIndex] = {
         ...frames[frameIndex],
         position,
       }
 
-      updateGlyphFrames(selected.id, frames)
+      updateGlyphFrames(glyph.id, frames)
     }
-  }, [current, glyphs, updateGlyphFrames])
+  }, [getCurrentGlyph, updateGlyphFrames])
 
     // set glyph frame properties
   const setGlyphFrameProperties = useCallback((frameIndex: number, properties: ShapeConfig) => {
-    if (current === null) {
-      return 
-    }
+    const glyph = getCurrentGlyph()
 
-    const selected = glyphs.find((glyph) => glyph.id === current)
-
-    if (selected) {
-      const frames = selected.frames
+    if (glyph) {
+      const frames = glyph.frames
 
       frames[frameIndex] = {
         ...frames[frameIndex],
@@ -127,9 +122,9 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
         },
       }
 
-      updateGlyphFrames(selected.id, frames)
+      updateGlyphFrames(glyph.id, frames)
     }
-  }, [current, glyphs, updateGlyphFrames])
+  }, [getCurrentGlyph, updateGlyphFrames])
 
   // render
   return (

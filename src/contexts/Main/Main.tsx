@@ -1,7 +1,7 @@
 import { createContext } from 'react'
 import type { PropsWithChildren } from 'react'
 
-import FontProvider from '../Font'
+import Providers from '../'
 import SearchProvider from '../Search'
 
 // Main Context
@@ -18,13 +18,17 @@ const MainProvider = ({ children }: PropsWithChildren) => {
 
   return (
     <SearchProvider>
-      <FontProvider>
-        <MainContext.Provider value={{
-          active: true,
-        }}>
-          {children}
-        </MainContext.Provider>
-      </FontProvider>
+      <MainContext.Provider value={{
+        active: true,
+      }}>
+        <Providers.FontProvider>
+          <Providers.FontSettingsProvider>
+            <Providers.GlyphsProvider>
+              {children}
+            </Providers.GlyphsProvider>
+          </Providers.FontSettingsProvider>
+        </Providers.FontProvider>
+      </MainContext.Provider>
     </SearchProvider>
   )
 }

@@ -26,3 +26,10 @@ export const getBoundingBoxGlyph = ( // remove
     height: Number(scaledHeight.toFixed(2)),
   };
 }
+
+// get current
+export const getUrlParam = (key: string) => {
+  const params = new URLSearchParams(window.location.search)
+  
+  return params.get(key) ?? ''
+}
