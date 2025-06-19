@@ -28,6 +28,7 @@ const FontSettingsProvider = ({ children }: IFontSettingsProvider ) => {
       path: string
       points: IGlyphPoint[]
     } => {
+      console.info(id, coords)
       if (!font || !id) {
         return { path: '', points: [] }
       }

@@ -22,7 +22,7 @@ const Frame = ({ glyph }: IFrame) => {
       </div>
 
       <div className={styles['frame--option']} data-type="rotation">
-        <Rotation rotation={frame?.properties.rotation} />
+        <Rotation size={10} rotation={frame?.properties.rotation} />
       </div>
 
       <div

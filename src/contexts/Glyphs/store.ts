@@ -63,6 +63,22 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
         lineJoin: 'bevel',
         rotation: 0,
       },
+    }, {
+      axes: {
+        wdth: 100,
+        wght: 0,
+      },
+      position: [100, 400],
+      properties: {
+        fill: '#df2b0c',
+        fontSize: 124,
+        stroke: 'none',
+        strokeWidth: 0,
+        dash: [0, 0],
+        lineCap: 'butt',
+        lineJoin: 'bevel',
+        rotation: 0,
+      },
     }],
   }],
 
