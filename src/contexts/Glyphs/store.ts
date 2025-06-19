@@ -18,7 +18,23 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
       properties: {
         fill: '#434bb1',
         fontSize: 124,
-        stroke: 'orange',
+        stroke: '#FF0000',
+        strokeWidth: 2,
+        dash: [100, 10],
+        lineCap: 'butt',
+        lineJoin: 'bevel',
+        rotation: 180,
+      },
+    }, {
+      axes: {
+        wdth: 30,
+        wght: 100
+      },
+      position: [240, 600],
+      properties: {
+        fill: '#434bb1',
+        fontSize: 124,
+        stroke: '#FF0F0F',
         strokeWidth: 2,
         dash: [100, 10],
         lineCap: 'butt',

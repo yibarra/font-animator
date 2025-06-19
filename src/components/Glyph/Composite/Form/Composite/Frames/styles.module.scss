@@ -1,9 +1,12 @@
 .frames {
   display: flex;
+  color: var(--secondary-color);
   flex-flow: column wrap;
   width: 100%;
 
-  &--time-line {
-
+  &--wrapper {
+    display: flex;
+    position: relative;
+    width: 100%;
   }
 }

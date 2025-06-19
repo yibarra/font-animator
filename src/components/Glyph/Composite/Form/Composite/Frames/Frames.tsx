@@ -10,24 +10,28 @@ const Frames = ({ glyph }: IFrames) => {
     <div className={styles['frames']}>
       <p>Frames</p>
       
-      {Array.isArray(glyph?.frames) && glyph.frames.map((frame, i) => (
-        <div className={styles['frames--current']} key={i}>
-          <div
-            className={styles['frames--current--glyph']}
-            style={{
-              fontFamily: font?.familyName,
-              fontVariationSettings: getFontVariationSettings(frame.axes)
-            }}
-          >
-            {font?.getGlyph(glyph?.charIndex ?? 0).name}
-          </div>
+      <div className={styles['frames--wrapper']}>
+        {Array.isArray(glyph?.frames) && glyph.frames.map((frame, i) => (
+          <div className={styles['frames--frame']} key={i}>
+            <div className={styles['frames--glyph']}></div>
 
-          <div className={styles['frames--current--pos']}>
-            PosX: {frame.position[0]}
-            PosY: {frame.position[1]}
+            <button
+              className={styles['frames--glyph']}
+              style={{
+                fontFamily: font?.familyName,
+                fontVariationSettings: getFontVariationSettings(frame.axes)
+              }}
+            >
+              {font?.getGlyph(glyph?.charIndex ?? 0).name}
+            </button>
+
+            <div className={styles['frames--glyph--pos']}>
+              PosX: {frame.position[0]}
+              PosY: {frame.position[1]}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   )
 }

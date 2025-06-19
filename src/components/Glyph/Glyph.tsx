@@ -97,7 +97,6 @@ const Glyph = ({ current, data }: IGlyphProps) => {
 
             // x: node.x(),
             // y: node.y(),
-            
           }
         }}
       />
@@ -110,7 +109,9 @@ const Glyph = ({ current, data }: IGlyphProps) => {
       {current && (
         <Transformer
           ref={trRef}
-          anchorCornerRadius={12}
+          anchorFill="#FFF"
+          anchorStroke="#FFF"
+          borderStroke="#FFF"
           padding={20}
           flipEnabled={false}
           boundBoxFunc={(oldBox, newBox) => {
