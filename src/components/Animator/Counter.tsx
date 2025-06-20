@@ -17,7 +17,7 @@ const SmoothCounter: React.FC<SmoothCounterProps> = ({
   end = 100,
   duration = 2000,
   loop = false,
-  easing = [0.25, 0.1, 0.25, 1], // ease
+  easing = [.17,.67,.83,.67], // ease
   onChange,
   setIsPlaying,
   isPlaying,

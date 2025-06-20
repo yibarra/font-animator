@@ -22,7 +22,7 @@ const Frame = ({ glyph }: IFrame) => {
       </div>
 
       <div className={styles['frame--option']} data-type="rotation">
-        <Rotation size={10} rotation={frame?.properties.rotation} />
+        <Rotation size={10} rotation={glyph?.properties.rotation} />
       </div>
 
       <div
@@ -34,7 +34,7 @@ const Frame = ({ glyph }: IFrame) => {
       >
         <span /><span /><span /><span />
         <h4
-          style={{ color: frame?.properties.fill?.toString() }}
+          style={{ color: glyph?.properties.fill?.toString() }}
         >
           {font?.getGlyph(glyph?.charIndex ?? 0).name}
         </h4>

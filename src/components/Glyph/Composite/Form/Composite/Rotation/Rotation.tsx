@@ -4,7 +4,7 @@ import styles from './styles.module.scss'
 
 interface IRotation {
   size: number
-  rotation: IGlyph['frames'][0]['properties']['rotation']
+  rotation: IGlyph['properties']['rotation']
 }
 
 const Rotation = ({ size = 30, rotation }: IRotation) => {
@@ -20,7 +20,10 @@ const Rotation = ({ size = 30, rotation }: IRotation) => {
         <Progress.Pie size={size}  percentage={percent} />
       </div>
 
-      <div className={styles['rotation--glyph']} style={{ transform: `rotate(${rotation}deg) translate3d(-50%, -50%, 0px)`}}></div>
+      <div
+        className={styles['rotation--glyph']}
+        style={{ transform: `rotate(${rotation}deg) translate3d(-50%, -50%, 0px)`}}
+      ></div>
     </div>
   )
 }

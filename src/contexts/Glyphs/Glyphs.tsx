@@ -16,7 +16,7 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
   const { font } = UseFontContext()
   const { axes } = UseFontSettingsContext()
 
-  const { current, glyphs, setCurrent, updateGlyphs, updateGlyphFrames } = useGlyphsStore()
+  const { current, glyphs, setCurrent, updateGlyphs, updateGlyphFrames, updateGlyph } = useGlyphsStore()
   const { removeParam, setParam } = useSearchStore()
 
   // get glyph
@@ -110,34 +110,6 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
 
     const update = glyphs.map((e, i) => ({ ...e, axes: axesUpdate[i] }))
     updateGlyphs(update)
-    // updateGlyphs(glyphs.map((e) => ({ ...e, frames: [...e.frames] })))
-
-    /*
-    Array.from(glyphs).forEach((e, i) => {
-      console.info(e)
-
-      if (!e) {
-        return
-      }
-      
-      const [frameInit, frameEnd] = e.frames
-
-      const coordInit = Object.values(frameInit.axes)
-      const coordEnd = Object.values(frameEnd.axes)
-
-      const wdth = percentToRange(percent, Number(coordInit[0]), Number(coordEnd[0]))
-      const wgdht = percentToRange(percent, Number(coordInit[1]), Number(coordEnd[1]))
-
-      const framesTemp = e.frames
-      framesTemp[0].axes = { wdth, wgdht }
-
-      // temp replace
-      glyphsTemp[i].frames = {
-        ...glyphsTemp[i].frames,
-        ...framesTemp
-      }
-    })
-    */
   }, [glyphs, updateGlyphs])
 
   // set glyph frame position
@@ -157,23 +129,20 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
   }, [getCurrentGlyph, updateGlyphFrames])
 
     // set glyph frame properties
-  const setGlyphFrameProperties = useCallback((frameIndex: number, properties: ShapeConfig) => {
+  const setGlyphProperties = useCallback((properties: ShapeConfig) => {
     const glyph = getCurrentGlyph()
 
     if (glyph) {
-      const frames = glyph.frames
-
-      frames[frameIndex] = {
-        ...frames[frameIndex],
-        properties: {
-          ...frames[frameIndex].properties,
-          ...properties
-        },
+      const propsGlyph = {
+        ...glyph.properties,
+        ...properties
       }
 
-      updateGlyphFrames(glyph.id, frames)
+      console.info({ ...glyph, properties: propsGlyph })
+
+      updateGlyph(glyph.id, { ...glyph, properties: propsGlyph })
     }
-  }, [getCurrentGlyph, updateGlyphFrames])
+  }, [getCurrentGlyph, updateGlyph])
 
   // render
   return (
@@ -184,7 +153,7 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
           glyphs,
           getGlyph,
           setGlyphFramePosition,
-          setGlyphFrameProperties,
+          setGlyphProperties,
           getGlyphVariation,
           setCurrent: setCurrentGlyphContexts,
           setGlyphInstance,
@@ -195,7 +164,7 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
           glyphs,
           getGlyph,
           setGlyphFramePosition,
-          setGlyphFrameProperties,
+          setGlyphProperties,
           getGlyphVariation,
           setCurrentGlyphContexts,
           setGlyphInstance,

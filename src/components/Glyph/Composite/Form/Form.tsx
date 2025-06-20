@@ -11,7 +11,7 @@ import type { IForm } from './interfaces'
 
 const Form = ({ glyph, ...props }: IForm) => {
   const { handleFileChange } = UseFontContext()
-  const { setGlyphFrameProperties } = UseGlyphsContext()
+  const { setGlyphProperties } = UseGlyphsContext()
 
   const currentFrame = 0
 
@@ -38,9 +38,9 @@ const Form = ({ glyph, ...props }: IForm) => {
           <p className={styles['form--group--label']}>Color</p>
           <input
             type="color"
-            defaultValue={String(glyph?.frames[currentFrame].properties.fill ?? '#000')}
+            defaultValue={String(glyph?.properties.fill ?? '#000')}
             id="fill"
-            onChange={(e) => setGlyphFrameProperties(currentFrame, { fill: e.target.value })}
+            onChange={(e) => setGlyphProperties({ fill: e.target.value })}
           />
         </div>
 
@@ -52,7 +52,7 @@ const Form = ({ glyph, ...props }: IForm) => {
               max={240}
               step={1}
               defaultValue={12}
-              onHandler={(value) => setGlyphFrameProperties(currentFrame, { fontSize: Number(value) })}
+              onHandler={(value) => setGlyphProperties({ fontSize: Number(value) })}
             />
           </div>
         </div>

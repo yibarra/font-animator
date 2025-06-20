@@ -3,10 +3,8 @@ import type { IGlyph } from '../../../../../../contexts/Glyphs/interfaces'
 import Form from '../../../../../Form'
 import styles from '../../styles.module.scss'
 
-const Stroke = ({ glyph, currentFrame = 0 }: { glyph: IGlyph; currentFrame: number }) => {
-  const frame = glyph?.frames[currentFrame]
-  
-  const { setGlyphFrameProperties } = UseGlyphsContext()
+const Stroke = ({ glyph }: { glyph: IGlyph; currentFrame: number }) => {
+  const { setGlyphProperties } = UseGlyphsContext()
 
   return (
     <div className={styles['form--stroke']}>
@@ -20,8 +18,8 @@ const Stroke = ({ glyph, currentFrame = 0 }: { glyph: IGlyph; currentFrame: numb
             <p className={styles['form--group--label']}>Color</p>
             <input
               type="color"
-              defaultValue={String(glyph?.frames[currentFrame].properties.stroke ?? '#000')}
-              onChange={(e) => setGlyphFrameProperties(currentFrame, { stroke: e.target.value })}
+              defaultValue={String(glyph?.properties.stroke ?? '#000')}
+              onChange={(e) => setGlyphProperties({ stroke: e.target.value })}
             />
           </div>
 
@@ -32,8 +30,8 @@ const Stroke = ({ glyph, currentFrame = 0 }: { glyph: IGlyph; currentFrame: numb
                 min={0}
                 max={30}
                 step={1}
-                defaultValue={frame?.properties.strokeWidth}
-                onHandler={(value) => setGlyphFrameProperties(currentFrame, { strokeWidth: value })}
+                defaultValue={glyph?.properties.strokeWidth}
+                onHandler={(value) => setGlyphProperties({ strokeWidth: value })}
               />
             </div>
           </div>
@@ -47,7 +45,7 @@ const Stroke = ({ glyph, currentFrame = 0 }: { glyph: IGlyph; currentFrame: numb
               min={0}
               max={30}
               step={1}
-              onHandler={(value) => setGlyphFrameProperties(currentFrame, { dash: [value, frame?.properties?.dash ? frame?.properties?.dash[1] : 0] })}
+              onHandler={(value) => setGlyphProperties({ dash: [value, glyph?.properties?.dash ? glyph?.properties?.dash[1] : 0] })}
             />
 
             <Form.RangeSlider
@@ -55,7 +53,7 @@ const Stroke = ({ glyph, currentFrame = 0 }: { glyph: IGlyph; currentFrame: numb
               min={0}
               max={30}
               step={1}
-              onHandler={(value) => setGlyphFrameProperties(currentFrame, { dash: [frame?.properties?.dash ? frame?.properties?.dash[0] : 0, value] })}
+              onHandler={(value) => setGlyphProperties({ dash: [glyph?.properties?.dash ? glyph?.properties?.dash[0] : 0, value] })}
             />
           </div>
         </div>
@@ -66,36 +64,36 @@ const Stroke = ({ glyph, currentFrame = 0 }: { glyph: IGlyph; currentFrame: numb
           <div className={styles['form--line--group']}>
             <label>
               <input
-                checked={glyph?.frames[currentFrame].properties.lineCap === 'butt'}
+                checked={glyph?.properties.lineCap === 'butt'}
                 id="line-cap--butt"
                 type="radio"
                 name="lineCap"
                 value="butt"
-                onChange={() => setGlyphFrameProperties(currentFrame, { lineCap: 'butt' })}
+                onChange={() => setGlyphProperties({ lineCap: 'butt' })}
               />
               <label htmlFor="line-cap--butt">Butt</label>
             </label>
 
             <label>
               <input
-                checked={glyph?.frames[currentFrame].properties.lineCap === 'round'}
+                checked={glyph?.properties.lineCap === 'round'}
                 id="line-cap--round"
                 type="radio"
                 name="lineCap"
                 value="round"
-                onChange={() => setGlyphFrameProperties(currentFrame, { lineCap: 'round' })}
+                onChange={() => setGlyphProperties({ lineCap: 'round' })}
               />
               <label htmlFor="line-cap--round">Round</label>
             </label>
 
           <label>
             <input
-              checked={glyph?.frames[currentFrame].properties.lineCap === 'square'}
+              checked={glyph?.properties.lineCap === 'square'}
               id="line-cap--square"
               type="radio"
               name="lineCap"
               value="square"
-              onChange={() => setGlyphFrameProperties(currentFrame, { lineCap: 'square' })}
+              onChange={() => setGlyphProperties({ lineCap: 'square' })}
             />
             <label htmlFor="line-cap--square">Square</label>
           </label>
@@ -108,36 +106,36 @@ const Stroke = ({ glyph, currentFrame = 0 }: { glyph: IGlyph; currentFrame: numb
           <div className={styles['form--line--group']}>
             <label>
               <input
-                checked={glyph?.frames[currentFrame].properties.lineJoin === 'miter'}
+                checked={glyph?.properties.lineJoin === 'miter'}
                 id="line-join--miter"
                 type="radio"
                 name="lineJoin"
                 value="miter"
-                onChange={() => setGlyphFrameProperties(currentFrame, { lineJoin: 'miter' })}
+                onChange={() => setGlyphProperties({ lineJoin: 'miter' })}
               />
               <label htmlFor="line-join--miter">Miter</label>
             </label>
 
             <label >
               <input
-                checked={glyph?.frames[currentFrame].properties.lineJoin === 'round'}
+                checked={glyph?.properties.lineJoin === 'round'}
                 id="line-join--round"
                 type="radio"
                 name="lineJoin"
                 value="round"
-                onChange={() => setGlyphFrameProperties(currentFrame, { lineJoin: 'round' })}
+                onChange={() => setGlyphProperties({ lineJoin: 'round' })}
               />
               <label htmlFor="line-join--round">Round</label>
             </label>
 
             <label>
               <input
-                checked={glyph?.frames[currentFrame].properties.lineJoin === 'bevel'}
+                checked={glyph?.properties.lineJoin === 'bevel'}
                 id="line-join--bevel"
                 type="radio"
                 name="lineJoin"
                 value="bevel"
-                onChange={() => setGlyphFrameProperties(currentFrame, { lineJoin: 'bevel' })}
+                onChange={() => setGlyphProperties({ lineJoin: 'bevel' })}
               />
               <label htmlFor="line-join--bevel">Bevel</label>
             </label>

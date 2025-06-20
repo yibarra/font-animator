@@ -5,239 +5,300 @@ import type { IGlyph, IGlyphsState } from './interfaces'
 export const useGlyphsStore = create<IGlyphsState>((set) => ({
   current: null,
   glyphs: [
-  {
-    id: "1",
-    charIndex: 12,
-    currentFrame: 0,
-    easing: "lineal",
-    frames: [
-      {
-        axes: {
-          wdth: 30,
-          wght: 0,
+    {
+      id: "1",
+      charIndex: 12,
+      currentFrame: 0,
+      easing: "lineal",
+      frames: [
+        {
+          axes: {
+            wdth: 30,
+            wght: 0,
+          },
+          position: [240, 600],
         },
-        position: [240, 600],
-        properties: {
-          fill: "#434bb1",
-          fontSize: 124,
-          stroke: "#FF0000",
-          strokeWidth: 2,
-          dash: [100, 10],
-          lineCap: "butt",
-          lineJoin: "bevel",
-          rotation: 180,
+        {
+          axes: {
+            wdth: 30,
+            wght: 100,
+          },
+          position: [240, 600],
         },
+      ],
+      axes: {
+        wdth: 30,
+        wght: 0,
       },
-      {
-        axes: {
-          wdth: 30,
-          wght: 100,
-        },
-        position: [240, 600],
-        properties: {
-          fill: "#434bb1",
-          fontSize: 124,
-          stroke: "#FF0F0F",
-          strokeWidth: 2,
-          dash: [100, 10],
-          lineCap: "butt",
-          lineJoin: "bevel",
-          rotation: 180,
-        },
+      properties: {
+        fill: "#434bb1",
+        fontSize: 124,
+        stroke: "#FF0F0F",
+        strokeWidth: 2,
+        dash: [100, 10],
+        lineCap: "butt",
+        lineJoin: "bevel",
+        rotation: 180,
       },
-    ],
-    axes: {
-      wdth: 30,
-      wght: 0,
     },
-  },
-  {
-    id: "2",
-    charIndex: 17,
-    currentFrame: 0,
-    easing: "lineal",
-    frames: [
-      {
-        axes: {
-          wdth: 0,
-          wght: 100,
+    {
+      id: "2",
+      charIndex: 17,
+      currentFrame: 0,
+      easing: "lineal",
+      frames: [
+        {
+          axes: {
+            wdth: 0,
+            wght: 100,
+          },
+          position: [100, 400],
         },
-        position: [100, 400],
-        properties: {
-          fill: "#df2b0c",
-          fontSize: 124,
-          stroke: "none",
-          strokeWidth: 0,
-          dash: [0, 0],
-          lineCap: "butt",
-          lineJoin: "bevel",
-          rotation: 0,
+        {
+          axes: {
+            wdth: 100,
+            wght: 0,
+          },
+          position: [100, 400],
         },
+      ],
+      axes: {
+        wdth: 100,
+        wght: 100,
       },
-      {
-        axes: {
-          wdth: 100,
-          wght: 0,
-        },
-        position: [100, 400],
-        properties: {
-          fill: "#df2b0c",
-          fontSize: 124,
-          stroke: "none",
-          strokeWidth: 0,
-          dash: [0, 0],
-          lineCap: "butt",
-          lineJoin: "bevel",
-          rotation: 0,
-        },
+      properties: {
+        fill: "#df2b0c",
+        fontSize: 124,
+        stroke: "none",
+        strokeWidth: 0,
+        dash: [0, 0],
+        lineCap: "butt",
+        lineJoin: "bevel",
+        rotation: 0,
       },
-    ],
-    axes: {
-      wdth: 100,
-      wght: 100,
     },
-  },
-  {
-    id: "3",
-    charIndex: 27,
-    currentFrame: 0,
-    easing: "lineal",
-    frames: [
-      {
-        axes: {
-          wdth: 70,
-          wght: 0,
+    {
+      id: "3",
+      charIndex: 27,
+      currentFrame: 0,
+      easing: "lineal",
+      frames: [
+        {
+          axes: {
+            wdth: 70,
+            wght: 0,
+          },
+          position: [200, 400],
         },
-        position: [200, 400],
-        properties: {
-          fill: "#df2b0c",
-          fontSize: 124,
-          stroke: "none",
-          strokeWidth: 0,
-          dash: [0, 0],
-          lineCap: "butt",
-          lineJoin: "bevel",
-          rotation: 0,
+        {
+          axes: {
+            wdth: 0,
+            wght: 0,
+          },
+          position: [100, 400],
         },
+      ],
+      axes: {
+        wdth: 70,
+        wght: 0,
       },
-      {
-        axes: {
-          wdth: 0,
-          wght: 0,
-        },
-        position: [100, 400],
-        properties: {
-          fill: "#df2b0c",
-          fontSize: 124,
-          stroke: "none",
-          strokeWidth: 0,
-          dash: [0, 0],
-          lineCap: "butt",
-          lineJoin: "bevel",
-          rotation: 0,
-        },
+      properties: {
+        fill: "#df2b0c",
+        fontSize: 124,
+        stroke: "none",
+        strokeWidth: 0,
+        dash: [0, 0],
+        lineCap: "butt",
+        lineJoin: "bevel",
+        rotation: 0,
       },
-    ],
-    axes: {
-      wdth: 70,
-      wght: 0,
     },
-  },
-  {
-    // Glyph 4 (basado en Glyph 1)
-    id: "4",
-    charIndex: 32, // charIndex diferente
-    currentFrame: 0,
-    easing: "linear", // Cambiado de 'lineal'
-    frames: [
-      {
-        axes: {
-          wdth: 40, // Ligeramente diferente
-          wght: 100,
+    {
+      // Glyph 4 (nueva variación de posición)
+      id: "4",
+      charIndex: 32,
+      currentFrame: 0,
+      easing: "linear",
+      frames: [
+        {
+          axes: {
+            wdth: 40,
+            wght: 100,
+          },
+          position: [400, 200], // Posición variada
         },
-        position: [300, 500], // Posición diferente
-        properties: {
-          fill: "#5562b9", // Color diferente
-          fontSize: 130, // Tamaño diferente
-          stroke: "#FF5500",
-          strokeWidth: 3, // Ancho de borde diferente
-          dash: [50, 5],
-          lineCap: "round", // Tipo diferente
-          lineJoin: "round", // Tipo diferente
-          rotation: 270, // Rotación diferente
+        {
+          axes: {
+            wdth: 40,
+            wght: 200,
+          },
+          position: [400, 200], // Posición variada
         },
+      ],
+      axes: {
+        wdth: 40,
+        wght: 100,
       },
-      {
-        axes: {
-          wdth: 40,
-          wght: 200, // Ligeramente diferente
-        },
-        position: [300, 500],
-        properties: {
-          fill: "#5562b9",
-          fontSize: 130,
-          stroke: "#FF5500",
-          strokeWidth: 3,
-          dash: [50, 5],
-          lineCap: "round",
-          lineJoin: "round",
-          rotation: 270,
-        },
+      properties: {
+        fill: "#8a2be2",
+        fontSize: 130,
+        stroke: "#FFFF00",
+        strokeWidth: 3,
+        dash: [50, 5],
+        lineCap: "round",
+        lineJoin: "round",
+        rotation: 270,
       },
-    ],
-    axes: {
-      wdth: 40,
-      wght: 100,
     },
-  },
-  {
-    // Glyph 5 (basado en Glyph 2)
-    id: "5",
-    charIndex: 37, // charIndex diferente
-    currentFrame: 0,
-    easing: "easeOut", // Easing diferente
-    frames: [
-      {
-        axes: {
-          wdth: 10, // Ligeramente diferente
-          wght: 50, // Ligeramente diferente
+    {
+      // Glyph 5 (nueva variación de posición)
+      id: "5",
+      charIndex: 37,
+      currentFrame: 0,
+      easing: "easeOut",
+      frames: [
+        {
+          axes: {
+            wdth: 10,
+            wght: 50,
+          },
+          position: [150, 100], // Posición variada
         },
-        position: [150, 450], // Posición diferente
-        properties: {
-          fill: "#b10c2b", // Color diferente
-          fontSize: 130,
-          stroke: "#FFFFFF", // Añadido stroke
-          strokeWidth: 1, // Añadido strokeWidth
-          dash: [10, 10],
-          lineCap: "square", // Tipo diferente
-          lineJoin: "miter", // Tipo diferente
-          rotation: 90, // Rotación diferente
+        {
+          axes: {
+            wdth: 110,
+            wght: 10,
+          },
+          position: [150, 100], // Posición variada
         },
+      ],
+      axes: {
+        wdth: 110,
+        wght: 10,
       },
-      {
-        axes: {
-          wdth: 110, // Ligeramente diferente
-          wght: 10, // Ligeramente diferente
-        },
-        position: [150, 450],
-        properties: {
-          fill: "#b10c2b",
-          fontSize: 130,
-          stroke: "#FFFFFF",
-          strokeWidth: 1,
-          dash: [10, 10],
-          lineCap: "square",
-          lineJoin: "miter",
-          rotation: 90,
-        },
+      properties: {
+        fill: "#20b2aa",
+        fontSize: 130,
+        stroke: "#0000FF",
+        strokeWidth: 1,
+        dash: [10, 10],
+        lineCap: "square",
+        lineJoin: "miter",
+        rotation: 90,
       },
-    ],
-    axes: {
-      wdth: 110,
-      wght: 10,
     },
-  },
-],
+    {
+      // Glyph 6 (nueva variación de posición)
+      id: "6",
+      charIndex: 42,
+      currentFrame: 0,
+      easing: "easeInOut",
+      frames: [
+        {
+          axes: {
+            wdth: 50,
+            wght: 500,
+          },
+          position: [50, 550], // Posición variada
+        },
+        {
+          axes: {
+            wdth: 70,
+            wght: 600,
+          },
+          position: [50, 550], // Posición variada
+        },
+      ],
+      axes: {
+        wdth: 50,
+        wght: 500,
+      },
+      properties: {
+        fill: "#d35400",
+        fontSize: 100,
+        stroke: "#00FF00",
+        strokeWidth: 4,
+        dash: [20, 5],
+        lineCap: "butt",
+        lineJoin: "round",
+        rotation: 45,
+      },
+    },
+    {
+      // Glyph 7 (nueva variación de posición)
+      id: "7",
+      charIndex: 47,
+      currentFrame: 0,
+      easing: "lineal",
+      frames: [
+        {
+          axes: {
+            wdth: 20,
+            wght: 0,
+          },
+          position: [550, 300], // Posición variada
+        },
+        {
+          axes: {
+            wdth: 80,
+            wght: 900,
+          },
+          position: [550, 300], // Posición variada
+        },
+      ],
+      axes: {
+        wdth: 20,
+        wght: 0,
+      },
+      properties: {
+        fill: "#7f8c8d",
+        fontSize: 110,
+        stroke: "#FFD700",
+        strokeWidth: 1,
+        dash: [5, 5],
+        lineCap: "round",
+        lineJoin: "bevel",
+        rotation: 135,
+      },
+    },
+    {
+      // Glyph 8 (nueva variación de posición)
+      id: "8",
+      charIndex: 52,
+      currentFrame: 0,
+      easing: "easeIn",
+      frames: [
+        {
+          axes: {
+            wdth: 90,
+            wght: 100,
+          },
+          position: [350, 700], // Posición variada
+        },
+        {
+          axes: {
+            wdth: 10,
+            wght: 0,
+          },
+          position: [350, 700], // Posición variada
+        },
+      ],
+      axes: {
+        wdth: 90,
+        wght: 100,
+      },
+      properties: {
+        fill: "#9b59b6", // Nuevo color
+        fontSize: 140,
+        stroke: "none",
+        strokeWidth: 0,
+        dash: [0, 0],
+        lineCap: "butt",
+        lineJoin: "miter",
+        rotation: 315,
+      },
+    },
+  ],
 
   // add glyph
   add: (newGlyph) =>
@@ -254,13 +315,12 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
           {
             axes: {},
             position: [0, 0],
-            properties: defaultProperties,
           }, {
             axes: {},
             position: [0, 0],
-            properties: defaultProperties,
           },
         ],
+        properties: defaultProperties,
       };
 
       return { glyphs: [...state.glyphs, glyph] };
@@ -275,6 +335,11 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
   updateGlyphs: (glyphs) => {
     set(() => ({ glyphs }))
   },
+
+  updateGlyph: (id, glyph) => 
+    set((state) => ({
+      glyphs: state.glyphs.map((g) => g.id === id ? glyph : g)
+    })),
 
   // update frames (axes instance)
   updateGlyphFrames: (id, frames) =>

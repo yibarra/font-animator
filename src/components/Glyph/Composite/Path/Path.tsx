@@ -4,14 +4,20 @@ import type { Shape } from 'konva/lib/Shape'
 import { UseFontSettingsContext } from '../../../../contexts/FontSettings/FontSettings'
 import type { IPath } from './interfaces'
 
-const Path = ({ charIndex, axes, shapeRef, onUpdateTransform, properties }: IPath) => {
-  const { getPathDataAndPointsForGlyph } = UseFontSettingsContext()
+const Path = ({
+  charIndex,
+  axes,
+  shapeRef,
+  onUpdateTransform,
+  properties
+}: IPath) => {
+  const { getPathDataGlyph } = UseFontSettingsContext()
 
   const numericAxes = Object.fromEntries(
     Object.entries(axes).map(([key, value]) => [key, Number(value)])
   )
 
-  const { path } = getPathDataAndPointsForGlyph(
+  const path = getPathDataGlyph(
     charIndex,
     numericAxes,
     140
@@ -35,8 +41,8 @@ const Path = ({ charIndex, axes, shapeRef, onUpdateTransform, properties }: IPat
         }
       }}
     />
-  );
-};
+  )
+}
 
 Path.displayName = 'Glyph.Path'
 export default Path

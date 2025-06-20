@@ -19,7 +19,7 @@ const Frames = ({ glyph }: IFrames) => {
           <div className={styles['frames--frame']} key={i}>
             <div className={styles['frames--glyph']}>
               <div className={styles['frames--frame--options']}>
-                <Rotation size={10} rotation={frame?.properties.rotation} />
+                <Rotation size={10} rotation={glyph?.properties.rotation} />
               </div>
 
               <button

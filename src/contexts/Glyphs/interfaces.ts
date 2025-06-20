@@ -20,7 +20,6 @@ export interface IGlyphPoint {
 export interface IFrame {
   axes: Record<string, string | number>
   position: [number, number]
-  properties: ShapeConfig
 }
 
 export interface IGlyph {
@@ -30,6 +29,7 @@ export interface IGlyph {
   easing: string
   frames: IFrame[]
   id: string
+  properties: ShapeConfig
 }
 
 export interface IGlyphsState {
@@ -42,13 +42,14 @@ export interface IGlyphsState {
   selectGlyph: (index: string) => void
   setCurrent: (glyph: IGlyph | null) => void
   updateGlyphs: (glyphs: IGlyph[]) => void
+  updateGlyph: (id: string, glyph: IGlyph) => void
 }
 
 export interface IGlyphsContext extends Pick<IGlyphsState, 'glyphs' | 'current' | 'setCurrent'>{
   getGlyph: (index: number) => Glyph | undefined
   setGlyphFrameAxes: (index: number, axe: string, value: number) => void
   getGlyphVariation: (index: number, variants: number[]) => Glyph | undefined
-  setGlyphFrameProperties: (index: number, properties: ShapeConfig) => void
+  setGlyphProperties: (properties: ShapeConfig) => void
   setGlyphFramePosition: (frameIndex: number, position: [number, number]) => void
   setGlyphInstance: (frameIndex: number, vars: number[]) => void
   setGlyphFramesAxesAnimation: (percent: number) => void

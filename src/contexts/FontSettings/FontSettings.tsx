@@ -1,9 +1,8 @@
 import { createContext, useCallback, useMemo, useContext } from 'react'
 
 import type { IFontSettingsContext, IFontSettingsProvider } from './interfaces'
-import type { IGlyphPoint } from '../Glyphs/interfaces'
 import { UseFontContext } from '../Font/Font'
-import { convertPathToSvg, extractGlyphPoints } from './utils'
+import { convertPathToSvg } from './utils'
 
 // load font context
 const FontSettingsContext = createContext({} as IFontSettingsContext)
@@ -23,13 +22,10 @@ const FontSettingsProvider = ({ children }: IFontSettingsProvider ) => {
   }, [font])
 
   // get path data - remove
-  const getPathDataAndPointsForGlyph = useCallback(
-    (id: number, coords: Record<string, string | number>, size: number): {
-      path: string
-      points: IGlyphPoint[]
-    } => {
+  const getPathDataGlyph = useCallback(
+    (id: number, coords: Record<string, string | number>, size: number): string => {
       if (!font || !id) {
-        return { path: '', points: [] }
+        return ''
       }
       
       const fontInstance = font.getVariation(coords)
@@ -39,13 +35,10 @@ const FontSettingsProvider = ({ children }: IFontSettingsProvider ) => {
         const { path: { commands }} = glyph
         const units = fontInstance.unitsPerEm || 1000
 
-        const path = convertPathToSvg(commands, size, units)
-        const points = extractGlyphPoints(commands, size, units)
-
-        return { path, points }
+        return convertPathToSvg(commands, size, units)
       }
 
-      return { path: '', points: [] }
+      return ''
   }, [font])
 
   // render
@@ -54,11 +47,11 @@ const FontSettingsProvider = ({ children }: IFontSettingsProvider ) => {
       value={
         useMemo(() => ({
           axes,
-          getPathDataAndPointsForGlyph,
+          getPathDataGlyph,
           getVariationAxes,
         }), [
           axes,
-          getPathDataAndPointsForGlyph,
+          getPathDataGlyph,
           getVariationAxes,
         ]
       )}
