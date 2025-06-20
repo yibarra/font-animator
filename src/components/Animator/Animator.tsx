@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { UseGlyphsContext } from '../../contexts/Glyphs/Glyphs'
 import SmoothCounter from './Counter'
 
@@ -6,20 +5,23 @@ const Animator = ({
   from = 0,
   to = 100,
   duration = 2000,
-  loop
+  loop,
+  isPlaying,
+  setIsPlaying,
 }: any) => {
-  const [isPlaying, setIsPlaying] = useState(false)
-  const { setGlyphFrameAxes} = UseGlyphsContext()
+  const { setGlyphFramesAxesAnimation } = UseGlyphsContext()
 
   return (
     <div>
       <SmoothCounter
+        start={from}
+        end={to}
         duration={duration}
         loop={loop}
         isPlaying={isPlaying}
         setIsPlaying={setIsPlaying}
         onChange={(value) => {
-          setGlyphFrameAxes(0, 'wdth', Number(value ?? 0))
+          setGlyphFramesAxesAnimation(value)
         }}
       />
     </div>

@@ -24,11 +24,12 @@ export interface IFrame {
 }
 
 export interface IGlyph {
-  id: string
+  axes: IFrame['axes']
   charIndex: number
   currentFrame: number
   easing: string
   frames: IFrame[]
+  id: string
 }
 
 export interface IGlyphsState {
@@ -40,6 +41,7 @@ export interface IGlyphsState {
   updateGlyphFrames: (id: string, frames: IGlyph['frames']) => void
   selectGlyph: (index: string) => void
   setCurrent: (glyph: IGlyph | null) => void
+  updateGlyphs: (glyphs: IGlyph[]) => void
 }
 
 export interface IGlyphsContext extends Pick<IGlyphsState, 'glyphs' | 'current' | 'setCurrent'>{
@@ -49,6 +51,7 @@ export interface IGlyphsContext extends Pick<IGlyphsState, 'glyphs' | 'current' 
   setGlyphFrameProperties: (index: number, properties: ShapeConfig) => void
   setGlyphFramePosition: (frameIndex: number, position: [number, number]) => void
   setGlyphInstance: (frameIndex: number, vars: number[]) => void
+  setGlyphFramesAxesAnimation: (percent: number) => void
 }
 
 export type IGlyphsProvider = PropsWithChildren

@@ -4,9 +4,9 @@ import type { ShapeConfig } from 'konva/lib/Shape'
 import { useGlyphsStore } from './store'
 import { UseFontContext } from '../Font/Font'
 import { UseFontSettingsContext } from '../FontSettings/FontSettings'
-import type { IGlyph, IGlyphsContext, IGlyphsProvider } from './interfaces'
+import type { IFrame, IGlyph, IGlyphsContext, IGlyphsProvider } from './interfaces'
 import { useSearchStore } from '../Search/store'
-import { getUrlParam } from './utils'
+import { getUrlParam, percentToRange } from './utils'
 
 // glyph context
 const GlyphsContext = createContext({} as IGlyphsContext)
@@ -16,7 +16,7 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
   const { font } = UseFontContext()
   const { axes } = UseFontSettingsContext()
 
-  const { current, glyphs, setCurrent, updateGlyphFrames } = useGlyphsStore()
+  const { current, glyphs, setCurrent, updateGlyphs, updateGlyphFrames } = useGlyphsStore()
   const { removeParam, setParam } = useSearchStore()
 
   // get glyph
@@ -91,6 +91,55 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
     }
   }, [getCurrentGlyph, updateGlyphFrames])
 
+  const setGlyphFramesAxesAnimation = useCallback((percent: number) => {
+    const axesUpdate: IFrame['axes'][] = []
+
+    for (const [, value] of glyphs.entries()) {
+      if (value) {
+        const [frameInit, frameEnd] = value.frames
+
+        const coordInit = Object.values(frameInit.axes)
+        const coordEnd = Object.values(frameEnd.axes)
+
+        const wdth = percentToRange(percent, Number(coordInit[0]), Number(coordEnd[0]))
+        const wght = percentToRange(percent, Number(coordInit[1]), Number(coordEnd[1]))
+
+        axesUpdate.push({ wdth, wght })
+      }
+    }
+
+    const update = glyphs.map((e, i) => ({ ...e, axes: axesUpdate[i] }))
+    updateGlyphs(update)
+    // updateGlyphs(glyphs.map((e) => ({ ...e, frames: [...e.frames] })))
+
+    /*
+    Array.from(glyphs).forEach((e, i) => {
+      console.info(e)
+
+      if (!e) {
+        return
+      }
+      
+      const [frameInit, frameEnd] = e.frames
+
+      const coordInit = Object.values(frameInit.axes)
+      const coordEnd = Object.values(frameEnd.axes)
+
+      const wdth = percentToRange(percent, Number(coordInit[0]), Number(coordEnd[0]))
+      const wgdht = percentToRange(percent, Number(coordInit[1]), Number(coordEnd[1]))
+
+      const framesTemp = e.frames
+      framesTemp[0].axes = { wdth, wgdht }
+
+      // temp replace
+      glyphsTemp[i].frames = {
+        ...glyphsTemp[i].frames,
+        ...framesTemp
+      }
+    })
+    */
+  }, [glyphs, updateGlyphs])
+
   // set glyph frame position
   const setGlyphFramePosition = useCallback((frameIndex: number, position: [number, number]) => {
     const glyph = getCurrentGlyph()
@@ -140,6 +189,7 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
           setCurrent: setCurrentGlyphContexts,
           setGlyphInstance,
           setGlyphFrameAxes,
+          setGlyphFramesAxesAnimation,
         }), [
           current,
           glyphs,
@@ -150,6 +200,7 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
           setCurrentGlyphContexts,
           setGlyphInstance,
           setGlyphFrameAxes,
+          setGlyphFramesAxesAnimation,
       ])}
     >
       {children}

@@ -33,3 +33,9 @@ export const getUrlParam = (key: string) => {
   
   return params.get(key) ?? ''
 }
+
+// percent range
+export const percentToRange = (percent: number, start: number, end: number) => {
+  const normalizedPercent = Math.max(0, Math.min(100, percent)) / 100
+  return start + (end - start) * normalizedPercent
+}

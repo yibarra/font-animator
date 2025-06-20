@@ -28,14 +28,13 @@ const FontSettingsProvider = ({ children }: IFontSettingsProvider ) => {
       path: string
       points: IGlyphPoint[]
     } => {
-      console.info(id, coords)
       if (!font || !id) {
         return { path: '', points: [] }
       }
-
+      
       const fontInstance = font.getVariation(coords)
       const glyph = fontInstance.getGlyph(id)
-
+      
       if (glyph) {
         const { path: { commands }} = glyph
         const units = fontInstance.unitsPerEm || 1000

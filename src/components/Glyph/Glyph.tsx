@@ -13,7 +13,6 @@ const Glyph = ({ current, data }: IGlyphProps) => {
   const { isDragging, setIsDragging } = useGlyphStore()
   const { setCurrent, setGlyphFramePosition, setGlyphFrameProperties } = UseGlyphsContext()
 
-
   const shapeRef = useRef<IPathKonva | null>(null)
   const trRef = useRef<ITransformer>(null)
 
@@ -75,8 +74,9 @@ const Glyph = ({ current, data }: IGlyphProps) => {
       scaleX={1}
     >
       <Path
+        properties={data.frames[0].properties}
         charIndex={data.charIndex}
-        frame={frame}
+        axes={data.axes}
         onUpdateTransform={onUpdateTransform}
         shapeRef={shapeRef}
       />
