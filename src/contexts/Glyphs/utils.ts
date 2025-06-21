@@ -39,3 +39,14 @@ export const percentToRange = (percent: number, start: number, end: number) => {
   const normalizedPercent = Math.max(0, Math.min(100, percent)) / 100
   return start + (end - start) * normalizedPercent
 }
+
+// get font variation
+export const getFontVariation = (axes: object, coord: number[]) => {
+  if (axes) {
+    const axesNames = Object.keys(axes)
+
+    return `"${axesNames[0]}" ${coord[0]}, "${axesNames[1]}" ${coord[1]}`
+  }
+
+  return ''
+}

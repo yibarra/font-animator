@@ -5,14 +5,14 @@ import styles from './styles.module.scss'
 import { debounce } from './helper'
 
 const RangeSlider = ({
-  defaultValue = 50,
+  defaultValue = 0,
   max = 100,
   min = 0,
   onHandler,
   step = 1,
   ...props
 }: IRangeSlider) => {
-  const initialValue = Math.max(min, Math.min(max, defaultValue))
+  const initialValue = Math.max(min, Math.min(max, defaultValue ?? 0))
   const [value, setValue] = useState(initialValue)
 
   const inputRef = useRef<HTMLInputElement>(null)
@@ -44,6 +44,16 @@ const RangeSlider = ({
     setValue(newValue)
     debouncedOnChangeComplete.current(newValue)
   }
+
+  // update frame
+  useEffect(() => {
+    if (defaultValue !== null) {
+      const clamped = Math.max(min, Math.min(max, defaultValue))
+
+      setValue(clamped)
+      updateMarkerPosition()
+    }
+  }, [defaultValue, min, max, updateMarkerPosition])
 
   // update
   useEffect(() => {

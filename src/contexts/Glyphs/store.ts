@@ -1,6 +1,6 @@
-import { create } from 'zustand'
+import { create } from "zustand";
 
-import type { IGlyph, IGlyphsState } from './interfaces'
+import type { IGlyph, IGlyphsState } from "./interfaces";
 
 export const useGlyphsStore = create<IGlyphsState>((set) => ({
   current: null,
@@ -8,7 +8,6 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
     {
       id: "1",
       charIndex: 12,
-      currentFrame: 0,
       easing: "lineal",
       frames: [
         {
@@ -23,13 +22,14 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
             wdth: 30,
             wght: 100,
           },
-          position: [240, 600],
+          position: [340, 600],
         },
       ],
       axes: {
         wdth: 30,
         wght: 0,
       },
+      position: [240, 600],
       properties: {
         fill: "#434bb1",
         fontSize: 124,
@@ -44,7 +44,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
     {
       id: "2",
       charIndex: 17,
-      currentFrame: 0,
+
       easing: "lineal",
       frames: [
         {
@@ -66,6 +66,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
         wdth: 100,
         wght: 100,
       },
+      position: [100, 400],
       properties: {
         fill: "#df2b0c",
         fontSize: 124,
@@ -80,7 +81,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
     {
       id: "3",
       charIndex: 27,
-      currentFrame: 0,
+
       easing: "lineal",
       frames: [
         {
@@ -102,6 +103,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
         wdth: 70,
         wght: 0,
       },
+      position: [200, 400],
       properties: {
         fill: "#df2b0c",
         fontSize: 124,
@@ -117,7 +119,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
       // Glyph 4 (nueva variación de posición)
       id: "4",
       charIndex: 32,
-      currentFrame: 0,
+
       easing: "linear",
       frames: [
         {
@@ -139,6 +141,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
         wdth: 40,
         wght: 100,
       },
+      position: [400, 200],
       properties: {
         fill: "#8a2be2",
         fontSize: 130,
@@ -154,7 +157,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
       // Glyph 5 (nueva variación de posición)
       id: "5",
       charIndex: 37,
-      currentFrame: 0,
+
       easing: "easeOut",
       frames: [
         {
@@ -176,6 +179,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
         wdth: 110,
         wght: 10,
       },
+      position: [150, 100],
       properties: {
         fill: "#20b2aa",
         fontSize: 130,
@@ -191,7 +195,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
       // Glyph 6 (nueva variación de posición)
       id: "6",
       charIndex: 42,
-      currentFrame: 0,
+
       easing: "easeInOut",
       frames: [
         {
@@ -213,6 +217,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
         wdth: 50,
         wght: 500,
       },
+      position: [50, 550],
       properties: {
         fill: "#d35400",
         fontSize: 100,
@@ -228,7 +233,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
       // Glyph 7 (nueva variación de posición)
       id: "7",
       charIndex: 47,
-      currentFrame: 0,
+
       easing: "lineal",
       frames: [
         {
@@ -250,6 +255,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
         wdth: 20,
         wght: 0,
       },
+      position: [550, 300],
       properties: {
         fill: "#7f8c8d",
         fontSize: 110,
@@ -265,7 +271,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
       // Glyph 8 (nueva variación de posición)
       id: "8",
       charIndex: 52,
-      currentFrame: 0,
+
       easing: "easeIn",
       frames: [
         {
@@ -287,6 +293,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
         wdth: 90,
         wght: 100,
       },
+      position: [350, 700],
       properties: {
         fill: "#9b59b6", // Nuevo color
         fontSize: 140,
@@ -310,12 +317,13 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
       const glyph: IGlyph = {
         id,
         ...newGlyph,
-        currentFrame: 0,
+
         frames: [
           {
             axes: {},
             position: [0, 0],
-          }, {
+          },
+          {
             axes: {},
             position: [0, 0],
           },
@@ -333,12 +341,12 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
     })),
 
   updateGlyphs: (glyphs) => {
-    set(() => ({ glyphs }))
+    set(() => ({ glyphs }));
   },
 
-  updateGlyph: (id, glyph) => 
+  updateGlyph: (id, glyph) =>
     set((state) => ({
-      glyphs: state.glyphs.map((g) => g.id === id ? glyph : g)
+      glyphs: state.glyphs.map((g) => (g.id === id ? glyph : g)),
     })),
 
   // update frames (axes instance)

@@ -56,12 +56,14 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
   }, [font])
 
   // set glyph instance
-  const setGlyphInstance = useCallback((frameIndex: number, vars: number[]) => {
+  const setGlyphInstance = useCallback((vars: number[]) => {
     const glyph = getCurrentGlyph()
+    const frame = getUrlParam('currentFrame')
 
     if (glyph && axes instanceof Object) {
       const frames = glyph.frames
       const entries = Object.keys(axes).map((key, index) => [key, vars[index]])
+      const frameIndex = Number.isInteger(Number(frame)) ? Number(frame) : 0
 
       frames[frameIndex] = {
         ...frames[frameIndex],
@@ -73,16 +75,19 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
   }, [axes, getCurrentGlyph, updateGlyphFrames])
 
   // set glyph frame axes
-  const setGlyphFrameAxes = useCallback((frameIndex: number, axe: string, value: number) => {
+  const setGlyphFrameAxes = useCallback((axe: string, value: number) => {
     const glyph = getCurrentGlyph()
-
+    const frame = getUrlParam('currentFrame')
+    
     if (glyph) {
       const frames = glyph.frames
+      const frameIndex = Number.isInteger(Number(frame)) ? Number(frame) : 0
+      const frameUpdate = frames[frameIndex]
 
       frames[frameIndex] = {
-        ...frames[frameIndex],
+        ...frameUpdate,
         axes: {
-          ...frames[frameIndex].axes,
+          ...frameUpdate.axes,
           [axe]: value
         }
       }
@@ -137,8 +142,6 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
         ...glyph.properties,
         ...properties
       }
-
-      console.info({ ...glyph, properties: propsGlyph })
 
       updateGlyph(glyph.id, { ...glyph, properties: propsGlyph })
     }

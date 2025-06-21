@@ -9,37 +9,12 @@ import { useGlyphStore } from './store'
 import Path from './Composite/Path'
 import type { IGlyphProps } from './interfaces'
 
-const Glyph = ({ current, data }: IGlyphProps) => {
+const Glyph = ({ current, data, isPlaying }: IGlyphProps) => {
   const { isDragging, setIsDragging } = useGlyphStore()
   const { setCurrent, setGlyphFramePosition, setGlyphProperties } = UseGlyphsContext()
 
   const shapeRef = useRef<IPathKonva | null>(null)
   const trRef = useRef<ITransformer>(null)
-
-  const frame = data.frames[data.currentFrame]
-
-  /*
-  const drawPoints = (context: Context) => {
-    points.forEach((point) => {
-      context.beginPath()
-      context.arc(
-        point.x, 
-        point.y, 
-        point.type === 'on-curve' ? 1 : 1, 
-        0, 
-        Math.PI * 2, 
-        false
-      )
-      context.closePath()
-      context.fillStyle = point.type === 'on-curve' ? 'white' : 'orange'
-      context.fill()
-
-      context.strokeStyle = 'white'
-      context.lineWidth = 1
-      context.stroke()
-    })
-  }
-  */
 
   const onHandleDragEnd = (event: KonvaEventObject<DragEvent>) => {
     if (!isDragging && !current) {
@@ -64,12 +39,12 @@ const Glyph = ({ current, data }: IGlyphProps) => {
 
   return (
     <Group
-      draggable={true}
+      draggable={!isPlaying}
       onDragStart={() => current && setIsDragging(true)}
       onDragEnd={onHandleDragEnd}
-      onClick={() => setCurrent(data)}
-      x={frame.position[0]}
-      y={frame.position[1]}
+      onClick={() => setCurrent(current ? null : data)}
+      x={data.position[0]}
+      y={data.position[1]}
       scaleY={-1}
       scaleX={1}
     >
@@ -81,7 +56,7 @@ const Glyph = ({ current, data }: IGlyphProps) => {
         shapeRef={shapeRef}
       />
 
-      {current && (
+      {(current && !isPlaying) && (
         <Transformer
           anchorFill="#222"
           rotateAnchorOffset={20}
@@ -95,8 +70,6 @@ const Glyph = ({ current, data }: IGlyphProps) => {
 
             return newBox
           }}
-          rotateLineVisible={false}
-          flipEnabled={false}
           padding={20}
           ignoreStroke={true}
           ref={trRef}

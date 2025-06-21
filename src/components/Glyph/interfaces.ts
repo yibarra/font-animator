@@ -8,4 +8,5 @@ export interface IGlyphState {
 export interface IGlyphProps {
   current?: boolean
   data: IGlyph
+  isPlaying?: boolean
 }

@@ -1,19 +1,28 @@
-import { UseFontContext } from '../../../../contexts/Font/Font'
+import { useSearchParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
+import { UseFontContext } from '../../../../contexts/Font/Font'
 import styles from './styles.module.scss'
 import { UseGlyphsContext } from '../../../../contexts/Glyphs/Glyphs'
-import Frame from './Composite/Frame'
 import { default as FormComp } from '../../../Form'
 import Axes from './Composite/Axes/Axes'
-import Stroke from './Composite/Stroke/Stroke'
+import Frame from './Composite/Frame'
 import Frames from './Composite/Frames'
+import Stroke from './Composite/Stroke/Stroke'
 import type { IForm } from './interfaces'
 
 const Form = ({ glyph, ...props }: IForm) => {
   const { handleFileChange } = UseFontContext()
   const { setGlyphProperties } = UseGlyphsContext()
 
-  const currentFrame = 0
+  const [searchParams] = useSearchParams()
+  const [currentFrame, setCurrentFrame] = useState<number>(0)
+
+  useEffect(() => {
+    const frame = searchParams.get('currentFrame')
+
+    setCurrentFrame(Number(frame ?? 0))
+  }, [searchParams])
 
   if (!glyph) {
     return
@@ -31,7 +40,7 @@ const Form = ({ glyph, ...props }: IForm) => {
         />
       </div>
 
-      <Frame glyph={glyph} />
+      <Frame currentFrame={currentFrame} glyph={glyph} />
 
       <div className={styles['form--group']} data-group="1">
         <div className={styles['form--group--color']}>
@@ -58,7 +67,7 @@ const Form = ({ glyph, ...props }: IForm) => {
         </div>
       </div>
 
-      <Frames glyph={glyph} />
+      <Frames currentFrame={currentFrame} glyph={glyph} />
       <Axes currentFrame={currentFrame} glyph={glyph} />
       <Stroke currentFrame={currentFrame} glyph={glyph} />
     </div>

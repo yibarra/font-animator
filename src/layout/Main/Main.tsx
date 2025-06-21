@@ -20,6 +20,7 @@ const Main = () => {
               current={current === glyph.id}
               data={glyph}
               key={index}
+              isPlaying={isPlaying}
             />
           )}
         </Layer>

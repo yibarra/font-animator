@@ -1,6 +1,7 @@
 import { useFontStore } from '../../../../../../contexts/Font/store'
 import { UseFontSettingsContext } from '../../../../../../contexts/FontSettings/FontSettings'
 import { UseGlyphsContext } from '../../../../../../contexts/Glyphs/Glyphs'
+import { getFontVariation } from '../../../../../../contexts/Glyphs/utils'
 import Form from '../../../../../Form'
 import styles from '../../styles.module.scss'
 import type { IAxes } from './interfaces'
@@ -16,17 +17,7 @@ const Axes = ({ glyph, currentFrame = 0 }: IAxes) => {
       return
     }
 
-    setGlyphInstance(0, vars)
-  }
-
-  const getFontVariation = (coord: number[]) => {
-    if (axes) {
-      const axesNames = Object.keys(axes)
-
-      return `"${axesNames[0]}" ${coord[0]}, "${axesNames[1]}" ${coord[1]}`
-    }
-
-    return ''
+    setGlyphInstance(vars)
   }
 
   return (
@@ -39,11 +30,16 @@ const Axes = ({ glyph, currentFrame = 0 }: IAxes) => {
 
         <div className={styles['form--group']} data-group="2">
           {axes && Object.keys(axes ?? {}).map((axe, i) => (
-            <div className={styles['form--axes--item']} key={i}>
+            <div
+              data-active={currentFrame === i}
+              className={styles['form--axes--item']}
+              key={i}
+            >
               <p className={styles['form--group--label']}>{axes && axes[axe]?.name}</p>
               <Form.RangeSlider
                 {...axes[axe]}
-                onHandler={(value) => setGlyphFrameAxes(currentFrame, axe, Number(value))}
+                defaultValue={Number(glyph?.frames[currentFrame].axes[axe])}
+                onHandler={(value) => setGlyphFrameAxes(axe, Number(value))}
               />
             </div>
           ))}
@@ -57,12 +53,12 @@ const Axes = ({ glyph, currentFrame = 0 }: IAxes) => {
         </div>
 
         <div className={styles['form--group']} style={{ fontFamily: font?.familyName }}>
-          {font?.fvar?.instance.map((vars, index) => (
+          {axes && font?.fvar?.instance.map((vars, index) => (
             <button
               className={styles['form--axes--instance']}
               key={index}
               onClick={() => onHandleInstance(vars.coord)}
-              style={{ fontVariationSettings: getFontVariation(vars.coord)}}
+              style={{ fontVariationSettings: getFontVariation(axes, vars.coord)}}
             >
               {font?.stringsForGlyph(glyph?.charIndex ?? 0)}
             </button>

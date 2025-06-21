@@ -4,13 +4,10 @@ import Rotation from '../Rotation'
 import type { IFrame } from './interfaces'
 import styles from './styles.module.scss'
 
-const Frame = ({ glyph }: IFrame) => {
+const Frame = ({ currentFrame, glyph }: IFrame) => {
   const { font } = useFontStore()
-  const frame = glyph?.frames[glyph.currentFrame]
 
-  if (!frame) {
-    return
-  }
+  const frame = glyph.frames[currentFrame]
 
   return (
     <div className={styles['frame']}>
