@@ -1,15 +1,16 @@
-import { UseFontContext } from '../../../../../../contexts/Font/Font'
-import { getFontVariationSettings } from '../../../../../../contexts/Font/utils'
-import type { IFrames } from './interfaces'
-import styles from './styles.module.scss'
-import stylesForm from '../../styles.module.scss'
-import Rotation from '../Rotation'
 import { useSearchParams } from 'react-router-dom'
 
-const Frames = ({ currentFrame, glyph }: IFrames) => {
+import { UseFontContext } from '../../../../../../contexts/Font/Font'
+import { getFontVariationSettings } from '../../../../../../contexts/Font/utils'
+import Rotation from '../Rotation'
+import styles from './styles.module.scss'
+import type { IFrames } from './interfaces'
+
+const Frames = ({ currentFrame, glyph, ...props }: IFrames) => {
   const { font } = UseFontContext()
   const [, setSearchParams] = useSearchParams()
 
+  // on change current frame
   const onHandler = (current: number) => {
     const newParams = new URLSearchParams(window.location.search)
     newParams.set('currentFrame', String(current))
@@ -17,18 +18,19 @@ const Frames = ({ currentFrame, glyph }: IFrames) => {
     setSearchParams(newParams, { replace: true })
   }
 
+  // render
   return (
-    <div className={styles['frames']}>
-      <div className={stylesForm['form--group--title']}>
-        <h2>Transition</h2>
-      </div>
-      
+    <div className={styles['frames']} {...props}>
       <div className={styles['frames--wrapper']}>
         {Array.isArray(glyph?.frames) && glyph.frames.map((frame, index) => (
-          <div className={styles['frames--frame']} key={index}>
+          <div
+            className={styles['frames--frame']}
+            data-active={index === currentFrame}
+            key={index}
+          >
             <div className={styles['frames--glyph']}>
               <div className={styles['frames--frame--options']}>
-                <Rotation size={10} rotation={glyph?.properties.rotation} />
+                <Rotation size={10} rotation={frame?.rotate} />
               </div>
 
               <button

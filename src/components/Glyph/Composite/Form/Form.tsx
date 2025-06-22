@@ -3,8 +3,6 @@ import { useEffect, useState } from 'react'
 
 import { UseFontContext } from '../../../../contexts/Font/Font'
 import styles from './styles.module.scss'
-import { UseGlyphsContext } from '../../../../contexts/Glyphs/Glyphs'
-import { default as FormComp } from '../../../Form'
 import Axes from './Composite/Axes/Axes'
 import Frame from './Composite/Frame'
 import Frames from './Composite/Frames'
@@ -13,7 +11,6 @@ import type { IForm } from './interfaces'
 
 const Form = ({ glyph, ...props }: IForm) => {
   const { handleFileChange } = UseFontContext()
-  const { setGlyphProperties } = UseGlyphsContext()
 
   const [searchParams] = useSearchParams()
   const [currentFrame, setCurrentFrame] = useState<number>(0)
@@ -41,33 +38,8 @@ const Form = ({ glyph, ...props }: IForm) => {
       </div>
 
       <Frame currentFrame={currentFrame} glyph={glyph} />
-
-      <div className={styles['form--group']} data-group="1">
-        <div className={styles['form--group--color']}>
-          <p className={styles['form--group--label']}>Color</p>
-          <input
-            type="color"
-            defaultValue={String(glyph?.properties.fill ?? '#000')}
-            id="fill"
-            onChange={(e) => setGlyphProperties({ fill: e.target.value })}
-          />
-        </div>
-
-        <div className={styles['form--group--size']}>
-          <p className={styles['form--group--label']}>Size</p>
-          <div className={styles['form--group--size']}>
-            <FormComp.RangeSlider
-              min={10}
-              max={240}
-              step={1}
-              defaultValue={12}
-              onHandler={(value) => setGlyphProperties({ fontSize: Number(value) })}
-            />
-          </div>
-        </div>
-      </div>
-
       <Frames currentFrame={currentFrame} glyph={glyph} />
+
       <Axes currentFrame={currentFrame} glyph={glyph} />
       <Stroke currentFrame={currentFrame} glyph={glyph} />
     </div>

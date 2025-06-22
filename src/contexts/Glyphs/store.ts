@@ -1,6 +1,6 @@
-import { create } from "zustand";
+import { create } from 'zustand'
 
-import type { IGlyph, IGlyphsState } from "./interfaces";
+import type { IGlyph, IGlyphsState } from './interfaces'
 
 export const useGlyphsStore = create<IGlyphsState>((set) => ({
   current: null,
@@ -16,6 +16,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
             wght: 0,
           },
           position: [240, 600],
+          rotate: 0
         },
         {
           axes: {
@@ -23,6 +24,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
             wght: 100,
           },
           position: [340, 600],
+          rotate: 45
         },
       ],
       axes: {
@@ -32,19 +34,17 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
       position: [240, 600],
       properties: {
         fill: "#434bb1",
-        fontSize: 124,
         stroke: "#FF0F0F",
         strokeWidth: 2,
         dash: [100, 10],
         lineCap: "butt",
         lineJoin: "bevel",
-        rotation: 180,
       },
+      rotate: 0
     },
     {
       id: "2",
       charIndex: 17,
-
       easing: "lineal",
       frames: [
         {
@@ -53,6 +53,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
             wght: 100,
           },
           position: [100, 400],
+          rotate: 0
         },
         {
           axes: {
@@ -60,6 +61,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
             wght: 0,
           },
           position: [100, 400],
+          rotate: 180
         },
       ],
       axes: {
@@ -69,19 +71,17 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
       position: [100, 400],
       properties: {
         fill: "#df2b0c",
-        fontSize: 124,
         stroke: "none",
         strokeWidth: 0,
         dash: [0, 0],
         lineCap: "butt",
         lineJoin: "bevel",
-        rotation: 0,
       },
+      rotate: 0
     },
     {
       id: "3",
       charIndex: 27,
-
       easing: "lineal",
       frames: [
         {
@@ -90,6 +90,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
             wght: 0,
           },
           position: [200, 400],
+          rotate: 0
         },
         {
           axes: {
@@ -97,6 +98,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
             wght: 0,
           },
           position: [100, 400],
+          rotate: 320
         },
       ],
       axes: {
@@ -112,14 +114,12 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
         dash: [0, 0],
         lineCap: "butt",
         lineJoin: "bevel",
-        rotation: 0,
       },
+      rotate: 0
     },
     {
-      // Glyph 4 (nueva variación de posición)
       id: "4",
       charIndex: 32,
-
       easing: "linear",
       frames: [
         {
@@ -127,14 +127,16 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
             wdth: 40,
             wght: 100,
           },
-          position: [400, 200], // Posición variada
+          position: [400, 200],
+          rotate: 0
         },
         {
           axes: {
             wdth: 40,
             wght: 200,
           },
-          position: [400, 200], // Posición variada
+          position: [400, 200],
+          rotate: 0
         },
       ],
       axes: {
@@ -150,14 +152,12 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
         dash: [50, 5],
         lineCap: "round",
         lineJoin: "round",
-        rotation: 270,
       },
+      rotate: 0
     },
     {
-      // Glyph 5 (nueva variación de posición)
       id: "5",
       charIndex: 37,
-
       easing: "easeOut",
       frames: [
         {
@@ -165,14 +165,16 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
             wdth: 10,
             wght: 50,
           },
-          position: [150, 100], // Posición variada
+          position: [150, 100],
+          rotate: -10
         },
         {
           axes: {
             wdth: 110,
             wght: 10,
           },
-          position: [150, 100], // Posición variada
+          position: [150, 100],
+          rotate: 0
         },
       ],
       axes: {
@@ -188,14 +190,12 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
         dash: [10, 10],
         lineCap: "square",
         lineJoin: "miter",
-        rotation: 90,
       },
+      rotate: 0,
     },
     {
-      // Glyph 6 (nueva variación de posición)
       id: "6",
       charIndex: 42,
-
       easing: "easeInOut",
       frames: [
         {
@@ -203,14 +203,16 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
             wdth: 50,
             wght: 500,
           },
-          position: [50, 550], // Posición variada
+          position: [50, 550],
+          rotate: 0
         },
         {
           axes: {
             wdth: 70,
             wght: 600,
           },
-          position: [50, 550], // Posición variada
+          position: [50, 550],
+          rotate: 0
         },
       ],
       axes: {
@@ -226,14 +228,12 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
         dash: [20, 5],
         lineCap: "butt",
         lineJoin: "round",
-        rotation: 45,
       },
+      rotate: 45,
     },
     {
-      // Glyph 7 (nueva variación de posición)
       id: "7",
       charIndex: 47,
-
       easing: "lineal",
       frames: [
         {
@@ -241,14 +241,16 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
             wdth: 20,
             wght: 0,
           },
-          position: [550, 300], // Posición variada
+          position: [550, 300],
+          rotate: 0
         },
         {
           axes: {
             wdth: 80,
             wght: 900,
           },
-          position: [550, 300], // Posición variada
+          position: [550, 300],
+          rotate: 40
         },
       ],
       axes: {
@@ -258,20 +260,17 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
       position: [550, 300],
       properties: {
         fill: "#7f8c8d",
-        fontSize: 110,
         stroke: "#FFD700",
         strokeWidth: 1,
         dash: [5, 5],
         lineCap: "round",
         lineJoin: "bevel",
-        rotation: 135,
       },
+      rotate: 135,
     },
     {
-      // Glyph 8 (nueva variación de posición)
       id: "8",
       charIndex: 52,
-
       easing: "easeIn",
       frames: [
         {
@@ -279,14 +278,16 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
             wdth: 90,
             wght: 100,
           },
-          position: [350, 700], // Posición variada
+          position: [350, 700],
+          rotate: 0
         },
         {
           axes: {
             wdth: 10,
             wght: 0,
           },
-          position: [350, 700], // Posición variada
+          position: [350, 700],
+          rotate: 135
         },
       ],
       axes: {
@@ -295,15 +296,14 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
       },
       position: [350, 700],
       properties: {
-        fill: "#9b59b6", // Nuevo color
-        fontSize: 140,
+        fill: "#9b59b6",
         stroke: "none",
         strokeWidth: 0,
         dash: [0, 0],
         lineCap: "butt",
         lineJoin: "miter",
-        rotation: 315,
       },
+      rotate: 315,
     },
   ],
 
@@ -322,10 +322,12 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
           {
             axes: {},
             position: [0, 0],
+            rotate: 0
           },
           {
             axes: {},
             position: [0, 0],
+            rotate: 0
           },
         ],
         properties: defaultProperties,
@@ -373,4 +375,4 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
       const selected = state.glyphs.find((glyph) => glyph.id === id)?.id;
       return { current: selected ?? null }; // set selected glyph or null if not found
     }),
-}));
+}))

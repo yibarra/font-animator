@@ -9,7 +9,7 @@
   padding: 0px 0px 40px;
   position: absolute;
   top: 0px;
-  max-width: 350px;
+  max-width: 320px;
   width: 100%;
 
   &--axes {
@@ -144,7 +144,8 @@
     &--group {
       align-items: center;
       display: flex;
-      justify-content: space-between;
+      gap: 32px;
+      justify-content: flex-start;
       padding: 20px 0px 0px;
     }
   }

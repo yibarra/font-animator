@@ -45,6 +45,7 @@ const Stroke = ({ glyph }: { glyph: IGlyph; currentFrame: number }) => {
               min={0}
               max={30}
               step={1}
+              defaultValue={glyph?.properties?.dash ? glyph?.properties?.dash[0] : 0}
               onHandler={(value) => setGlyphProperties({ dash: [value, glyph?.properties?.dash ? glyph?.properties?.dash[1] : 0] })}
             />
 
@@ -53,6 +54,7 @@ const Stroke = ({ glyph }: { glyph: IGlyph; currentFrame: number }) => {
               min={0}
               max={30}
               step={1}
+              defaultValue={glyph?.properties?.dash ? glyph?.properties?.dash[1] : 0}
               onHandler={(value) => setGlyphProperties({ dash: [glyph?.properties?.dash ? glyph?.properties?.dash[0] : 0, value] })}
             />
           </div>

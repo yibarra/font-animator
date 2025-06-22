@@ -3,10 +3,10 @@
   background: transparent;
   display: flex;
   justify-content: center;
-  height: 350px;
-  margin: 0 0 20px;
+  height: 320px;
+  margin: 0;
   position: relative;
-  width: 350px;
+  width: 320px;
 
   &--current {
     align-items: center;
@@ -118,18 +118,28 @@
       letter-spacing: -0.05rem;
     }
 
-    &--title {
-      font-size: 12px;
+    &[data-type="color"] {
+      right: 24px;
+      bottom: 24px;
+
+      input {
+        height: 30px;
+        width: 30px;
+      }
     }
 
     &[data-type="rotation"] {
-      right: 30px;
-      top: 30px;
+      right: 20px;
+      top: 20px;
     }
 
     &[data-type="position"] {
       bottom: 30px;
       left: 30px;
+
+      p {
+        font-size: 12px;
+      }
     }
 
     &[data-type="char"] {
@@ -142,6 +152,7 @@
   &:before {
     content: '';
     position: absolute;
+    pointer-events: none;
   }
 
   &:after {

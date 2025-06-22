@@ -1,25 +1,26 @@
 import { useFontStore } from '../../../../../../contexts/Font/store'
 import { getFontVariationSettings } from '../../../../../../contexts/Font/utils'
+import { UseGlyphsContext } from '../../../../../../contexts/Glyphs/Glyphs'
 import Rotation from '../Rotation'
 import type { IFrame } from './interfaces'
 import styles from './styles.module.scss'
 
 const Frame = ({ currentFrame, glyph }: IFrame) => {
   const { font } = useFontStore()
+    const { setGlyphProperties } = UseGlyphsContext()
 
   const frame = glyph.frames[currentFrame]
 
   return (
     <div className={styles['frame']}>
       <div className={styles['frame--option']} data-type="char">
-        <p className={styles['frame--option--title']}>Char Index</p>
         <p className={styles['frame--option--description']}>
           <strong>{glyph?.charIndex}</strong>
         </p>
       </div>
 
       <div className={styles['frame--option']} data-type="rotation">
-        <Rotation size={10} rotation={glyph?.properties.rotation} />
+        <Rotation size={10} rotation={glyph?.rotate} />
       </div>
 
       <div
@@ -38,11 +39,19 @@ const Frame = ({ currentFrame, glyph }: IFrame) => {
       </div>
 
       <div className={styles['frame--option']} data-type="position">
-        <p className={styles['frame--option--title']}>Position</p>
         <p className={styles['frame--option--description']}>
           x: <strong>{frame.position[0]}</strong>
           y: <strong>{frame.position[1]}</strong>
         </p>
+      </div>
+
+      <div className={styles['frame--option']} data-type="color">
+        <input
+          type="color"
+          defaultValue={String(glyph?.properties.fill ?? '#000')}
+          id="fill"
+          onChange={(e) => setGlyphProperties({ fill: e.target.value })}
+        />
       </div>
     </div>
   )

@@ -1,11 +1,11 @@
 import { createContext, useCallback, useContext, useMemo } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import type { ShapeConfig } from 'konva/lib/Shape'
 
 import { useGlyphsStore } from './store'
 import { UseFontContext } from '../Font/Font'
 import { UseFontSettingsContext } from '../FontSettings/FontSettings'
 import type { IFrame, IGlyph, IGlyphsContext, IGlyphsProvider } from './interfaces'
-import { useSearchStore } from '../Search/store'
 import { getUrlParam, percentToRange } from './utils'
 
 // glyph context
@@ -15,9 +15,9 @@ const GlyphsContext = createContext({} as IGlyphsContext)
 const GlyphsProvider = ({ children }: IGlyphsProvider) => {
   const { font } = UseFontContext()
   const { axes } = UseFontSettingsContext()
+  const [, setSearchParams] = useSearchParams()
 
   const { current, glyphs, setCurrent, updateGlyphs, updateGlyphFrames, updateGlyph } = useGlyphsStore()
-  const { removeParam, setParam } = useSearchStore()
 
   // get glyph
   const getGlyph = useCallback((index: number) => font?.getGlyph(index), [font])
@@ -35,14 +35,17 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
 
   // set current glyph contexts
   const setCurrentGlyphContexts = useCallback((glyph: IGlyph | null) => {
-    if (glyph) {
-      setParam('current', glyph.id)
-    } else {
-      removeParam('current')
-    }
+    const newParams = new URLSearchParams(window.location.search)
 
+    if (glyph) {
+      newParams.set('current', String(glyph.id))
+    } else {
+      newParams.delete('current')
+    }
+    
+    setSearchParams(newParams, { replace: true })
     setCurrent(glyph)
-  }, [removeParam, setCurrent, setParam])
+  }, [setCurrent, setSearchParams])
 
   // get glyph variation
   const getGlyphVariation = useCallback((index: number, variations: number[]) => {
@@ -96,8 +99,9 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
     }
   }, [getCurrentGlyph, updateGlyphFrames])
 
+  // animations axes, re-factory and performance
   const setGlyphFramesAxesAnimation = useCallback((percent: number) => {
-    const axesUpdate: IFrame['axes'][] = []
+    const axesUpdate: { axes: IFrame['axes'], position: [number, number], rotate: number }[] = []
 
     for (const [, value] of glyphs.entries()) {
       if (value) {
@@ -109,23 +113,50 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
         const wdth = percentToRange(percent, Number(coordInit[0]), Number(coordEnd[0]))
         const wght = percentToRange(percent, Number(coordInit[1]), Number(coordEnd[1]))
 
-        axesUpdate.push({ wdth, wght })
+        const x = percentToRange(percent, frameInit.position[0], frameEnd.position[0])
+        const y = percentToRange(percent, frameInit.position[1], frameEnd.position[1])
+
+        const rotate = percentToRange(percent, frameInit.rotate, frameEnd.rotate)
+
+        axesUpdate.push({ rotate, axes: { wdth, wght }, position: [x, y] })
       }
     }
 
-    const update = glyphs.map((e, i) => ({ ...e, axes: axesUpdate[i] }))
+    const update = glyphs.map((e, i) => ({ ...e, ...axesUpdate[i] }))
     updateGlyphs(update)
   }, [glyphs, updateGlyphs])
 
-  // set glyph frame position
-  const setGlyphFramePosition = useCallback((frameIndex: number, position: [number, number]) => {
+  // set glyph frame rotate
+  const setGlyphRotate = useCallback((rotate: number) => {
     const glyph = getCurrentGlyph()
+    const frame = getUrlParam('currentFrame')
 
     if (glyph) {
       const frames = glyph.frames
+      const frameIndex = Number.isInteger(Number(frame)) ? Number(frame) : 0
+      const frameUpdate = frames[frameIndex]
 
       frames[frameIndex] = {
-        ...frames[frameIndex],
+        ...frameUpdate,
+        rotate,
+      }
+
+      updateGlyph(glyph.id, { ...glyph, frames, rotate })
+    }
+  }, [getCurrentGlyph, updateGlyph])
+
+  // set glyph frame position
+  const setGlyphPosition = useCallback((position: [number, number]) => {
+    const glyph = getCurrentGlyph()
+    const frame = getUrlParam('currentFrame')
+
+    if (glyph) {
+      const frames = glyph.frames
+      const frameIndex = Number.isInteger(Number(frame)) ? Number(frame) : 0
+      const frameUpdate = frames[frameIndex]
+
+      frames[frameIndex] = {
+        ...frameUpdate,
         position,
       }
 
@@ -155,8 +186,9 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
           current,
           glyphs,
           getGlyph,
-          setGlyphFramePosition,
+          setGlyphPosition,
           setGlyphProperties,
+          setGlyphRotate,
           getGlyphVariation,
           setCurrent: setCurrentGlyphContexts,
           setGlyphInstance,
@@ -166,8 +198,9 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
           current,
           glyphs,
           getGlyph,
-          setGlyphFramePosition,
+          setGlyphPosition,
           setGlyphProperties,
+          setGlyphRotate,
           getGlyphVariation,
           setCurrentGlyphContexts,
           setGlyphInstance,

@@ -2,7 +2,6 @@ import { createContext } from 'react'
 import type { PropsWithChildren } from 'react'
 
 import Providers from '../'
-import SearchProvider from '../Search'
 
 // Main Context
 const MainContext = createContext({
@@ -17,19 +16,17 @@ const MainProvider = ({ children }: PropsWithChildren) => {
    */
 
   return (
-    <SearchProvider>
-      <MainContext.Provider value={{
-        active: true,
-      }}>
-        <Providers.FontProvider>
-          <Providers.FontSettingsProvider>
-            <Providers.GlyphsProvider>
-              {children}
-            </Providers.GlyphsProvider>
-          </Providers.FontSettingsProvider>
-        </Providers.FontProvider>
-      </MainContext.Provider>
-    </SearchProvider>
+    <MainContext.Provider value={{
+      active: true,
+    }}>
+      <Providers.FontProvider>
+        <Providers.FontSettingsProvider>
+          <Providers.GlyphsProvider>
+            {children}
+          </Providers.GlyphsProvider>
+        </Providers.FontSettingsProvider>
+      </Providers.FontProvider>
+    </MainContext.Provider>
   )
 }
 

@@ -81,7 +81,12 @@ const SmoothCounter: React.FC<SmoothCounterProps> = ({
   return (
     <div>
       <button onClick={() => setIsPlaying(true)}>Play</button>
-      <button onClick={() => setIsPlaying(false)}>Pause</button>
+      <button onClick={() => {
+        valueRef.current = 0
+        
+        setIsPlaying(false)
+        onChange?.(0)
+      }}>Stop</button>
     </div>
   )
 }

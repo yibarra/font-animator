@@ -78,7 +78,7 @@ const RangeSlider = ({
           ref={markerRef}
           className={styles['range-slider--value-marker']}
         >
-          {value}
+          {isNaN(value) ? 'Not selected' : value}
         </div>
 
         <div className={styles['range-slider--labels']}>

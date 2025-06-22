@@ -11,7 +11,7 @@ import type { IGlyphProps } from './interfaces'
 
 const Glyph = ({ current, data, isPlaying }: IGlyphProps) => {
   const { isDragging, setIsDragging } = useGlyphStore()
-  const { setCurrent, setGlyphFramePosition, setGlyphProperties } = UseGlyphsContext()
+  const { setCurrent, setGlyphPosition, setGlyphRotate } = UseGlyphsContext()
 
   const shapeRef = useRef<IPathKonva | null>(null)
   const trRef = useRef<ITransformer>(null)
@@ -23,12 +23,12 @@ const Glyph = ({ current, data, isPlaying }: IGlyphProps) => {
     
     const { x, y } = event.target.attrs
 
-    setGlyphFramePosition(0, [Number(x), Number(y)])
+    setGlyphPosition([Number(x), Number(y)])
     setIsDragging(false)
   }
 
   const onUpdateTransform = (rotation: number) => {
-    setGlyphProperties({ rotation: (rotation % 360 + 360) % 360 })
+    setGlyphRotate(((rotation % 360) + 360) % 360)
   }
 
   useEffect(() => {
