@@ -10,6 +10,7 @@ const Main = () => {
   const { glyphs, current } = UseGlyphsContext()
 
   const [isPlaying, setIsPlaying] = useState(false)
+  const glyph = glyphs.find((i) => i.id === current)
 
   return (
     <>
@@ -27,10 +28,10 @@ const Main = () => {
       </Stage>
 
       <div style={{ position: 'absolute', left: 0, bottom: 0 }}>
-        <Animator loop isPlaying={isPlaying} setIsPlaying={setIsPlaying} />
+        <Animator duration={4000} isPlaying={isPlaying} setIsPlaying={setIsPlaying} />
       </div>
       
-      <Form glyph={glyphs.find((i) => i.id === current)} />
+      <Form glyph={glyph} />
     </>
   )
 }

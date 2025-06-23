@@ -21,7 +21,8 @@ const Glyph = ({ current, data, isPlaying }: IGlyphProps) => {
       return
     }
     
-    const { x, y } = event.target.attrs
+    const { x, y, rotation } = event.target.attrs
+    console.info(rotation, 'rotation')
 
     setGlyphPosition([Number(x), Number(y)])
     setIsDragging(false)
@@ -44,6 +45,7 @@ const Glyph = ({ current, data, isPlaying }: IGlyphProps) => {
       onDragEnd={onHandleDragEnd}
       onClick={() => setCurrent(current ? null : data)}
       x={data.position[0]}
+      rotation={data.rotate} // isPlaying
       y={data.position[1]}
       scaleY={-1}
       scaleX={1}
@@ -58,19 +60,26 @@ const Glyph = ({ current, data, isPlaying }: IGlyphProps) => {
 
       {(current && !isPlaying) && (
         <Transformer
-          anchorFill="#222"
-          rotateAnchorOffset={20}
-          borderStrokeWidth={0}
-          anchorCornerRadius={6}
+          anchorFill="#d7d7d7dd"
+          anchorSize={12}
+          borderStrokeWidth={1}
+          borderDash={[8, 20]}
+          borderStroke='#d7d7d7dd'
+          anchorCornerRadius={2}
           anchorStrokeWidth={0}
+          enabledAnchors={[
+            'top-left',
+            'top-right',
+            'bottom-left',
+            'bottom-right',
+          ]}
           boundBoxFunc={(oldBox, newBox) => {
-            if (Math.abs(newBox.width) < 5 || Math.abs(newBox.height) < 5) {
-              return oldBox
-            }
+            newBox.width = oldBox.width
+            newBox.height = oldBox.height
 
             return newBox
           }}
-          padding={20}
+          padding={40}
           ignoreStroke={true}
           ref={trRef}
         />

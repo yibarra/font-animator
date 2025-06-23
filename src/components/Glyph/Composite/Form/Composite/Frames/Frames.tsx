@@ -2,12 +2,15 @@ import { useSearchParams } from 'react-router-dom'
 
 import { UseFontContext } from '../../../../../../contexts/Font/Font'
 import { getFontVariationSettings } from '../../../../../../contexts/Font/utils'
+import { uniNameCode } from '../../../../../../contexts/Glyphs/utils'
 import Rotation from '../Rotation'
 import styles from './styles.module.scss'
 import type { IFrames } from './interfaces'
+import { UseGlyphsContext } from '../../../../../../contexts/Glyphs/Glyphs'
 
 const Frames = ({ currentFrame, glyph, ...props }: IFrames) => {
   const { font } = UseFontContext()
+  const { setGlyphFramesAxesAnimation } = UseGlyphsContext()
   const [, setSearchParams] = useSearchParams()
 
   // on change current frame
@@ -15,6 +18,7 @@ const Frames = ({ currentFrame, glyph, ...props }: IFrames) => {
     const newParams = new URLSearchParams(window.location.search)
     newParams.set('currentFrame', String(current))
 
+    setGlyphFramesAxesAnimation(current ? 100 : 0)
     setSearchParams(newParams, { replace: true })
   }
 
@@ -42,7 +46,7 @@ const Frames = ({ currentFrame, glyph, ...props }: IFrames) => {
                   fontVariationSettings: getFontVariationSettings(frame.axes)
                 }}
               >
-                {font?.getGlyph(glyph?.charIndex ?? 0).name}
+                {uniNameCode(font?.getGlyph(glyph?.charIndex).name ?? '')}
               </button>
 
               <div className={styles['frames--glyph--pos']}>

@@ -2,6 +2,7 @@ import { UseGlyphsContext } from '../../../../../../contexts/Glyphs/Glyphs'
 import type { IGlyph } from '../../../../../../contexts/Glyphs/interfaces'
 import Form from '../../../../../Form'
 import styles from '../../styles.module.scss'
+import Color from '../Color'
 
 const Stroke = ({ glyph }: { glyph: IGlyph; currentFrame: number }) => {
   const { setGlyphProperties } = UseGlyphsContext()
@@ -16,11 +17,7 @@ const Stroke = ({ glyph }: { glyph: IGlyph; currentFrame: number }) => {
         <div className={styles['form--group']} data-group="1">
           <div className={styles['form--group--color']}>
             <p className={styles['form--group--label']}>Color</p>
-            <input
-              type="color"
-              defaultValue={String(glyph?.properties.stroke ?? '#000')}
-              onChange={(e) => setGlyphProperties({ stroke: e.target.value })}
-            />
+            <Color color={glyph?.properties?.stroke ?? ''} property='stroke' />
           </div>
 
           <div className={styles['form--group--size']}>

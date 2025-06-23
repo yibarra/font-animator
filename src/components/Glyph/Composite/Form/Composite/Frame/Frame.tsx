@@ -1,13 +1,13 @@
 import { useFontStore } from '../../../../../../contexts/Font/store'
 import { getFontVariationSettings } from '../../../../../../contexts/Font/utils'
-import { UseGlyphsContext } from '../../../../../../contexts/Glyphs/Glyphs'
+import { uniNameCode } from '../../../../../../contexts/Glyphs/utils'
+import Color from '../Color'
 import Rotation from '../Rotation'
 import type { IFrame } from './interfaces'
 import styles from './styles.module.scss'
 
 const Frame = ({ currentFrame, glyph }: IFrame) => {
   const { font } = useFontStore()
-    const { setGlyphProperties } = UseGlyphsContext()
 
   const frame = glyph.frames[currentFrame]
 
@@ -20,7 +20,7 @@ const Frame = ({ currentFrame, glyph }: IFrame) => {
       </div>
 
       <div className={styles['frame--option']} data-type="rotation">
-        <Rotation size={10} rotation={glyph?.rotate} />
+        <Rotation size={10} rotation={frame.rotate} />
       </div>
 
       <div
@@ -34,7 +34,7 @@ const Frame = ({ currentFrame, glyph }: IFrame) => {
         <h4
           style={{ color: glyph?.properties.fill?.toString() }}
         >
-          {font?.getGlyph(glyph?.charIndex ?? 0).name}
+          {uniNameCode(font?.getGlyph(glyph?.charIndex ?? 0).name ?? '')}
         </h4>
       </div>
 
@@ -46,12 +46,7 @@ const Frame = ({ currentFrame, glyph }: IFrame) => {
       </div>
 
       <div className={styles['frame--option']} data-type="color">
-        <input
-          type="color"
-          defaultValue={String(glyph?.properties.fill ?? '#000')}
-          id="fill"
-          onChange={(e) => setGlyphProperties({ fill: e.target.value })}
-        />
+        <Color color={glyph?.properties?.fill ?? ''} property='fill' />
       </div>
     </div>
   )

@@ -16,7 +16,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
             wght: 0,
           },
           position: [240, 600],
-          rotate: 0
+          rotate: 70
         },
         {
           axes: {
@@ -40,7 +40,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
         lineCap: "butt",
         lineJoin: "bevel",
       },
-      rotate: 0
+      rotate: 70
     },
     {
       id: "2",
@@ -53,7 +53,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
             wght: 100,
           },
           position: [100, 400],
-          rotate: 0
+          rotate: 10
         },
         {
           axes: {
@@ -77,7 +77,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
         lineCap: "butt",
         lineJoin: "bevel",
       },
-      rotate: 0
+      rotate: 10
     },
     {
       id: "3",
@@ -128,7 +128,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
             wght: 100,
           },
           position: [400, 200],
-          rotate: 0
+          rotate: 120
         },
         {
           axes: {
@@ -153,7 +153,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
         lineCap: "round",
         lineJoin: "round",
       },
-      rotate: 0
+      rotate: 120
     },
     {
       id: "5",
@@ -191,7 +191,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
         lineCap: "square",
         lineJoin: "miter",
       },
-      rotate: 0,
+      rotate: -10,
     },
     {
       id: "6",
@@ -229,7 +229,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
         lineCap: "butt",
         lineJoin: "round",
       },
-      rotate: 45,
+      rotate: 0,
     },
     {
       id: "7",
@@ -242,7 +242,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
             wght: 0,
           },
           position: [550, 300],
-          rotate: 0
+          rotate: 60
         },
         {
           axes: {
@@ -266,7 +266,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
         lineCap: "round",
         lineJoin: "bevel",
       },
-      rotate: 135,
+      rotate: 60,
     },
     {
       id: "8",
@@ -279,7 +279,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
             wght: 100,
           },
           position: [350, 700],
-          rotate: 0
+          rotate: 45
         },
         {
           axes: {
@@ -303,7 +303,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
         lineCap: "butt",
         lineJoin: "miter",
       },
-      rotate: 315,
+      rotate: 45,
     },
   ],
 

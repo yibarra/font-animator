@@ -48,7 +48,6 @@ const Axes = ({ glyph, currentFrame = 0 }: IAxes) => {
 
       <div className={styles['form--axes']}>
         <div className={styles['form--group--title']}>
-          <h2>Axes</h2>
           <p>Instances</p>
         </div>
 

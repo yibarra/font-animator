@@ -31,7 +31,7 @@ const RangeSlider = ({
       const input = inputRef.current
       const marker = markerRef.current
 
-      const thumbWidth = 16
+      const thumbWidth = 20
       const fraction = (Number(input.value ?? 0) - min) / (max - min)
       
       marker.style.left = `calc(${fraction * 100}% + ${(0.5 - fraction) * thumbWidth}px)`
@@ -71,7 +71,7 @@ const RangeSlider = ({
           ref={inputRef}
           onChange={handleChange}
           type="range"
-          value={value}
+          value={value ?? 0}
         />
 
         <div

@@ -1,5 +1,6 @@
 .range-slider {
-  padding: 36px 30px 20px;
+  display: flex;
+  padding: 20px 30px;
   position: relative;
   width: 100%;
 
@@ -29,28 +30,16 @@
   }
 
   &--value-marker {
-    background: var(--primary-color);
+    background: transparent;
     color: var(--secondary-color);
     font-size: 8px;
     letter-spacing: -0.05rem;
-    padding: 2px 8px;
+    padding: 2px 0px;
     position: absolute;
     pointer-events: none;
     text-align: center;
-    transform: translate3d(-50%, calc(-100% - 16px), 0px);
+    transform: translate3d(-50%, -50%, 0px);
     top: 0px;
-    width: fit-content;
-
-    &:before {
-      background: var(--primary-color);
-      content: '';
-      height: 10px;
-      left: 50%;
-      position: absolute;
-      transform: translate3d(-50%, 0px, 0px) rotate(45deg);
-      top: calc(100% - 6px);
-      width: 10px;
-      z-index: -1;
-    }
+    width: 18px;
   }
 }

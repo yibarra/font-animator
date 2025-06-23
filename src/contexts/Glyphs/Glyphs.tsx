@@ -141,9 +141,9 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
         rotate,
       }
 
-      updateGlyph(glyph.id, { ...glyph, frames, rotate })
+      // updateGlyphFrames(glyph.id, frames)
     }
-  }, [getCurrentGlyph, updateGlyph])
+  }, [getCurrentGlyph, updateGlyphFrames])
 
   // set glyph frame position
   const setGlyphPosition = useCallback((position: [number, number]) => {

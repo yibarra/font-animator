@@ -1,18 +1,9 @@
-import React, { useEffect, useRef, useState, type Dispatch, type SetStateAction } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import BezierEasing from 'bezier-easing'
 
-interface SmoothCounterProps {
-  start?: number
-  end?: number
-  duration?: number
-  loop?: boolean
-  easing?: [number, number, number, number]
-  onChange?: (value: number) => void
-  isPlaying: boolean
-  setIsPlaying: Dispatch<SetStateAction<boolean>>
-}
+import type { CounterProps } from './interfaces'
 
-const SmoothCounter: React.FC<SmoothCounterProps> = ({
+const Counter = ({
   start = 0,
   end = 100,
   duration = 2000,
@@ -21,7 +12,7 @@ const SmoothCounter: React.FC<SmoothCounterProps> = ({
   onChange,
   setIsPlaying,
   isPlaying,
-}) => {
+}: CounterProps) => {
   const [direction, setDirection] = useState<'up' | 'down'>(start < end ? 'up' : 'down')
   
   const valueRef = useRef(start ?? 0)
@@ -80,15 +71,24 @@ const SmoothCounter: React.FC<SmoothCounterProps> = ({
 
   return (
     <div>
-      <button onClick={() => setIsPlaying(true)}>Play</button>
+      <button onClick={() => setIsPlaying(true)}>
+        <span className="material-symbols-outlined">
+          {!isPlaying ? 'play_arrow' : 'resume'}
+        </span>
+      </button>
       <button onClick={() => {
         valueRef.current = 0
-        
+
         setIsPlaying(false)
         onChange?.(0)
-      }}>Stop</button>
+      }}>
+        <span className="material-symbols-outlined">
+          stop
+        </span>
+      </button>
     </div>
   )
 }
 
-export default SmoothCounter
+Counter.displayName = 'Components.Animator.Counter'
+export default Counter
