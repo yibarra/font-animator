@@ -7,7 +7,6 @@ import type { IAnimator } from './interfaces'
 
 const Animator = ({ duration = 2000, isPlaying, setIsPlaying }: IAnimator) => {
   const { setGlyphFramesAxesAnimation } = UseGlyphsContext()
-  const [value, setValue] = useState(0)
   const [loop, isLoop] = useState(true)
 
   return (
@@ -28,17 +27,8 @@ const Animator = ({ duration = 2000, isPlaying, setIsPlaying }: IAnimator) => {
         isPlaying={isPlaying}
         setIsPlaying={setIsPlaying}
         onChange={(value) => {
-          setValue(value)
           setGlyphFramesAxesAnimation(value)
         }}
-      />
-
-      <Form.RangeSlider
-        min={0}
-        max={100}
-        step={1}
-        defaultValue={value}
-        onHandler={(value) => setGlyphFramesAxesAnimation(value)}
       />
     </div>
   )

@@ -6,10 +6,14 @@ import Rotation from '../Rotation'
 import type { IFrame } from './interfaces'
 import styles from './styles.module.scss'
 
-const Frame = ({ currentFrame, glyph }: IFrame) => {
+const Frame = ({ frame, glyph }: IFrame) => {
   const { font } = useFontStore()
 
-  const frame = glyph.frames[currentFrame]
+  if (!frame) {
+    return
+  }
+
+  console.info(frame)
 
   return (
     <div className={styles['frame']}>
@@ -20,7 +24,7 @@ const Frame = ({ currentFrame, glyph }: IFrame) => {
       </div>
 
       <div className={styles['frame--option']} data-type="rotation">
-        <Rotation size={10} rotation={frame.rotate} />
+        <Rotation size={10} rotation={frame?.rotation} />
       </div>
 
       <div
@@ -40,8 +44,8 @@ const Frame = ({ currentFrame, glyph }: IFrame) => {
 
       <div className={styles['frame--option']} data-type="position">
         <p className={styles['frame--option--description']}>
-          x: <strong>{frame.position[0]}</strong>
-          y: <strong>{frame.position[1]}</strong>
+          x: <strong>{Number(frame.position[0]).toFixed(2)}</strong>
+          y: <strong>{Number(frame.position[1]).toFixed(2)}</strong>
         </p>
       </div>
 

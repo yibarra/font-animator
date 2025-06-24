@@ -1,36 +1,20 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { Group, Transformer } from 'react-konva'
-import type { KonvaEventObject } from 'konva/lib/Node'
+import { useSearchParams } from 'react-router-dom'
 import type { Path as IPathKonva } from 'konva/lib/shapes/Path'
 import type { Transformer as ITransformer } from 'konva/lib/shapes/Transformer'
 
-import { UseGlyphsContext } from '../../contexts/Glyphs/Glyphs'
-import { useGlyphStore } from './store'
 import Path from './Composite/Path'
 import type { IGlyphProps } from './interfaces'
 
-const Glyph = ({ current, data, isPlaying }: IGlyphProps) => {
-  const { isDragging, setIsDragging } = useGlyphStore()
-  const { setCurrent, setGlyphPosition, setGlyphRotate } = UseGlyphsContext()
+const Glyph = ({ data, isPlaying }: IGlyphProps) => {
+  const [searchParams] = useSearchParams()
+  
+  const current = useMemo(() => searchParams.get('glyph') === data.id, [data, searchParams])
+  const frame = useMemo(() => Number(searchParams.get('frame')), [searchParams])
 
   const shapeRef = useRef<IPathKonva | null>(null)
   const trRef = useRef<ITransformer>(null)
-
-  const onHandleDragEnd = (event: KonvaEventObject<DragEvent>) => {
-    if (!isDragging && !current) {
-      return
-    }
-    
-    const { x, y, rotation } = event.target.attrs
-    console.info(rotation, 'rotation')
-
-    setGlyphPosition([Number(x), Number(y)])
-    setIsDragging(false)
-  }
-
-  const onUpdateTransform = (rotation: number) => {
-    setGlyphRotate(((rotation % 360) + 360) % 360)
-  }
 
   useEffect(() => {
     if (current && trRef?.current && shapeRef.current) {
@@ -40,23 +24,13 @@ const Glyph = ({ current, data, isPlaying }: IGlyphProps) => {
 
   return (
     <Group
-      draggable={!isPlaying}
-      onDragStart={() => current && setIsDragging(true)}
-      onDragEnd={onHandleDragEnd}
-      onClick={() => setCurrent(current ? null : data)}
-      x={data.position[0]}
-      rotation={data.rotate} // isPlaying
-      y={data.position[1]}
+      rotation={current ? data.frames[frame].rotation : data.rotation} // isPlaying
       scaleY={-1}
       scaleX={1}
+      x={data.position[0]}
+      y={data.position[1]}
     >
-      <Path
-        axes={data.axes}
-        charIndex={data.charIndex}
-        onUpdateTransform={onUpdateTransform}
-        properties={data.properties}
-        shapeRef={shapeRef}
-      />
+      <Path {...data} shapeRef={shapeRef} />
 
       {(current && !isPlaying) && (
         <Transformer

@@ -6,7 +6,7 @@ import Form from '../../../../../Form'
 import styles from '../../styles.module.scss'
 import type { IAxes } from './interfaces'
 
-const Axes = ({ glyph, currentFrame = 0 }: IAxes) => {
+const Axes = ({ glyph, frame }: IAxes) => {
   const { font } = useFontStore()
   const { axes } = UseFontSettingsContext()
   const { setGlyphFrameAxes, setGlyphInstance } = UseGlyphsContext()
@@ -20,6 +20,10 @@ const Axes = ({ glyph, currentFrame = 0 }: IAxes) => {
     setGlyphInstance(vars)
   }
 
+  if (!frame) {
+    return
+  }
+
   return (
     <>
       <div className={styles['form--axes']}>
@@ -31,14 +35,13 @@ const Axes = ({ glyph, currentFrame = 0 }: IAxes) => {
         <div className={styles['form--group']} data-group="2">
           {axes && Object.keys(axes ?? {}).map((axe, i) => (
             <div
-              data-active={currentFrame === i}
               className={styles['form--axes--item']}
               key={i}
             >
               <p className={styles['form--group--label']}>{axes && axes[axe]?.name}</p>
               <Form.RangeSlider
                 {...axes[axe]}
-                defaultValue={Number(glyph?.frames[currentFrame].axes[axe])}
+                defaultValue={Number(frame.axes[axe])}
                 onHandler={(value) => setGlyphFrameAxes(axe, Number(value))}
               />
             </div>

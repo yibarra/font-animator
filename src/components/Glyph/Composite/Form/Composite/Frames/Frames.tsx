@@ -8,7 +8,7 @@ import styles from './styles.module.scss'
 import type { IFrames } from './interfaces'
 import { UseGlyphsContext } from '../../../../../../contexts/Glyphs/Glyphs'
 
-const Frames = ({ currentFrame, glyph, ...props }: IFrames) => {
+const Frames = ({ frame, glyph, ...props }: IFrames) => {
   const { font } = UseFontContext()
   const { setGlyphFramesAxesAnimation } = UseGlyphsContext()
   const [, setSearchParams] = useSearchParams()
@@ -16,7 +16,7 @@ const Frames = ({ currentFrame, glyph, ...props }: IFrames) => {
   // on change current frame
   const onHandler = (current: number) => {
     const newParams = new URLSearchParams(window.location.search)
-    newParams.set('currentFrame', String(current))
+    newParams.set('frame', String(current))
 
     setGlyphFramesAxesAnimation(current ? 100 : 0)
     setSearchParams(newParams, { replace: true })
@@ -26,32 +26,32 @@ const Frames = ({ currentFrame, glyph, ...props }: IFrames) => {
   return (
     <div className={styles['frames']} {...props}>
       <div className={styles['frames--wrapper']}>
-        {Array.isArray(glyph?.frames) && glyph.frames.map((frame, index) => (
+        {Array.isArray(glyph?.frames) && glyph.frames.map((item, index) => (
           <div
             className={styles['frames--frame']}
-            data-active={index === currentFrame}
+            data-active={frame === item}
             key={index}
           >
             <div className={styles['frames--glyph']}>
               <div className={styles['frames--frame--options']}>
-                <Rotation size={10} rotation={frame?.rotate} />
+                <Rotation size={10} rotation={item?.rotation} />
               </div>
 
               <button
                 className={styles['frames--glyph--text']}
-                data-active={currentFrame === index}
+                data-active={frame === item}
                 onClick={() => onHandler(index)}
                 style={{
                   fontFamily: font?.familyName,
-                  fontVariationSettings: getFontVariationSettings(frame.axes)
+                  fontVariationSettings: getFontVariationSettings(item.axes)
                 }}
               >
                 {uniNameCode(font?.getGlyph(glyph?.charIndex).name ?? '')}
               </button>
 
               <div className={styles['frames--glyph--pos']}>
-                <p>x: <span>{frame.position[0]}</span></p>
-                <p>y: <span>{frame.position[1]}</span></p>
+                <p>x: <span>{Number(item.position[0]).toFixed(2)}</span></p>
+                <p>y: <span>{Number(item.position[1]).toFixed(2)}</span></p>
               </div>
             </div>
           </div>

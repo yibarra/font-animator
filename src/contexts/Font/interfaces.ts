@@ -1,7 +1,7 @@
 import type { Font } from 'fontkit'
 import type { ChangeEvent, PropsWithChildren } from 'react'
 
-interface FontOver extends Font {
+export interface FontOver extends Font {
   fvar?: {
     instance: { coord: number[]}[]
   }

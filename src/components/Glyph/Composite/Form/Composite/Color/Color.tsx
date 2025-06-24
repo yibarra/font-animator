@@ -6,7 +6,7 @@ import { UseGlyphsContext } from '../../../../../../contexts/Glyphs/Glyphs'
 const Color = ({ color, property }: { color: string | CanvasGradient, property: string }) => {
   const { setGlyphProperties } = UseGlyphsContext()
   const [searchParams] = useSearchParams()
-  const current = searchParams.get('current')
+  const current = searchParams.get('glyph')
 
   const [inputValue, setInputValue] = useState(String(color ?? '#000'))
 

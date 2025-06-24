@@ -1,6 +1,6 @@
 import type { IGlyph } from '../../../../../../contexts/Glyphs/interfaces'
 
 export interface IFrame {
-  currentFrame: number
+  frame: IGlyph['frames'][number] | null
   glyph: IGlyph
 }
