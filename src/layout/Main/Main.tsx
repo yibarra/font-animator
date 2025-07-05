@@ -43,8 +43,8 @@ const Main = () => {
           <Grid
             offsetX={offsetX}
             offsetY={offsetY}
-            cellSize={16}
-            gridColor="#dddddd"
+            cellSize={24}
+            gridColor="#fff"
           />
 
           {Array.isArray(glyphs) && glyphs.map((glyph, index) =>

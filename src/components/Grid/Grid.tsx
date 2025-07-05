@@ -47,8 +47,8 @@ const Grid = ({ offsetX, offsetY, cellSize, gridColor }: GridProps) => {
 
     ctx.beginPath();
     ctx.strokeStyle = gridColor; // Usa el color pasado por props
-    ctx.setLineDash([2, 2])
-    ctx.lineWidth = 1; // Puedes hacerla configurable si quieres
+    ctx.setLineDash([4, 4])
+    ctx.lineWidth = 0.1; // Puedes hacerla configurable si quieres
 
     // Dibuja líneas verticales
     for (let x = drawLeft; x < drawRight; x += step) {
@@ -69,9 +69,9 @@ const Grid = ({ offsetX, offsetY, cellSize, gridColor }: GridProps) => {
     <Shape
       x={0} // La Shape se posiciona en 0,0 dentro de su Layer
       y={0}
-      opacity={0.4}
+      opacity={1}
       sceneFunc={draw}
-      listening={false} // Las líneas del grid no necesitan eventos de ratón propios
+      listening={false}
     />
   );
 }

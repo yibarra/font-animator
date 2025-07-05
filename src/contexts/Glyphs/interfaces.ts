@@ -51,7 +51,7 @@ export interface IGlyphsContext extends Pick<IGlyphsState, 'glyphs' | 'addGlyph'
   getGlyphVariation: (index: number, variants: number[]) => Glyph | undefined
   setGlyphProperties: (properties: ShapeConfig) => void
   setGlyphPosition: (id: string, frame: number, position: [number, number]) => void
-  setGlyphRotate: (id: string, frame: number, rotation: number) => void
+  setGlyphRotate: (id: string, frame: number, position: [number, number], rotation: number) => void
   setGlyphInstance: (vars: number[]) => void
   setGlyphFramesAxesAnimation: (percent: number) => void
 }

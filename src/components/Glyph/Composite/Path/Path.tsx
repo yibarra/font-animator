@@ -36,25 +36,24 @@ const Path = ({
   }
 
   const onUpdateTransform = (event: KonvaEventObject<DragEvent>) => {
-    const node = event.target
-    const rotation = node.rotation()
+    const { rotation, x, y } = event.target.attrs
 
-    console.info(node.x(), node.y(), rotation)
-    setGlyphRotate(id, 0, rotation)
+    console.info(rotation)
+    setGlyphRotate(id, 0, [x, y], rotation)
   }
 
   return (
     <PathKonva
       {...properties}
-      draggable
       data={path}
+      draggable
       onClick={() => setCurrent(id)}
-      ref={shapeRef}
       onDragEnd={onUpdateTranslate}
       onTransformEnd={onUpdateTransform}
+      ref={shapeRef}
       rotation={rotation}
       x={position[0]}
-      y={position[1]}
+      y={position[1]}scaleY={-1}
     />
   )
 }

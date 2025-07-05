@@ -135,51 +135,50 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
   }, [glyphs, updateGlyphs])
 
   // set glyph frame rotate
-  const setGlyphRotate = useCallback((id: string, frame: number, rotation: number) => {
-    const glyph = glyphs.find((_) => _.id === id)
+  const setGlyphRotate = useCallback((id: string, frame: number, position: [number, number], rotation: number) => {
+    updateGlyphs(
+      glyphs.map((glyph) => {
+        if (glyph.id !== id) return glyph
 
-    if (glyph) {
-      const temp = []
+        const frames = [...glyph.frames]
 
-      for (const [, value] of glyphs.entries()) {
-        if (value) {
-          const frames = [...value.frames]
-          
-          frames[frame] = {
-            ...frames[frame],
-            rotation,
-          }
-
-          temp.push({ ...value, frames, rotation })
+        if (!frames[frame]) {
+          return glyph // defend: don't modify frame is not exists
         }
-      }
 
-      updateGlyphs(temp)
-    }
+        frames[frame] = {
+          ...frames[frame],
+          rotation,
+          position,
+        }
+
+        return {
+          ...glyph,
+          frames,
+          rotation,
+          position,
+        }
+      })
+    )
   }, [glyphs, updateGlyphs])
 
   // set glyph frame position
   const setGlyphPosition = useCallback((id: string, frame: number, position: [number, number]) => {
-    const glyph = glyphs.find((_) => _.id === id)
-
-    if (glyph) {
-      const temp = []
-
-      for (const [, value] of glyphs.entries()) {
-        if (value) {
-          const frames = [...value.frames]
-          
-          frames[frame] = {
-            ...frames[frame],
-            position,
-          }
-
-          temp.push({ ...value, frames, position })
+    updateGlyphs(
+      glyphs.map((glyph) => {
+        if (glyph.id !== id) {
+          return glyph
         }
-      }
 
-      updateGlyphs(temp)
-    }
+        const frames = [...glyph.frames]
+        frames[frame] = {
+          ...frames[frame],
+          position,
+        }
+
+        return { ...glyph, frames, position }
+      })
+    )
   }, [glyphs, updateGlyphs])
 
     // set glyph frame properties

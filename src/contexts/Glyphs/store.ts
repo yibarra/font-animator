@@ -43,13 +43,18 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
       glyphs: state.glyphs.filter((glyph) => glyph.id !== id),
     })),
 
-  updateGlyphs: (glyphs) => {
-    set(() => ({ glyphs }))
-  },
+  updateGlyphs: (newGlyphs) =>
+    set((state) => ({
+      glyphs: state.glyphs.map((old) =>
+        newGlyphs.find((g) => g.id === old.id) || old
+      ),
+    })),
 
   updateGlyph: (id, glyph) =>
     set((state) => ({
-      glyphs: state.glyphs.map((g) => (g.id === id ? glyph : g)),
+      glyphs: state.glyphs.map((g) =>
+        g.id === id ? { ...g, ...glyph } : g
+      ),
     })),
 
   // update frames (axes instance)

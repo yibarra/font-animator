@@ -11,7 +11,6 @@ const Glyph = ({ data, isPlaying }: IGlyphProps) => {
   const [searchParams] = useSearchParams()
   
   const current = useMemo(() => searchParams.get('glyph') === data.id, [data, searchParams])
-  const frame = useMemo(() => Number(searchParams.get('frame')), [searchParams])
 
   const shapeRef = useRef<IPathKonva | null>(null)
   const trRef = useRef<ITransformer>(null)
@@ -23,9 +22,7 @@ const Glyph = ({ data, isPlaying }: IGlyphProps) => {
   }, [current])
 
   return (
-    <Group
-      rotation={current ? data.frames[frame].rotation : data.rotation} // isPlaying
-    >
+    <Group>
       <Path {...data} shapeRef={shapeRef} />
 
       {(current && !isPlaying) && (
