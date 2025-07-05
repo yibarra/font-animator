@@ -94,7 +94,7 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
         axes: {
           ...frameUpdate.axes,
           [axe]: value
-        }
+        },
       }
 
       updateGlyphFrames(glyph.id, frames)
@@ -135,9 +135,8 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
   }, [glyphs, updateGlyphs])
 
   // set glyph frame rotate
-  const setGlyphRotate = useCallback((rotation: number) => {
-    const glyph = getCurrentGlyph()
-    const frame = Number(getUrlParam('frame') ?? 0)
+  const setGlyphRotate = useCallback((id: string, frame: number, rotation: number) => {
+    const glyph = glyphs.find((_) => _.id === id)
 
     if (glyph) {
       const temp = []
@@ -157,26 +156,31 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
 
       updateGlyphs(temp)
     }
-  }, [getCurrentGlyph, glyphs, updateGlyphs])
+  }, [glyphs, updateGlyphs])
 
   // set glyph frame position
-  const setGlyphPosition = useCallback((position: [number, number]) => {
-    const glyph = getCurrentGlyph()
-    const frame = getUrlParam('frame')
+  const setGlyphPosition = useCallback((id: string, frame: number, position: [number, number]) => {
+    const glyph = glyphs.find((_) => _.id === id)
 
     if (glyph) {
-      const frames = [...glyph.frames]
-      const frameIndex = Number.isInteger(Number(frame)) ? Number(frame) : 0
-      const frameUpdate = frames[frameIndex]
+      const temp = []
 
-      frames[frameIndex] = {
-        ...frameUpdate,
-        position,
+      for (const [, value] of glyphs.entries()) {
+        if (value) {
+          const frames = [...value.frames]
+          
+          frames[frame] = {
+            ...frames[frame],
+            position,
+          }
+
+          temp.push({ ...value, frames, position })
+        }
       }
 
-      updateGlyphFrames(glyph.id, frames)
+      updateGlyphs(temp)
     }
-  }, [getCurrentGlyph, updateGlyphFrames])
+  }, [glyphs, updateGlyphs])
 
     // set glyph frame properties
   const setGlyphProperties = useCallback((properties: ShapeConfig) => {

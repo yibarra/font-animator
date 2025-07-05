@@ -50,17 +50,3 @@ export const getFontVariation = (axes: object, coord: number[]) => {
 
   return ''
 }
-
-// get uni name code
-export const uniNameCode = (uniName: string) => {
-  if (uniName.startsWith('uni') && uniName.length === 7) {
-    const hex = uniName.slice(3)
-    const code = parseInt(hex, 16)
-
-    if (!isNaN(code)) {
-      return String.fromCharCode(code)
-    }
-  }
-
-  return uniName
-}

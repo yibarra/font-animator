@@ -1,6 +1,6 @@
 import { useFontStore } from '../../../../../../contexts/Font/store'
 import { getFontVariationSettings } from '../../../../../../contexts/Font/utils'
-import { uniNameCode } from '../../../../../../contexts/Glyphs/utils'
+import GlyphSVG from '../../../../../GlyphSvg'
 import Color from '../Color'
 import Rotation from '../Rotation'
 import type { IFrame } from './interfaces'
@@ -35,11 +35,11 @@ const Frame = ({ frame, glyph }: IFrame) => {
         }}
       >
         <span /><span /><span /><span />
-        <h4
-          style={{ color: glyph?.properties.fill?.toString() }}
-        >
-          {uniNameCode(font?.getGlyph(glyph?.charIndex ?? 0).name ?? '')}
-        </h4>
+        <GlyphSVG
+          charIndex={glyph?.charIndex}
+          size={130}
+          properties={{ fill: glyph?.properties.fill?.toString() }}
+        />
       </div>
 
       <div className={styles['frame--option']} data-type="position">

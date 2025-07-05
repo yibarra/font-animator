@@ -2,11 +2,11 @@ import { useSearchParams } from 'react-router-dom'
 
 import { UseFontContext } from '../../../../../../contexts/Font/Font'
 import { getFontVariationSettings } from '../../../../../../contexts/Font/utils'
-import { uniNameCode } from '../../../../../../contexts/Glyphs/utils'
 import Rotation from '../Rotation'
 import styles from './styles.module.scss'
 import type { IFrames } from './interfaces'
 import { UseGlyphsContext } from '../../../../../../contexts/Glyphs/Glyphs'
+import GlyphSVG from '../../../../../GlyphSvg'
 
 const Frames = ({ frame, glyph, ...props }: IFrames) => {
   const { font } = UseFontContext()
@@ -46,7 +46,11 @@ const Frames = ({ frame, glyph, ...props }: IFrames) => {
                   fontVariationSettings: getFontVariationSettings(item.axes)
                 }}
               >
-                {uniNameCode(font?.getGlyph(glyph?.charIndex).name ?? '')}
+                <GlyphSVG
+                  charIndex={glyph?.charIndex}
+                  size={26}
+                  properties={{ fill: glyph?.properties.fill?.toString() }}
+                />
               </button>
 
               <div className={styles['frames--glyph--pos']}>

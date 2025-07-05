@@ -6,7 +6,7 @@ import type { ILetterContext, ILetterProvider } from './interfaces'
 const LetterContext = createContext({} as ILetterContext)
 
 const LetterProvider = ({ children, font }: ILetterProvider) => {
-  const { add } = UseGlyphsContext()
+  const { addGlyph } = UseGlyphsContext()
 
   const glyphs = useMemo(() => {
     const glyphList = []
@@ -26,8 +26,8 @@ const LetterProvider = ({ children, font }: ILetterProvider) => {
   }, [font])
 
   const onHandlerAddGlyph = useCallback((charIndex: number) => {
-    add(charIndex)
-  }, [add])
+    addGlyph(charIndex)
+  }, [addGlyph])
 
   return (
     <LetterContext.Provider

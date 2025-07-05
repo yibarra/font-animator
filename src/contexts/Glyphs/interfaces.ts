@@ -36,7 +36,7 @@ export interface IGlyph {
 
 export interface IGlyphsState {
   glyphs: IGlyph[]
-  add: (charIndex: number) => void
+  addGlyph: (charIndex: number) => void
   empty: () => void
   remove: (id: string) => void
   updateGlyphFrames: (id: string, frames: IGlyph['frames']) => void
@@ -44,14 +44,14 @@ export interface IGlyphsState {
   updateGlyph: (id: string, glyph: IGlyph) => void
 }
 
-export interface IGlyphsContext extends Pick<IGlyphsState, 'glyphs' | 'add' | 'remove'>{
+export interface IGlyphsContext extends Pick<IGlyphsState, 'glyphs' | 'addGlyph' | 'remove'>{
   getGlyph: (index: number) => Glyph | undefined
   setCurrent: (id: string | null) => void
   setGlyphFrameAxes: (axe: string, value: number) => void
   getGlyphVariation: (index: number, variants: number[]) => Glyph | undefined
   setGlyphProperties: (properties: ShapeConfig) => void
-  setGlyphPosition: (position: [number, number]) => void
-  setGlyphRotate: (rotation: number) => void
+  setGlyphPosition: (id: string, frame: number, position: [number, number]) => void
+  setGlyphRotate: (id: string, frame: number, rotation: number) => void
   setGlyphInstance: (vars: number[]) => void
   setGlyphFramesAxesAnimation: (percent: number) => void
 }

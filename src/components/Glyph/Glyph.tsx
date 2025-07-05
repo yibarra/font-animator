@@ -25,10 +25,6 @@ const Glyph = ({ data, isPlaying }: IGlyphProps) => {
   return (
     <Group
       rotation={current ? data.frames[frame].rotation : data.rotation} // isPlaying
-      scaleY={-1}
-      scaleX={1}
-      x={data.position[0]}
-      y={data.position[1]}
     >
       <Path {...data} shapeRef={shapeRef} />
 
@@ -48,14 +44,15 @@ const Glyph = ({ data, isPlaying }: IGlyphProps) => {
             'bottom-right',
           ]}
           boundBoxFunc={(oldBox, newBox) => {
-            newBox.width = oldBox.width
-            newBox.height = oldBox.height
-
-            return newBox
+            return {
+              ...newBox,
+              width: oldBox.width,
+              height: oldBox.height,
+            }
           }}
           padding={40}
-          ignoreStroke={true}
           ref={trRef}
+          rotationSnaps={[0, 90, 180, 270]}
         />
       )}
     </Group>
