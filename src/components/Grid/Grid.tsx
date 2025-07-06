@@ -67,11 +67,10 @@ const Grid = ({ offsetX, offsetY, cellSize, gridColor }: GridProps) => {
 
   return (
     <Shape
-      x={0} // La Shape se posiciona en 0,0 dentro de su Layer
-      y={0}
-      opacity={1}
-      sceneFunc={draw}
       listening={false}
+      sceneFunc={draw}
+      x={0}
+      y={0}
     />
   );
 }

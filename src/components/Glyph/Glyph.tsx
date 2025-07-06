@@ -29,17 +29,11 @@ const Glyph = ({ data, isPlaying }: IGlyphProps) => {
         <Transformer
           anchorFill="#d7d7d7dd"
           anchorSize={12}
+          rotateAnchorOffset={30}
           borderStrokeWidth={1}
           borderDash={[8, 20]}
           borderStroke='#d7d7d7dd'
-          anchorCornerRadius={2}
-          anchorStrokeWidth={0}
-          enabledAnchors={[
-            'top-left',
-            'top-right',
-            'bottom-left',
-            'bottom-right',
-          ]}
+          enabledAnchors={[]}
           boundBoxFunc={(oldBox, newBox) => {
             return {
               ...newBox,
@@ -47,9 +41,8 @@ const Glyph = ({ data, isPlaying }: IGlyphProps) => {
               height: oldBox.height,
             }
           }}
-          padding={40}
           ref={trRef}
-          rotationSnaps={[0, 90, 180, 270]}
+          rotationSnaps={[0, 45, 90, 135, 180, 225, 270, 315, 360]}
         />
       )}
     </Group>

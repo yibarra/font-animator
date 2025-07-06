@@ -24,20 +24,10 @@ const Letters = ({ font }: LetterProps) => {
   }, [font])
 
   return (
-    <div
-      style={{
-        fontFamily: font?.familyName,
-      }}
-    >
-      {Array.isArray(glyphs) && glyphs.map((glyph, index) => (
-        <button
-          key={glyph.id}
-          onClick={() => onHandlerAddGlyph(index)}
-          style={{
-            fontFamily: font?.familyName,
-          }}
-        >
-          <svg viewBox="0 0 1000 1000" width="30" height="30">
+    <div>
+      {Array.isArray(glyphs) && glyphs.filter((gl) => gl.path !== '' || gl.unicode).map((glyph, index) => (
+        <button key={glyph.id} onClick={() => onHandlerAddGlyph(index)}>
+          <svg viewBox="0 0 1000 1000" width="20" height="20">
              <g transform="scale(1, -1) translate(0, -1000)">
               <path d={glyph.path} fill="black" />
              </g>

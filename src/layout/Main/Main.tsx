@@ -8,6 +8,7 @@ import Form from '../../components/Form'
 import Grid from '../../components/Grid/Grid'
 import { useGridContext } from '../../contexts/Grid'
 import type { Stage as IStage } from 'konva/lib/Stage'
+import MenuContext from '../../components/MenuContext'
 
 const Main = () => {
   const stageRef = useRef<IStage>(null)
@@ -29,39 +30,41 @@ const Main = () => {
 
   return (
     <>
-      <Stage
-        draggable
-        x={offsetX}
-        y={offsetY}
-        ref={stageRef}
-        height={window.innerHeight}
-        width={window.innerWidth}
-        onDragStart={() => setIsDragging(true)}
-        onDragEnd={handleDragEnd}
-      >
-        <Layer>
-          <Grid
-            offsetX={offsetX}
-            offsetY={offsetY}
-            cellSize={24}
-            gridColor="#fff"
-          />
-
-          {Array.isArray(glyphs) && glyphs.map((glyph, index) =>
-            <Glyph.Letter
-              data={glyph}
-              key={index}
-              isPlaying={isPlaying}
+      <MenuContext menuItems={<Form.Letter />}>
+        <Stage
+          draggable
+          x={offsetX}
+          y={offsetY}
+          ref={stageRef}
+          height={window.innerHeight}
+          width={window.innerWidth}
+          onDragStart={() => setIsDragging(true)}
+          onDragEnd={handleDragEnd}
+        >
+          <Layer>
+            <Grid
+              offsetX={offsetX}
+              offsetY={offsetY}
+              cellSize={22}
+              gridColor="#fff"
             />
-          )}
-        </Layer>
-      </Stage>
+
+            {Array.isArray(glyphs) && glyphs.map((glyph, index) =>
+              <Glyph.Letter
+                data={glyph}
+                key={index}
+                isPlaying={isPlaying}
+              />
+            )}
+          </Layer>
+        </Stage>
+      </MenuContext>
 
       <div style={{ position: 'absolute', left: 0, bottom: 0 }}>
         <Animator duration={900} isPlaying={isPlaying} setIsPlaying={setIsPlaying} />
       </div>
 
-      <Form.Letter />
+      
       
       <Glyph.Form />
     </>

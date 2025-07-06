@@ -23,22 +23,43 @@ const FontSettingsProvider = ({ children }: IFontSettingsProvider ) => {
 
   // get path data - remove
   const getPathDataGlyph = useCallback(
-    (id: number, coords: Record<string, string | number>, size: number): string => {
+    (id: number, coords: Record<string, string | number>, size: number): {
+      path: string
+      bounding: Record<string, number>
+     } => {
       if (!font || !id) {
-        return ''
+        return {
+          path: '',
+          bounding: {}
+        }
       }
       
       const fontInstance = font.getVariation(coords)
       const glyph = fontInstance.getGlyph(id)
       
       if (glyph) {
-        const { path: { commands }} = glyph
+        const { bbox, path: { commands }} = glyph
+        const yFlip = -1
+        
         const units = fontInstance.unitsPerEm || 1000
 
-        return convertPathToSvg(commands, size, units)
+        const bounding = {
+          x1: bbox.minX * size / units,
+          y1: bbox.minY * (size / units) * yFlip,
+          x2: bbox.maxX * size / units,
+          y2: bbox.maxY * (size / units) * yFlip,
+        }
+
+        return {
+          path: convertPathToSvg(commands, size, units),
+          bounding
+        }
       }
 
-      return ''
+      return {
+        path: '',
+        bounding: {}
+      }
   }, [font])
 
   // render

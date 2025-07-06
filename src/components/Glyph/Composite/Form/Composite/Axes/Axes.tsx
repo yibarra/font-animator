@@ -17,7 +17,7 @@ const Axes = ({ glyph, frame }: IAxes) => {
       return
     }
 
-    setGlyphInstance(vars)
+    setGlyphInstance(glyph?.id ?? '', 0, vars)
   }
 
   if (!frame) {
@@ -42,7 +42,7 @@ const Axes = ({ glyph, frame }: IAxes) => {
               <Form.RangeSlider
                 {...axes[axe]}
                 defaultValue={Number(frame.axes[axe])}
-                onHandler={(value) => setGlyphFrameAxes(axe, Number(value))}
+                onHandler={(value) => setGlyphFrameAxes(glyph?.id ?? '', 0, axe, Number(value))}
               />
             </div>
           ))}

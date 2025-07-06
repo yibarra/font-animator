@@ -1,7 +1,5 @@
 import { useSearchParams } from 'react-router-dom'
 
-import { UseFontContext } from '../../../../../../contexts/Font/Font'
-import { getFontVariationSettings } from '../../../../../../contexts/Font/utils'
 import Rotation from '../Rotation'
 import styles from './styles.module.scss'
 import type { IFrames } from './interfaces'
@@ -9,7 +7,6 @@ import { UseGlyphsContext } from '../../../../../../contexts/Glyphs/Glyphs'
 import GlyphSVG from '../../../../../GlyphSvg'
 
 const Frames = ({ frame, glyph, ...props }: IFrames) => {
-  const { font } = UseFontContext()
   const { setGlyphFramesAxesAnimation } = UseGlyphsContext()
   const [, setSearchParams] = useSearchParams()
 
@@ -41,10 +38,6 @@ const Frames = ({ frame, glyph, ...props }: IFrames) => {
                 className={styles['frames--glyph--text']}
                 data-active={frame === item}
                 onClick={() => onHandler(index)}
-                style={{
-                  fontFamily: font?.familyName,
-                  fontVariationSettings: getFontVariationSettings(item.axes)
-                }}
               >
                 <GlyphSVG
                   charIndex={glyph?.charIndex}

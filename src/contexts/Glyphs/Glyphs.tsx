@@ -6,7 +6,7 @@ import { useGlyphsStore } from './store'
 import { UseFontContext } from '../Font/Font'
 import { UseFontSettingsContext } from '../FontSettings/FontSettings'
 import type { IFrame, IGlyphsContext, IGlyphsProvider } from './interfaces'
-import { getUrlParam, percentToRange } from './utils'
+import { percentToRange } from './utils'
 
 // glyph context
 const GlyphsContext = createContext({} as IGlyphsContext)
@@ -17,21 +17,10 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
   const { axes } = UseFontSettingsContext()
   const [, setSearchParams] = useSearchParams()
 
-  const { glyphs, updateGlyphs, updateGlyphFrames, updateGlyph, ...props } = useGlyphsStore()
+  const { glyphs, updateGlyphs, ...props } = useGlyphsStore()
 
   // get glyph
   const getGlyph = useCallback((index: number) => font?.getGlyph(index), [font])
-
-  // get current glyph updata
-  const getCurrentGlyph = useCallback(() => {
-    const id = getUrlParam('glyph')
-
-    if (!id) {
-      return 
-    }
-
-    return glyphs.find((glyph) => glyph.id === id)
-  }, [glyphs])
 
   // set current glyph contexts
   const setCurrentGlyphContexts = useCallback((id: string | null) => {
@@ -50,56 +39,85 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
   }, [setSearchParams])
 
   // get glyph variation
-  const getGlyphVariation = useCallback((index: number, variations: number[]) => {
+  const getGlyphVariation = useCallback((index: number, coords: number[]) => {
     if (!font) {
       return
     }
 
-    const fontInstance = font.getVariation(variations)
+    const fontInstance = font.getVariation(coords)
 
     return fontInstance.getGlyph(index)
   }, [font])
 
   // set glyph instance
-  const setGlyphInstance = useCallback((vars: number[]) => {
-    const glyph = getCurrentGlyph()
-    const frame = getUrlParam('frame')
-
-    if (glyph && axes instanceof Object) {
-      const frames = [...glyph.frames]
-      const entries = Object.keys(axes).map((key, index) => [key, vars[index]])
-      const frameIndex = Number.isInteger(Number(frame)) ? Number(frame) : 0
-
-      frames[frameIndex] = {
-        ...frames[frameIndex],
-        axes: Object.fromEntries(entries)
-      }
-
-      updateGlyphFrames(glyph.id, frames)
+  const setGlyphInstance = useCallback((id: string, frame: number, coords: number[]) => {
+    if (!(axes instanceof Object)) {
+      return
     }
-  }, [axes, getCurrentGlyph, updateGlyphFrames])
+
+    const entries = Object.keys(axes).map((key, index) => [key, coords[index]])
+    const newAxes = Object.fromEntries(entries)
+
+    updateGlyphs(
+      glyphs.map((g) => {
+        if (g.id !== id) {
+          return g
+        }
+
+        const frames = [...g.frames]
+
+        if (!frames[frame]) {
+          return g // defend: no update if frame doesn't exist
+        }
+
+        frames[frame] = {
+          ...frames[frame],
+          axes: newAxes,
+        }
+
+        return {
+          ...g,
+          frames,
+          axes: newAxes
+        }
+      })
+    )
+  }, [axes, glyphs, updateGlyphs])
 
   // set glyph frame axes
-  const setGlyphFrameAxes = useCallback((axe: string, value: number) => {
-    const glyph = getCurrentGlyph()
-    const frame = getUrlParam('frame')
-    
-    if (glyph) {
-      const frames = [...glyph.frames]
-      const frameIndex = Number.isInteger(Number(frame)) ? Number(frame) : 0
-      const frameUpdate = frames[frameIndex]
+  const setGlyphFrameAxes = useCallback((id: string, frame: number, axe: string, value: number) => {
+    updateGlyphs(
+      glyphs.map((g) => {
+        if (g.id !== id) {
+          return g
+        }
 
-      frames[frameIndex] = {
-        ...frameUpdate,
-        axes: {
-          ...frameUpdate.axes,
-          [axe]: value
-        },
-      }
+        const frames = [...g.frames]
 
-      updateGlyphFrames(glyph.id, frames)
-    }
-  }, [getCurrentGlyph, updateGlyphFrames])
+        if (!frames[frame]) {
+          return g // defend: no update if frame doesn't exist
+        }
+
+        console.info(frames[frame], frames[frame].axes, axe, value)
+
+        const axes = {
+          ...frames[frame].axes,
+          [axe]: value,
+        }
+
+        frames[frame] = {
+          ...frames[frame],
+          axes,
+        }
+
+        return {
+          ...g,
+          axes,
+          frames,
+        }
+      })
+    )
+  }, [glyphs, updateGlyphs])
 
   // animations axes, re-factory and performance
   const setGlyphFramesAxesAnimation = useCallback((percent: number) => {
@@ -135,10 +153,12 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
   }, [glyphs, updateGlyphs])
 
   // set glyph frame rotate
-  const setGlyphRotate = useCallback((id: string, frame: number, position: [number, number], rotation: number) => {
+  const setGlyphRotate = useCallback((id: string, frame: number, rotation: number) => {
     updateGlyphs(
       glyphs.map((glyph) => {
-        if (glyph.id !== id) return glyph
+        if (glyph.id !== id) {
+          return glyph
+        }
 
         const frames = [...glyph.frames]
 
@@ -149,14 +169,12 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
         frames[frame] = {
           ...frames[frame],
           rotation,
-          position,
         }
 
         return {
           ...glyph,
           frames,
           rotation,
-          position,
         }
       })
     )
@@ -171,6 +189,7 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
         }
 
         const frames = [...glyph.frames]
+
         frames[frame] = {
           ...frames[frame],
           position,
@@ -182,18 +201,17 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
   }, [glyphs, updateGlyphs])
 
     // set glyph frame properties
-  const setGlyphProperties = useCallback((properties: ShapeConfig) => {
-    const glyph = getCurrentGlyph()
+  const setGlyphProperties = useCallback((id: string, properties: ShapeConfig) => {
+    updateGlyphs(
+      glyphs.map((glyph) => {
+        if (glyph.id !== id) {
+          return glyph
+        }
 
-    if (glyph) {
-      const propsGlyph = {
-        ...glyph.properties,
-        ...properties
-      }
-
-      updateGlyph(glyph.id, { ...glyph, properties: propsGlyph })
-    }
-  }, [getCurrentGlyph, updateGlyph])
+        return { ...glyph, properties }
+      })
+    )
+  }, [glyphs, updateGlyphs])
 
   // render
   return (

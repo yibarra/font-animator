@@ -47,12 +47,12 @@ export interface IGlyphsState {
 export interface IGlyphsContext extends Pick<IGlyphsState, 'glyphs' | 'addGlyph' | 'remove'>{
   getGlyph: (index: number) => Glyph | undefined
   setCurrent: (id: string | null) => void
-  setGlyphFrameAxes: (axe: string, value: number) => void
+  setGlyphFrameAxes: (id: string, frame: number, axe: string, value: number) => void
   getGlyphVariation: (index: number, variants: number[]) => Glyph | undefined
-  setGlyphProperties: (properties: ShapeConfig) => void
+  setGlyphProperties: (id: string, properties: ShapeConfig) => void
   setGlyphPosition: (id: string, frame: number, position: [number, number]) => void
-  setGlyphRotate: (id: string, frame: number, position: [number, number], rotation: number) => void
-  setGlyphInstance: (vars: number[]) => void
+  setGlyphRotate: (id: string, frame: number, rotation: number) => void
+  setGlyphInstance: (id: string, frame: number, coords: number[]) => void
   setGlyphFramesAxesAnimation: (percent: number) => void
 }
 
