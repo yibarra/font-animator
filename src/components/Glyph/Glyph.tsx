@@ -30,8 +30,7 @@ const Glyph = ({ data, isPlaying }: IGlyphProps) => {
           anchorFill="#d7d7d7dd"
           anchorSize={12}
           rotateAnchorOffset={30}
-          borderStrokeWidth={1}
-          borderDash={[8, 20]}
+          borderStrokeWidth={0}
           borderStroke='#d7d7d7dd'
           enabledAnchors={[]}
           boundBoxFunc={(oldBox, newBox) => {

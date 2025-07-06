@@ -11,6 +11,13 @@ export interface BoundingBox {
   height: number
 }
 
+export interface BoundingBoxPos {
+  x1: number
+  x2: number
+  y1: number
+  y2: number
+}
+
 export interface IGlyphPoint {
   x: number
   y: number

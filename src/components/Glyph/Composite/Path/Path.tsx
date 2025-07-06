@@ -29,12 +29,89 @@ const Path = ({
     140
   )
 
+  const arrowWidth = 4
+  const arrowHeight = 6
+
+  const drawText = (ctx: Context, text: string, x: number, y: number, rotate = false) => {
+    const { width } = ctx.measureText(text)
+
+    ctx.font = '10px Roboto Mono'
+    ctx.fillStyle = '#e3e9f9'
+
+    if (rotate) {
+      ctx.save()
+  
+      ctx.translate(x, y + width / 2)
+      ctx.rotate(-Math.PI / 2)
+      ctx.fillText(text, 0, 0)
+  
+      ctx.restore()
+    } else {
+      ctx.fillText(text, (x - width) / 2, (y / 2))
+    }
+  }
+
   const drawBox = (ctx: Context, shape: IShape) => {
     ctx.beginPath()
-    ctx.moveTo(bounding.x1, bounding.y1)
-    ctx.lineTo(bounding.x2, bounding.y1)
-    ctx.moveTo(bounding.x1, bounding.y1)
-    ctx.lineTo(bounding.x1, bounding.y2)
+
+    const { x1, x2, y1 } = bounding
+
+    ctx.moveTo(x1, y1)
+    ctx.lineTo(x1 + arrowHeight, y1 - arrowWidth / 2)
+    ctx.lineTo(x1 + arrowHeight, y1 + arrowWidth / 2)
+    ctx.closePath()
+
+    ctx.lineTo(x2, y1)
+
+    ctx.lineTo(x2 - arrowHeight, y1 - arrowWidth / 2)
+    ctx.lineTo(x2 - arrowHeight, y1 + arrowWidth / 2)
+    ctx.lineTo(x2, y1)
+    ctx.closePath()
+
+    ctx.moveTo(x1, y1 - arrowWidth * 2 - arrowHeight)
+    ctx.lineTo(x1, y1 + arrowWidth * 2 + arrowHeight)
+    ctx.closePath()
+
+    ctx.moveTo(x2, y1 - arrowWidth * 2 - arrowHeight)
+    ctx.lineTo(x2, y1 + arrowWidth * 2 + arrowHeight)
+    ctx.closePath()
+
+    drawText(ctx, `${Math.round(x2 - x1)}px`, x2 - x1, y1 + 40)
+
+    ctx.fillShape(shape)
+    ctx.strokeShape(shape)
+  }
+
+  const drawVerticalBox = (ctx: Context, shape: IShape) => {
+    ctx.beginPath()
+
+    const { x1, y1, y2 } = bounding
+
+    ctx.moveTo(x1, y1)
+    ctx.lineTo(x1 + arrowWidth / 2, y1 - arrowHeight)
+    ctx.lineTo(x1 - arrowWidth / 2, y1 - arrowHeight)
+    ctx.closePath()
+
+    ctx.moveTo(x1, y1)
+    ctx.lineTo(x1, y2)
+    ctx.closePath()
+
+    ctx.moveTo(x1, y2)
+    ctx.lineTo(x1 + arrowWidth / 2, y2 + arrowHeight)
+    ctx.lineTo(x1 - arrowWidth / 2, y2 + arrowHeight)
+    ctx.closePath()
+
+    ctx.moveTo(x1 - arrowWidth * 2 - arrowHeight, y1)
+    ctx.lineTo(x1 + arrowWidth * 2 + arrowHeight, y1)
+    ctx.closePath()
+
+    ctx.moveTo(x1- arrowWidth * 2 - arrowHeight, y2)
+    ctx.lineTo(x1 + arrowWidth * 2 + arrowHeight, y2)
+    ctx.closePath()
+
+    drawText(ctx, `${Math.round(y1 - y2)}px`, x1 - 10, y2 / 2, true)
+
+    ctx.fillShape(shape)
     ctx.strokeShape(shape)
   }
   
@@ -51,8 +128,6 @@ const Path = ({
 
     setGlyphRotate(id, 0, rotation)
   }
-
-  console.info(bounding, '------')
 
   return (
     <>
@@ -72,10 +147,24 @@ const Path = ({
 
       <Shape
         sceneFunc={drawBox}
-        stroke="#FFF"
+        stroke="#e3e9f9"
         strokeWidth={0.5}
+        fill="#e3e9f9"
+        offsetY={-20}
         x={position[0]}
         y={position[1]}
+        rotation={rotation}
+      />
+
+      <Shape
+        sceneFunc={drawVerticalBox}
+        stroke="#e3e9f9"
+        strokeWidth={0.5}
+        fill="#e3e9f9"
+        offsetX={20}
+        x={position[0]}
+        y={position[1]}
+        rotation={rotation}
       />
     </>
   )
