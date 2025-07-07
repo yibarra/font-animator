@@ -10,7 +10,7 @@ export type IGlyphForm = {
 
 export interface ILetterContext {
   glyphs: IGlyphForm[]
-  onHandlerAddGlyph: (charIndex: number) => void
+  onHandlerAddGlyph: (charIndex: number, x: number, y: number) => void
 }
 
 export interface ILetterProvider extends PropsWithChildren {

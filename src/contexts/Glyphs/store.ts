@@ -6,7 +6,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
   glyphs: [],
 
   // add glyph
-  addGlyph: (charIndex) =>
+  addGlyph: (charIndex, x, y) =>
     set((state) => {
       const id =
         Date.now().toString() + Math.random().toString(36).substr(2, 9)
@@ -20,19 +20,19 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
         frames: [
           {
             axes: {},
-            position: [0, 100],
+            position: [x, y],
             rotation: 0
           },
           {
             axes: {},
-            position: [0, 0],
+            position: [x, y],
             rotation: 0
           },
         ],
         properties: defaultProperties,
-        position: [0, 100],
+        position: [x, y],
         rotation: 0,
-      };
+      }
 
       return { glyphs: [...state.glyphs, glyph] }
     }),

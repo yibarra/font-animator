@@ -153,7 +153,7 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
   }, [glyphs, updateGlyphs])
 
   // set glyph frame rotate
-  const setGlyphRotate = useCallback((id: string, frame: number, rotation: number) => {
+  const setGlyphRotate = useCallback((id: string, frame: number, position: [number, number], rotation: number) => {
     updateGlyphs(
       glyphs.map((glyph) => {
         if (glyph.id !== id) {
@@ -169,12 +169,14 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
         frames[frame] = {
           ...frames[frame],
           rotation,
+          position,
         }
 
         return {
           ...glyph,
           frames,
           rotation,
+          position,
         }
       })
     )

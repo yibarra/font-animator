@@ -1,4 +1,4 @@
-import { Path as PathKonva, Shape } from 'react-konva'
+import { Group, Path as PathKonva, Shape } from 'react-konva'
 
 import { UseFontSettingsContext } from '../../../../contexts/FontSettings/FontSettings'
 import { UseGlyphsContext } from '../../../../contexts/Glyphs/Glyphs'
@@ -6,6 +6,8 @@ import type { IPath } from './interfaces'
 import type { KonvaEventObject } from 'konva/lib/Node'
 import type { Context } from 'konva/lib/Context'
 import type { Shape as IShape } from 'konva/lib/Shape'
+import Progress from '../Progress'
+import { useState } from 'react'
 
 const Path = ({
   charIndex,
@@ -16,6 +18,9 @@ const Path = ({
   position,
   properties
 }: IPath) => {
+  const [isDragging, setIsDragging] = useState(false)
+  const [positionDrag, setPositionDrag] = useState<[number, number, number]>([...position, rotation])
+
   const { getPathDataGlyph } = UseFontSettingsContext()
   const { setCurrent, setGlyphRotate, setGlyphPosition } = UseGlyphsContext()
 
@@ -120,13 +125,15 @@ const Path = ({
     const x = node.x()
     const y = node.y()
 
+    setIsDragging(false)
     setGlyphPosition(id, 0, [x, y])
   }
 
   const onUpdateTransform = (event: KonvaEventObject<DragEvent>) => {
-    const { rotation } = event.target.attrs
+    const { rotation, x, y } = event.target.attrs
 
-    setGlyphRotate(id, 0, rotation)
+    setIsDragging(false)
+    setGlyphRotate(id, 0, [x, y], rotation)
   }
 
   return (
@@ -136,7 +143,25 @@ const Path = ({
         data={path}
         draggable
         onClick={() => setCurrent(id)}
+        onDragStart={() => setIsDragging(true)}
+        onTransformStart={() => setIsDragging(true)}
+        onDragMove={(event) => {
+          const node = event.target
+          const x = node.x()
+          const y = node.y()
+          const rotation = node.rotation()
+
+          setPositionDrag([x, y, rotation])
+        }}
         onDragEnd={onUpdateTranslate}
+        onTransform={(event) => {
+          const node = event.target
+          const x = node.x()
+          const y = node.y()
+          const rotation = node.rotation()
+
+          setPositionDrag([x, y, rotation])
+        }}
         onTransformEnd={onUpdateTransform}
         ref={shapeRef}
         rotation={rotation}
@@ -145,27 +170,34 @@ const Path = ({
         scaleY={-1}
       />
 
-      <Shape
-        sceneFunc={drawBox}
-        stroke="#e3e9f9"
-        strokeWidth={0.5}
-        fill="#e3e9f9"
-        offsetY={-20}
-        x={position[0]}
-        y={position[1]}
-        rotation={rotation}
-      />
+      <Group
+        rotation={isDragging ? positionDrag[2] : rotation}
+        x={isDragging ? positionDrag[0] : position[0]}
+        y={isDragging ? positionDrag[1] : position[1]}
+      >
+        <Progress.Border
+          radius={8}
+          rotation={isDragging ? positionDrag[2] : rotation}
+          x={(bounding.x2 - bounding.x1) / 2}
+          y={(bounding.y2) - 24}
+        />
 
-      <Shape
-        sceneFunc={drawVerticalBox}
-        stroke="#e3e9f9"
-        strokeWidth={0.5}
-        fill="#e3e9f9"
-        offsetX={20}
-        x={position[0]}
-        y={position[1]}
-        rotation={rotation}
-      />
+        <Shape
+          sceneFunc={drawBox}
+          stroke="#e3e9f9"
+          strokeWidth={0.5}
+          fill="#e3e9f9"
+          offsetY={-20}
+        />
+
+        <Shape
+          sceneFunc={drawVerticalBox}
+          stroke="#e3e9f9"
+          strokeWidth={0.5}
+          fill="#e3e9f9"
+          offsetX={20}
+        />
+      </Group>
     </>
   )
 }

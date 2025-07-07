@@ -43,7 +43,7 @@ export interface IGlyph {
 
 export interface IGlyphsState {
   glyphs: IGlyph[]
-  addGlyph: (charIndex: number) => void
+  addGlyph: (charIndex: number, x: number, y: number) => void
   empty: () => void
   remove: (id: string) => void
   updateGlyphFrames: (id: string, frames: IGlyph['frames']) => void
@@ -58,7 +58,7 @@ export interface IGlyphsContext extends Pick<IGlyphsState, 'glyphs' | 'addGlyph'
   getGlyphVariation: (index: number, variants: number[]) => Glyph | undefined
   setGlyphProperties: (id: string, properties: ShapeConfig) => void
   setGlyphPosition: (id: string, frame: number, position: [number, number]) => void
-  setGlyphRotate: (id: string, frame: number, rotation: number) => void
+  setGlyphRotate: (id: string, frame: number, positions: [number, number], rotation: number) => void
   setGlyphInstance: (id: string, frame: number, coords: number[]) => void
   setGlyphFramesAxesAnimation: (percent: number) => void
 }

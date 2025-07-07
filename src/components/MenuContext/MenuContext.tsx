@@ -1,5 +1,6 @@
 // src/components/SmartContextMenu.tsx
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { UseMainContext } from '../../contexts/Main/Main';
 
 interface SmartContextMenuProps {
   children: React.ReactNode; // El contenido que se hará clic derecho
@@ -7,7 +8,7 @@ interface SmartContextMenuProps {
 }
 
 const SmartContextMenu: React.FC<SmartContextMenuProps> = ({ children, menuItems }) => {
-  const [isVisible, setIsVisible] = useState(false);
+  const { isVisible, setIsVisible } = UseMainContext()
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const menuRef = useRef<HTMLDivElement>(null); // Referencia al div del menú
   const containerRef = useRef<HTMLDivElement>(null); // Referencia al div donde se detectará el clic
@@ -121,8 +122,7 @@ const SmartContextMenu: React.FC<SmartContextMenuProps> = ({ children, menuItems
             border: '1px solid #CCC',
             boxShadow: '2px 2px 5px rgba(0,0,0,0.2)',
             zIndex: 1000,
-            padding: '8px 0',
-            minWidth: '150px',
+            padding: '12px',
             borderRadius: '4px',
             display: 'flex',
             flexDirection: 'column',

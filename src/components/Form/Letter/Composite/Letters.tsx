@@ -2,39 +2,35 @@ import { useMemo } from 'react'
 
 import { UseLetterContext } from '../Context'
 import type { LetterProps } from './interfaces'
+import { UseMainContext } from '../../../../contexts/Main/Main'
 
 const Letters = ({ font }: LetterProps) => {
+  const { setIsVisible } = UseMainContext()
   const { onHandlerAddGlyph } = UseLetterContext()
 
-  const glyphs = useMemo(() => {
-    const glyphList = []
-
+  const item = useMemo(() => {
     for (let i = 0; i < font.numGlyphs; i++) {
       const glyph = font.getGlyph(i)
 
-      glyphList.push({
-        id: glyph.id,
-        name: glyph.name,
-        path: glyph.path.toSVG(),
-        unicode: glyph.codePoints?.[0] ?? null,
-      })
+      if (glyph.name === 'a') {
+        return glyph
+      }
     }
 
-    return glyphList
+    return null
   }, [font])
 
   return (
-    <div>
-      {Array.isArray(glyphs) && glyphs.filter((gl) => gl.path !== '' || gl.unicode).map((glyph, index) => (
-        <button key={glyph.id} onClick={() => onHandlerAddGlyph(index)}>
-          <svg viewBox="0 0 1000 1000" width="20" height="20">
-             <g transform="scale(1, -1) translate(0, -1000)">
-              <path d={glyph.path} fill="black" />
-             </g>
-          </svg>
-        </button>
-      ))}
-    </div>
+    <button
+      onClick={(event) => {
+        event.preventDefault()
+
+        setIsVisible(false)
+        onHandlerAddGlyph(item?.id ?? 70, event.clientX, event.clientY)}
+      }
+    >
+      create glyph
+    </button>
   )
 }
 

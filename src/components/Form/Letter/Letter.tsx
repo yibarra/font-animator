@@ -13,7 +13,6 @@ const Letter = () => {
   return (
     <Main.Root font={font}>
       <div className={styles['form--letter']}>
-        <h2>Select Glyph</h2>
         <Main.Letters font={font} />
       </div>
     </Main.Root>

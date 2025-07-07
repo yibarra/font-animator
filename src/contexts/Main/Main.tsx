@@ -1,25 +1,27 @@
-import { createContext } from 'react'
-import type { PropsWithChildren } from 'react'
+import { createContext, useContext, useMemo, useState } from 'react'
 
 import Providers from '../'
 import GridProvider from '../Grid'
+import type { IMainContext, IMainProvider } from './interfaces'
 
 // Main Context
-const MainContext = createContext({
-  active: true,
-})
+const MainContext = createContext({} as IMainContext)
 
 // Main Provider
-const MainProvider = ({ children }: PropsWithChildren) => {
+const MainProvider = ({ children }: IMainProvider) => {
+  const [isVisible, setIsVisible] = useState(false)
   /**
    * state: 
    * options: { duration: mm }
    */
 
   return (
-    <MainContext.Provider value={{
-      active: true,
-    }}>
+    <MainContext.Provider
+      value={useMemo(() => ({
+        isVisible,
+        setIsVisible
+      }), [isVisible, setIsVisible])}
+    >
       <Providers.DataProvider>
         <Providers.FontProvider>
           <Providers.FontSettingsProvider>
@@ -41,5 +43,17 @@ const MainProvider = ({ children }: PropsWithChildren) => {
   )
 }
 
-export { MainContext, MainProvider }
+const UseMainContext = () => {
+  const context = useContext(MainContext)
+
+  if (context === undefined) {
+    throw new Error(
+      'GlyphsContext must be used within a GlyphsProvider'
+    )
+  }
+
+  return context
+}
+
+export { MainContext, MainProvider, UseMainContext }
 export default MainProvider

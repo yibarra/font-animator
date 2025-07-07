@@ -1,5 +1,6 @@
 import { Shape } from 'react-konva'
-import type { Context } from 'konva/lib/Context'; // Importación correcta de Konva Context
+import type { Context } from 'konva/lib/Context'
+import type { Shape as IShape } from 'konva/lib/Shape'
 
 interface GridProps {
   offsetX: number;
@@ -8,67 +9,51 @@ interface GridProps {
   gridColor: string; // Tu '#888' ahora es 'gridColor'
 }
 
-// Usamos React.memo para optimizar, solo redibujar si los props cambian
-const Grid = ({ offsetX, offsetY, cellSize, gridColor }: GridProps) => {
+const Grid = ({ cellSize, gridColor }: GridProps) => {
   const width = window.innerWidth;
   const height = window.innerHeight;
 
-  const draw = (ctx: Context) => {
-    // *** Adaptación de tu lógica original al contexto de Konva ***
+  const draw = (ctx: Context, shape: IShape) => {
+    ctx.clearRect(0, 0, width, height)
 
-    // Las transformaciones del Stage (offsetX, offsetY) ya mueven el contexto general.
-    // Aquí, dentro de la sceneFunc, ctx.setTransform(1,0,0,1,0,0) NO es necesario,
-    // ya que Konva lo maneja por ti y solo afecta a esta Shape.
-    // Los x,y,width,height de la Shape se consideran como la posición del origen.
-    // Tu lógica original de `left`, `top`, `right`, `bottom` calculaba un área
-    // fija del canvas. Aquí necesitamos que sea dinámica al movimiento.
+    const cols = Math.ceil(width / cellSize)
+    const rows = Math.ceil(height / cellSize)
+    const centerX = width / 2
+    const centerY = height / 2
 
-    // Calculamos el viewport del canvas en el sistema de coordenadas del Stage/Layer
-    // (que es donde se dibuja el Shape).
-    // Si el Stage se ha movido (ej. offsetX = -50), el viewport "empieza" en +50
-    // en el sistema de coordenadas del Layer.
-    const viewportLeft = -offsetX;
-    const viewportTop = -offsetY;
-    const viewportRight = viewportLeft + width;
-    const viewportBottom = viewportTop + height;
+    ctx.save()
+    ctx.translate(centerX, centerY) // Mueve (0,0) al centro del canvas
 
-    // Tu `step` es ahora `cellSize`
-    const step = cellSize;
+    ctx.beginPath()
+    ctx.lineWidth = 0.5
+    ctx.strokeStyle = gridColor
 
-    // Ajusta los límites de dibujo para que siempre cubran el área visible y más allá
-    // para el efecto infinito. `Math.floor` asegura la alineación con la cuadrícula.
-    const drawLeft = Math.floor(viewportLeft / step) * step - step; // Un colchón a la izquierda
-    const drawTop = Math.floor(viewportTop / step) * step - step;   // Un colchón arriba
-    const drawRight = viewportRight + step * 2; // Un colchón a la derecha
-    const drawBottom = viewportBottom + step * 2; // Un colchón abajo
-
-    // Limpiamos el área que vamos a redibujar
-    ctx.clearRect(drawLeft, drawTop, drawRight - drawLeft, drawBottom - drawTop);
-
-    ctx.beginPath();
-    ctx.strokeStyle = gridColor; // Usa el color pasado por props
-    ctx.setLineDash([4, 4])
-    ctx.lineWidth = 0.1; // Puedes hacerla configurable si quieres
-
-    // Dibuja líneas verticales
-    for (let x = drawLeft; x < drawRight; x += step) {
-      ctx.moveTo(x, drawTop);
-      ctx.lineTo(x, drawBottom);
+    // Líneas verticales
+    for (let i = -cols; i <= cols; i++) {
+      const x = i * cellSize
+      ctx.moveTo(x, -height)
+      ctx.lineTo(x, height)
     }
 
-    // Dibuja líneas horizontales
-    for (let y = drawTop; y < drawBottom; y += step) {
-      ctx.moveTo(drawLeft, y);
-      ctx.lineTo(drawRight, y);
+    // Líneas horizontales
+    for (let i = -rows; i <= rows; i++) {
+      const y = i * cellSize
+      ctx.moveTo(-width, y)
+      ctx.lineTo(width, y)
+      ctx.setLineDash([4, 4])
     }
 
-    ctx.stroke();
-  };
+    ctx.stroke()
+
+    ctx.restore()
+    ctx.strokeShape(shape)
+  }
 
   return (
     <Shape
       listening={false}
       sceneFunc={draw}
+      opacity={0.2}
       x={0}
       y={0}
     />

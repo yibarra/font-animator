@@ -25,8 +25,8 @@ const LetterProvider = ({ children, font }: ILetterProvider) => {
     return glyphList
   }, [font])
 
-  const onHandlerAddGlyph = useCallback((charIndex: number) => {
-    addGlyph(charIndex)
+  const onHandlerAddGlyph = useCallback((charIndex: number, x: number, y: number) => {
+    addGlyph(charIndex, x, y)
   }, [addGlyph])
 
   return (

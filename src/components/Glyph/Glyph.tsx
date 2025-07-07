@@ -1,6 +1,5 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { Group, Transformer } from 'react-konva'
-import { useSearchParams } from 'react-router-dom'
 import type { Path as IPathKonva } from 'konva/lib/shapes/Path'
 import type { Transformer as ITransformer } from 'konva/lib/shapes/Transformer'
 
@@ -8,30 +7,26 @@ import Path from './Composite/Path'
 import type { IGlyphProps } from './interfaces'
 
 const Glyph = ({ data, isPlaying }: IGlyphProps) => {
-  const [searchParams] = useSearchParams()
-  
-  const current = useMemo(() => searchParams.get('glyph') === data.id, [data, searchParams])
-
   const shapeRef = useRef<IPathKonva | null>(null)
   const trRef = useRef<ITransformer>(null)
 
   useEffect(() => {
-    if (current && trRef?.current && shapeRef.current) {
+    if (trRef?.current && shapeRef.current) {
       trRef?.current?.nodes([shapeRef.current])
     }
-  }, [current])
+  }, [])
 
   return (
     <Group>
       <Path {...data} shapeRef={shapeRef} />
 
-      {(current && !isPlaying) && (
+      {(!isPlaying) && (
         <Transformer
-          anchorFill="#d7d7d7dd"
+          anchorFill="transparent"
           anchorSize={12}
-          rotateAnchorOffset={30}
+          opacity={0}
+          rotateAnchorOffset={24}
           borderStrokeWidth={0}
-          borderStroke='#d7d7d7dd'
           enabledAnchors={[]}
           boundBoxFunc={(oldBox, newBox) => {
             return {
