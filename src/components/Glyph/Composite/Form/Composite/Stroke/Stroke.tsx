@@ -28,7 +28,7 @@ const Stroke = ({ glyph }: { glyph: IGlyph; currentFrame: number }) => {
                 max={30}
                 step={1}
                 defaultValue={glyph?.properties?.strokeWidth}
-                onHandler={(value) => setGlyphProperties({ strokeWidth: value })}
+                onHandler={(value) => setGlyphProperties(glyph.id, { strokeWidth: value })}
               />
             </div>
           </div>
@@ -43,7 +43,7 @@ const Stroke = ({ glyph }: { glyph: IGlyph; currentFrame: number }) => {
               max={30}
               step={1}
               defaultValue={glyph?.properties?.dash ? glyph?.properties?.dash[0] : 0}
-              onHandler={(value) => setGlyphProperties({ dash: [value, glyph?.properties?.dash ? glyph?.properties?.dash[1] : 0] })}
+              onHandler={(value) => setGlyphProperties(glyph.id, { dash: [value, glyph?.properties?.dash ? glyph?.properties?.dash[1] : 0] })}
             />
 
             <Form.RangeSlider
@@ -52,7 +52,7 @@ const Stroke = ({ glyph }: { glyph: IGlyph; currentFrame: number }) => {
               max={30}
               step={1}
               defaultValue={glyph?.properties?.dash ? glyph?.properties?.dash[1] : 0}
-              onHandler={(value) => setGlyphProperties({ dash: [glyph?.properties?.dash ? glyph?.properties?.dash[0] : 0, value] })}
+              onHandler={(value) => setGlyphProperties(glyph.id, { dash: [glyph?.properties?.dash ? glyph?.properties?.dash[0] : 0, value] })}
             />
           </div>
         </div>
@@ -68,7 +68,7 @@ const Stroke = ({ glyph }: { glyph: IGlyph; currentFrame: number }) => {
                 type="radio"
                 name="lineCap"
                 value="butt"
-                onChange={() => setGlyphProperties({ lineCap: 'butt' })}
+                onChange={() => setGlyphProperties(glyph.id, { lineCap: 'butt' })}
               />
               <label htmlFor="line-cap--butt">Butt</label>
             </label>
@@ -80,7 +80,7 @@ const Stroke = ({ glyph }: { glyph: IGlyph; currentFrame: number }) => {
                 type="radio"
                 name="lineCap"
                 value="round"
-                onChange={() => setGlyphProperties({ lineCap: 'round' })}
+                onChange={() => setGlyphProperties(glyph.id, { lineCap: 'round' })}
               />
               <label htmlFor="line-cap--round">Round</label>
             </label>
@@ -92,7 +92,7 @@ const Stroke = ({ glyph }: { glyph: IGlyph; currentFrame: number }) => {
               type="radio"
               name="lineCap"
               value="square"
-              onChange={() => setGlyphProperties({ lineCap: 'square' })}
+              onChange={() => setGlyphProperties(glyph.id, { lineCap: 'square' })}
             />
             <label htmlFor="line-cap--square">Square</label>
           </label>
@@ -110,7 +110,7 @@ const Stroke = ({ glyph }: { glyph: IGlyph; currentFrame: number }) => {
                 type="radio"
                 name="lineJoin"
                 value="miter"
-                onChange={() => setGlyphProperties({ lineJoin: 'miter' })}
+                onChange={() => setGlyphProperties(glyph.id, { lineJoin: 'miter' })}
               />
               <label htmlFor="line-join--miter">Miter</label>
             </label>
@@ -122,7 +122,7 @@ const Stroke = ({ glyph }: { glyph: IGlyph; currentFrame: number }) => {
                 type="radio"
                 name="lineJoin"
                 value="round"
-                onChange={() => setGlyphProperties({ lineJoin: 'round' })}
+                onChange={() => setGlyphProperties(glyph.id, { lineJoin: 'round' })}
               />
               <label htmlFor="line-join--round">Round</label>
             </label>
@@ -134,7 +134,7 @@ const Stroke = ({ glyph }: { glyph: IGlyph; currentFrame: number }) => {
                 type="radio"
                 name="lineJoin"
                 value="bevel"
-                onChange={() => setGlyphProperties({ lineJoin: 'bevel' })}
+                onChange={() => setGlyphProperties(glyph.id, { lineJoin: 'bevel' })}
               />
               <label htmlFor="line-join--bevel">Bevel</label>
             </label>

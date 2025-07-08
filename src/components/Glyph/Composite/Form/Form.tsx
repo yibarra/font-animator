@@ -11,9 +11,9 @@ import styles from './styles.module.scss'
 
 const Form = ({ ...props }: IForm) => {
   const [searchParams] = useSearchParams()
-  const { glyphs } = UseGlyphsContext()
+  const { current, glyphs } = UseGlyphsContext()
 
-  const glyph = useMemo(() => glyphs.find((i) => i.id === searchParams.get('glyph')), [glyphs, searchParams])
+  const glyph = useMemo(() => glyphs.find((_, i) => i === current), [current, glyphs])
   const frame = useMemo(() => glyph?.frames?.[Number(searchParams.get('frame') ?? 0)] ?? null, [glyph, searchParams])
 
   if (!glyph) {
@@ -21,13 +21,19 @@ const Form = ({ ...props }: IForm) => {
   }
   
   return (
-    <div {...props} className={styles['form']}>
-      <Frame frame={frame} glyph={glyph} />
+    <div
+      {...props}
+      className={styles['form']}
+      style={{
+        left: glyph.position[0],
+        top: glyph.position[1],
+        transform: `rotate(${glyph.rotation}deg)`
+      }}
+    >
+      {/* <Frame frame={frame} glyph={glyph} /> */}
       <Frames frame={frame} glyph={glyph} />
       <Axes frame={frame} glyph={glyph} />
-      {/*
-
-      <Stroke frame={frame} glyph={glyph} />*/}
+      <Stroke currentFrame={0} glyph={glyph} />
     </div>
   )
 }

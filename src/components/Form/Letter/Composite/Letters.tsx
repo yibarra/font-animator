@@ -12,7 +12,7 @@ const Letters = ({ font }: LetterProps) => {
     for (let i = 0; i < font.numGlyphs; i++) {
       const glyph = font.getGlyph(i)
 
-      if (glyph.name === 'a') {
+      if (glyph.name === 'E') {
         return glyph
       }
     }

@@ -6,7 +6,7 @@ import type { Transformer as ITransformer } from 'konva/lib/shapes/Transformer'
 import Path from './Composite/Path'
 import type { IGlyphProps } from './interfaces'
 
-const Glyph = ({ data, isPlaying }: IGlyphProps) => {
+const Glyph = ({ current, data, index, isPlaying }: IGlyphProps) => {
   const shapeRef = useRef<IPathKonva | null>(null)
   const trRef = useRef<ITransformer>(null)
 
@@ -18,7 +18,7 @@ const Glyph = ({ data, isPlaying }: IGlyphProps) => {
 
   return (
     <Group>
-      <Path {...data} shapeRef={shapeRef} />
+      <Path {...data} current={current} index={index} shapeRef={shapeRef} />
 
       {(!isPlaying) && (
         <Transformer

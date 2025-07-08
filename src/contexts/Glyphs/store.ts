@@ -3,10 +3,11 @@ import { create } from 'zustand'
 import type { IGlyph, IGlyphsState } from './interfaces'
 
 export const useGlyphsStore = create<IGlyphsState>((set) => ({
+  current: 0,
   glyphs: [],
 
   // add glyph
-  addGlyph: (charIndex, x, y) =>
+  addGlyph: (charIndex, x, y, axes) =>
     set((state) => {
       const id =
         Date.now().toString() + Math.random().toString(36).substr(2, 9)
@@ -14,17 +15,17 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
 
       const glyph: IGlyph = {
         id,
-        axes: {},
+        axes,
         easing: 'lineal',
         charIndex,
         frames: [
           {
-            axes: {},
+            axes,
             position: [x, y],
             rotation: 0
           },
           {
-            axes: {},
+            axes,
             position: [x, y],
             rotation: 0
           },
@@ -34,7 +35,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
         rotation: 0,
       }
 
-      return { glyphs: [...state.glyphs, glyph] }
+      return { current: charIndex, glyphs: [...state.glyphs, glyph] }
     }),
 
   // remove glyph
@@ -42,6 +43,10 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
     set((state) => ({
       glyphs: state.glyphs.filter((glyph) => glyph.id !== id),
     })),
+
+  setCurrent: (current) => {
+    set({ current })
+  },
 
   updateGlyphs: (newGlyphs) =>
     set((state) => ({

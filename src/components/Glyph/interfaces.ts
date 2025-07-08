@@ -6,6 +6,8 @@ export interface IGlyphState {
 }
 
 export interface IGlyphProps {
+  current: boolean
   data: IGlyph
+  index: number
   isPlaying?: boolean
 }

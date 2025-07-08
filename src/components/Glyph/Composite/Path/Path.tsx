@@ -11,7 +11,9 @@ import { useState } from 'react'
 
 const Path = ({
   charIndex,
+  current,
   id,
+  index,
   axes,
   shapeRef,
   rotation,
@@ -142,7 +144,7 @@ const Path = ({
         {...properties}
         data={path}
         draggable
-        onClick={() => setCurrent(id)}
+        onClick={() => setCurrent(current ? null : index)}
         onDragStart={() => setIsDragging(true)}
         onTransformStart={() => setIsDragging(true)}
         onDragMove={(event) => {
@@ -170,34 +172,36 @@ const Path = ({
         scaleY={-1}
       />
 
-      <Group
-        rotation={isDragging ? positionDrag[2] : rotation}
-        x={isDragging ? positionDrag[0] : position[0]}
-        y={isDragging ? positionDrag[1] : position[1]}
-      >
-        <Progress.Border
-          radius={8}
+      {current && (
+        <Group
           rotation={isDragging ? positionDrag[2] : rotation}
-          x={(bounding.x2 - bounding.x1) / 2}
-          y={(bounding.y2) - 24}
-        />
+          x={isDragging ? positionDrag[0] : position[0]}
+          y={isDragging ? positionDrag[1] : position[1]}
+        >
+          <Progress.Border
+            radius={8}
+            rotation={isDragging ? positionDrag[2] : rotation}
+            x={(bounding.x2 - bounding.x1) / 2}
+            y={(bounding.y2) - 24}
+          />
 
-        <Shape
-          sceneFunc={drawBox}
-          stroke="#e3e9f9"
-          strokeWidth={0.5}
-          fill="#e3e9f9"
-          offsetY={-20}
-        />
+          <Shape
+            sceneFunc={drawBox}
+            stroke="#e3e9f9"
+            strokeWidth={0.5}
+            fill="#e3e9f9"
+            offsetY={-20}
+          />
 
-        <Shape
-          sceneFunc={drawVerticalBox}
-          stroke="#e3e9f9"
-          strokeWidth={0.5}
-          fill="#e3e9f9"
-          offsetX={20}
-        />
-      </Group>
+          <Shape
+            sceneFunc={drawVerticalBox}
+            stroke="#e3e9f9"
+            strokeWidth={0.5}
+            fill="#e3e9f9"
+            offsetX={20}
+          />
+        </Group>
+      )}
     </>
   )
 }

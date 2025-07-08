@@ -2,11 +2,13 @@ import { createContext, useCallback, useContext, useMemo } from 'react'
 
 import { UseGlyphsContext } from '../../../contexts/Glyphs/Glyphs'
 import type { ILetterContext, ILetterProvider } from './interfaces'
+import { UseFontSettingsContext } from '../../../contexts/FontSettings/FontSettings'
 
 const LetterContext = createContext({} as ILetterContext)
 
 const LetterProvider = ({ children, font }: ILetterProvider) => {
   const { addGlyph } = UseGlyphsContext()
+  const { axes } = UseFontSettingsContext()
 
   const glyphs = useMemo(() => {
     const glyphList = []
@@ -26,8 +28,16 @@ const LetterProvider = ({ children, font }: ILetterProvider) => {
   }, [font])
 
   const onHandlerAddGlyph = useCallback((charIndex: number, x: number, y: number) => {
-    addGlyph(charIndex, x, y)
-  }, [addGlyph])
+    const values = Object.keys(axes ?? []).map((e) => {
+      if (axes) {
+        return {
+          [e]: axes[e]?.default
+        }
+      }
+    })
+
+    addGlyph(charIndex, x, y, Object.assign({}, ...values))
+  }, [axes, addGlyph])
 
   return (
     <LetterContext.Provider

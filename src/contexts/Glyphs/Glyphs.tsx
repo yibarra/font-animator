@@ -1,5 +1,4 @@
 import { createContext, useCallback, useContext, useMemo } from 'react'
-import { useSearchParams } from 'react-router-dom'
 import type { ShapeConfig } from 'konva/lib/Shape'
 
 import { useGlyphsStore } from './store'
@@ -15,28 +14,11 @@ const GlyphsContext = createContext({} as IGlyphsContext)
 const GlyphsProvider = ({ children }: IGlyphsProvider) => {
   const { font } = UseFontContext()
   const { axes } = UseFontSettingsContext()
-  const [, setSearchParams] = useSearchParams()
 
   const { glyphs, updateGlyphs, ...props } = useGlyphsStore()
 
   // get glyph
   const getGlyph = useCallback((index: number) => font?.getGlyph(index), [font])
-
-  // set current glyph contexts
-  const setCurrentGlyphContexts = useCallback((id: string | null) => {
-    console.info(id)
-    const newParams = new URLSearchParams(window.location.search)
-
-    if (id) {
-      newParams.set('glyph', String(id))
-      newParams.set('frame', '0')
-    } else {
-      newParams.delete('glyph')
-      newParams.delete('frame')
-    }
-    
-    setSearchParams(newParams, { replace: true })
-  }, [setSearchParams])
 
   // get glyph variation
   const getGlyphVariation = useCallback((index: number, coords: number[]) => {
@@ -98,21 +80,19 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
           return g // defend: no update if frame doesn't exist
         }
 
-        console.info(frames[frame], frames[frame].axes, axe, value)
-
-        const axes = {
-          ...frames[frame].axes,
+        const newAxesForFrame = {
+          ...(frames[frame].axes ?? {}),
           [axe]: value,
         }
 
         frames[frame] = {
           ...frames[frame],
-          axes,
+          axes: newAxesForFrame,
         }
 
         return {
           ...g,
-          axes,
+          axes: newAxesForFrame,
           frames,
         }
       })
@@ -210,7 +190,10 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
           return glyph
         }
 
-        return { ...glyph, properties }
+        return { ...glyph, properties: {
+          ...glyph.properties,
+          ...properties
+        } }
       })
     )
   }, [glyphs, updateGlyphs])
@@ -227,7 +210,6 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
           setGlyphProperties,
           setGlyphRotate,
           getGlyphVariation,
-          setCurrent: setCurrentGlyphContexts,
           setGlyphInstance,
           setGlyphFrameAxes,
           setGlyphFramesAxesAnimation,
@@ -239,7 +221,6 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
           setGlyphProperties,
           setGlyphRotate,
           getGlyphVariation,
-          setCurrentGlyphContexts,
           setGlyphInstance,
           setGlyphFrameAxes,
           setGlyphFramesAxesAnimation,

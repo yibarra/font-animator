@@ -42,18 +42,19 @@ export interface IGlyph {
 }
 
 export interface IGlyphsState {
+  current: number | null
   glyphs: IGlyph[]
-  addGlyph: (charIndex: number, x: number, y: number) => void
+  addGlyph: (charIndex: number, x: number, y: number, axes: Record<string, string | number>) => void
   empty: () => void
   remove: (id: string) => void
   updateGlyphFrames: (id: string, frames: IGlyph['frames']) => void
   updateGlyphs: (glyphs: IGlyph[]) => void
   updateGlyph: (id: string, glyph: IGlyph) => void
+  setCurrent: (current: number | null) => void
 }
 
-export interface IGlyphsContext extends Pick<IGlyphsState, 'glyphs' | 'addGlyph' | 'remove'>{
+export interface IGlyphsContext extends Pick<IGlyphsState, 'current' | 'glyphs' | 'addGlyph' | 'remove' | 'setCurrent'>{
   getGlyph: (index: number) => Glyph | undefined
-  setCurrent: (id: string | null) => void
   setGlyphFrameAxes: (id: string, frame: number, axe: string, value: number) => void
   getGlyphVariation: (index: number, variants: number[]) => Glyph | undefined
   setGlyphProperties: (id: string, properties: ShapeConfig) => void

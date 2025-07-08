@@ -16,8 +16,8 @@ const Main = () => {
   const [isPlaying, setIsPlaying] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
 
-  const { glyphs } = UseGlyphsContext()
-  const { offsetX, offsetY, setOffsetX, setOffsetY } = useGridContext();
+  const { current, glyphs } = UseGlyphsContext()
+  const { offsetX, offsetY, setOffsetX, setOffsetY } = useGridContext()
 
   const handleDragEnd = useCallback(() => {
     if (stageRef.current) {
@@ -51,7 +51,9 @@ const Main = () => {
 
             {Array.isArray(glyphs) && glyphs.map((glyph, index) =>
               <Glyph.Letter
+                current={index === current}
                 data={glyph}
+                index={index}
                 key={index}
                 isPlaying={isPlaying}
               />
@@ -64,8 +66,6 @@ const Main = () => {
         <Animator duration={900} isPlaying={isPlaying} setIsPlaying={setIsPlaying} />
       </div>
 
-      
-      
       <Glyph.Form />
     </>
   )
