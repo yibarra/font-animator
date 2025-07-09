@@ -25,7 +25,7 @@ export interface IGlyphPoint {
 }
 
 export interface IFrame {
-  axes: Record<string, string | number>
+  axes: Record<string, number>
   position: [number, number]
   rotation: number
 }
@@ -55,7 +55,7 @@ export interface IGlyphsState {
 
 export interface IGlyphsContext extends Pick<IGlyphsState, 'current' | 'glyphs' | 'addGlyph' | 'remove' | 'setCurrent'>{
   getGlyph: (index: number) => Glyph | undefined
-  setGlyphFrameAxes: (id: string, frame: number, axe: string, value: number) => void
+  setGlyphFrameAxes: (id: string, frame: number, axes: Record<string, number>) => void
   getGlyphVariation: (index: number, variants: number[]) => Glyph | undefined
   setGlyphProperties: (id: string, properties: ShapeConfig) => void
   setGlyphPosition: (id: string, frame: number, position: [number, number]) => void

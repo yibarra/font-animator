@@ -26,20 +26,20 @@
     }
 
     &:before {
-      border-bottom: 1px dashed var(--bg-panel);
+      border-bottom: 1px dashed var(--text-main);
       height: 1px;
       width: calc(100% - 10px);
     }
 
     &:after {
       height: calc(100% - 10px);
-      border-left: 1px dashed var(--bg-panel);
+      border-left: 1px dashed var(--text-main);
       width: 1px;
     }
   }
 
   &--glyph {
-    border: 2px solid var(--bg-panel);
+    border: 2px solid var(--text-main);
     height: 14px;
     left: 50%;
     top: 50%;
@@ -48,7 +48,7 @@
 
     &:before,
     &:after {
-      background: var(--bg-panel);
+      background: var(--text-main);
       content: '';
       height: 6px;
       left: 50%;

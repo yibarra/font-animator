@@ -31,7 +31,7 @@ const Frames = ({ frame, glyph, ...props }: IFrames) => {
           >
             <div className={styles['frames--glyph']}>
               <div className={styles['frames--frame--options']}>
-                <Rotation size={10} rotation={item?.rotation} />
+                <Rotation size={6} rotation={item?.rotation} />
               </div>
 
               <button
@@ -41,8 +41,8 @@ const Frames = ({ frame, glyph, ...props }: IFrames) => {
               >
                 <GlyphSVG
                   charIndex={glyph?.charIndex}
-                  size={26}
-                  properties={{ fill: glyph?.properties.fill?.toString() }}
+                  size={40}
+                  properties={{ fill: '#e3e9f9' }}
                 />
               </button>
 

@@ -5,6 +5,7 @@ import type { Transformer as ITransformer } from 'konva/lib/shapes/Transformer'
 
 import Path from './Composite/Path'
 import type { IGlyphProps } from './interfaces'
+import PathFrame from './Composite/PathFrame'
 
 const Glyph = ({ current, data, index, isPlaying }: IGlyphProps) => {
   const shapeRef = useRef<IPathKonva | null>(null)
@@ -18,13 +19,21 @@ const Glyph = ({ current, data, index, isPlaying }: IGlyphProps) => {
 
   return (
     <Group>
+      <PathFrame
+        {...data}
+        position={data.frames[1].position}
+        rotation={data.frames[1].rotation}
+        shapeRef={shapeRef}
+        properties={{ ...data.properties, fill: '#FFF', opacity: 0.3 }}
+      />
+
       <Path {...data} current={current} index={index} shapeRef={shapeRef} />
 
       {(!isPlaying) && (
         <Transformer
           anchorFill="transparent"
           anchorSize={12}
-          opacity={0}
+          opacity={0.6}
           rotateAnchorOffset={24}
           borderStrokeWidth={0}
           enabledAnchors={[]}

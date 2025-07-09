@@ -3,6 +3,7 @@ import { createContext, useCallback, useMemo, useContext } from 'react'
 import type { IFontSettingsContext, IFontSettingsProvider } from './interfaces'
 import { UseFontContext } from '../Font/Font'
 import { convertPathToSvg } from './utils'
+import type { BoundingBoxPos } from '../Glyphs/interfaces'
 
 // load font context
 const FontSettingsContext = createContext({} as IFontSettingsContext)
@@ -25,12 +26,17 @@ const FontSettingsProvider = ({ children }: IFontSettingsProvider ) => {
   const getPathDataGlyph = useCallback(
     (id: number, coords: Record<string, string | number>, size: number): {
       path: string
-      bounding: Record<string, number>
+      bounding: BoundingBoxPos
      } => {
       if (!font || !id) {
         return {
           path: '',
-          bounding: {}
+          bounding: {
+            x1: 0,
+            y1: 0,
+            x2: 0,
+            y2: 0
+          }
         }
       }
       
@@ -58,7 +64,12 @@ const FontSettingsProvider = ({ children }: IFontSettingsProvider ) => {
 
       return {
         path: '',
-        bounding: {}
+        bounding: {
+          x1: 0,
+          y1: 0,
+          x2: 0,
+          y2: 0
+        }
       }
   }, [font])
 

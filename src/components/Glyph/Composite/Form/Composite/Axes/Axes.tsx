@@ -11,6 +11,8 @@ const Axes = ({ glyph, frame }: IAxes) => {
   const { axes } = UseFontSettingsContext()
   const { setGlyphFrameAxes, setGlyphInstance } = UseGlyphsContext()
 
+  console.info(frame)
+
   // on handle instance
   const onHandleInstance = (vars: number[]) => {
     if (!axes) {
@@ -42,7 +44,14 @@ const Axes = ({ glyph, frame }: IAxes) => {
               <Form.RangeSlider
                 {...axes[axe]}
                 defaultValue={Number(frame.axes[axe])}
-                onHandler={(value) => setGlyphFrameAxes(glyph?.id ?? '', 0, axe, Number(value))}
+                onHandler={(value) => {
+                  const newAxes = {...frame.axes}
+                  newAxes[axe] = Number(value)
+
+                  console.info(frame.axes, newAxes, glyph?.axes)
+
+                  setGlyphFrameAxes(glyph?.id ?? '', 0, newAxes)
+                }}
               />
             </div>
           ))}

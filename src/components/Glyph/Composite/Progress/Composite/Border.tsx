@@ -30,8 +30,7 @@ const Border = ({ radius, rotation, x, y }: IBorder) => {
     if (progress <= 50) {
       ctx.arc(0, 0, radius, startAngle, startAngle + angleProgress)
     } else {
-      const startAngleInv = Math.PI / 2
-      ctx.arc(0, 0, radius, startAngleInv - angleProgress, startAngleInv, true)
+      ctx.arc(0, 0, radius, startAngle, startAngle + angleProgress, true)
     }
 
     ctx.lineWidth = 2

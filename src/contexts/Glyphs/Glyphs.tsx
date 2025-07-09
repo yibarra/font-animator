@@ -67,7 +67,7 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
   }, [axes, glyphs, updateGlyphs])
 
   // set glyph frame axes
-  const setGlyphFrameAxes = useCallback((id: string, frame: number, axe: string, value: number) => {
+  const setGlyphFrameAxes = useCallback((id: string, frame: number, axes: Record<string, number>) => {
     updateGlyphs(
       glyphs.map((g) => {
         if (g.id !== id) {
@@ -80,19 +80,14 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
           return g // defend: no update if frame doesn't exist
         }
 
-        const newAxesForFrame = {
-          ...(frames[frame].axes ?? {}),
-          [axe]: value,
-        }
-
         frames[frame] = {
           ...frames[frame],
-          axes: newAxesForFrame,
+          axes,
         }
 
         return {
           ...g,
-          axes: newAxesForFrame,
+          axes,
           frames,
         }
       })

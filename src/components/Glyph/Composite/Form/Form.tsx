@@ -8,9 +8,11 @@ import Stroke from './Composite/Stroke/Stroke'
 import { UseGlyphsContext } from '../../../../contexts/Glyphs/Glyphs'
 import type { IForm } from './interfaces'
 import styles from './styles.module.scss'
+import { useGridContext } from '../../../../contexts/Grid'
 
 const Form = ({ ...props }: IForm) => {
   const [searchParams] = useSearchParams()
+  const { offsetX, offsetY } = useGridContext()
   const { current, glyphs } = UseGlyphsContext()
 
   const glyph = useMemo(() => glyphs.find((_, i) => i === current), [current, glyphs])
@@ -25,15 +27,15 @@ const Form = ({ ...props }: IForm) => {
       {...props}
       className={styles['form']}
       style={{
-        left: glyph.position[0],
-        top: glyph.position[1],
+        left: glyph.position[0] + offsetX,
+        top: glyph.position[1] + offsetY,
         transform: `rotate(${glyph.rotation}deg)`
       }}
     >
-      {/* <Frame frame={frame} glyph={glyph} /> */}
       <Frames frame={frame} glyph={glyph} />
-      <Axes frame={frame} glyph={glyph} />
-      <Stroke currentFrame={0} glyph={glyph} />
+      {/* <Frame frame={frame} glyph={glyph} /> */}
+      {/* <Axes frame={frame} glyph={glyph} />  */}
+      {/* <Stroke currentFrame={0} glyph={glyph} /> */}
     </div>
   )
 }
