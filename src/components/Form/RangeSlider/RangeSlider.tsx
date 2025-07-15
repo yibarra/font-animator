@@ -1,8 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import type { IRangeSlider } from './interfaces'
 import styles from './styles.module.scss'
-import { debounce } from './helper'
 
 const RangeSlider = ({
   defaultValue = 0,
@@ -12,37 +11,18 @@ const RangeSlider = ({
   step = 1,
   ...props
 }: IRangeSlider) => {
-  const initialValue = Math.max(min, Math.min(max, defaultValue ?? 0))
-  const [value, setValue] = useState(initialValue)
+  const [value, setValue] = useState<number>()
 
   const inputRef = useRef<HTMLInputElement>(null)
-  const markerRef = useRef<HTMLDivElement>(null)
-
-  const debouncedOnChangeComplete = useRef(
-    debounce((value: number) => {
-      if (typeof onHandler === 'function') {
-        onHandler(value)
-      }
-    }, 400)
-  )
-
-  const updateMarkerPosition = useCallback(() => {
-    if (inputRef.current && markerRef.current) {
-      const input = inputRef.current
-      const marker = markerRef.current
-
-      const thumbWidth = 20
-      const fraction = (Number(input.value ?? 0) - min) / (max - min)
-      
-      marker.style.left = `calc(${fraction * 100}% + ${(0.5 - fraction) * thumbWidth}px)`
-    }
-  }, [max, min, inputRef])
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = parseFloat(event.target.value)
+    const newValue = parseFloat(event.target.value) ?? 0
 
     setValue(newValue)
-    debouncedOnChangeComplete.current(newValue)
+
+    if (typeof onHandler === 'function') {
+      onHandler(newValue)
+    }
   }
 
   // update frame
@@ -51,20 +31,15 @@ const RangeSlider = ({
       const clamped = Math.max(min, Math.min(max, defaultValue))
 
       setValue(clamped)
-      updateMarkerPosition()
     }
-  }, [defaultValue, min, max, updateMarkerPosition])
-
-  // update
-  useEffect(() => {
-    updateMarkerPosition()
-  }, [value, min, max, updateMarkerPosition])
+  }, [defaultValue, min, max])
 
   return (
     <div className={styles['range-slider']}>
       <div className={styles['range-slider--wrapper']}>
         <input
           {...props}
+          defaultValue={defaultValue}
           max={max}
           min={min}
           step={step}
@@ -73,13 +48,6 @@ const RangeSlider = ({
           type="range"
           value={value ?? 0}
         />
-
-        <div
-          ref={markerRef}
-          className={styles['range-slider--value-marker']}
-        >
-          {isNaN(value) ? 'Not selected' : value}
-        </div>
 
         <div className={styles['range-slider--labels']}>
           <span className={styles['range-slider--labels--value']}>

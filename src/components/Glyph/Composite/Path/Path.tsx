@@ -32,7 +32,7 @@ const Path = ({
   const { bounding, path } = getPathDataGlyph(
     charIndex,
     numericAxes,
-    140
+    properties.fontSize ?? 12
   )
   
   const onUpdateTranslate = (event: KonvaEventObject<DragEvent>) => {
@@ -83,6 +83,12 @@ const Path = ({
         x={position[0]}
         y={position[1]}
         scaleY={-1}
+
+        shadowColor="#0f1d44"
+        shadowOffset={{ x: 0, y: -4 }}
+        shadowBlur={6}
+        shadowOpacity={0.3}
+        shadowEnabled 
       />
 
       {current && (

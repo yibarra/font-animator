@@ -11,7 +11,28 @@ const FontSettingsContext = createContext({} as IFontSettingsContext)
 // load font provider
 const FontSettingsProvider = ({ children }: IFontSettingsProvider ) => {
   const { font } = UseFontContext()
+
   const axes = useMemo(() => (font?.variationAxes), [font?.variationAxes])
+
+  const getGlyphs = useMemo(() => {
+    const count = (font?.numGlyphs ?? 0) - 1
+    const glyphs = []
+
+    const allowedUnicodeCharRegex = /^[\p{L}]$/u
+    
+    for (let i = 0; i < count; i++) {
+      const item = String(font?.stringsForGlyph(i)?.[0] ?? ' ').trim()
+
+      if (item.length === 1 && allowedUnicodeCharRegex.test(item)) {
+        glyphs.push({
+          charCode: i,
+          item
+        })
+      }
+    }
+
+    return glyphs
+  }, [font])
 
   // get axes
   const getVariationAxes = useCallback(() => {
@@ -79,10 +100,12 @@ const FontSettingsProvider = ({ children }: IFontSettingsProvider ) => {
       value={
         useMemo(() => ({
           axes,
+          getGlyphs,
           getPathDataGlyph,
           getVariationAxes,
         }), [
           axes,
+          getGlyphs,
           getPathDataGlyph,
           getVariationAxes,
         ]

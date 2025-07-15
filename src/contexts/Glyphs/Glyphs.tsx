@@ -1,5 +1,4 @@
 import { createContext, useCallback, useContext, useMemo } from 'react'
-import type { ShapeConfig } from 'konva/lib/Shape'
 
 import { useGlyphsStore } from './store'
 import { UseFontContext } from '../Font/Font'
@@ -177,22 +176,6 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
     )
   }, [glyphs, updateGlyphs])
 
-    // set glyph frame properties
-  const setGlyphProperties = useCallback((id: string, properties: ShapeConfig) => {
-    updateGlyphs(
-      glyphs.map((glyph) => {
-        if (glyph.id !== id) {
-          return glyph
-        }
-
-        return { ...glyph, properties: {
-          ...glyph.properties,
-          ...properties
-        } }
-      })
-    )
-  }, [glyphs, updateGlyphs])
-
   // render
   return (
     <GlyphsContext.Provider
@@ -202,7 +185,6 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
           glyphs,
           getGlyph,
           setGlyphPosition,
-          setGlyphProperties,
           setGlyphRotate,
           getGlyphVariation,
           setGlyphInstance,
@@ -213,7 +195,6 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
           glyphs,
           getGlyph,
           setGlyphPosition,
-          setGlyphProperties,
           setGlyphRotate,
           getGlyphVariation,
           setGlyphInstance,

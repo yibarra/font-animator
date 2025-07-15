@@ -44,20 +44,24 @@ export interface IGlyph {
 export interface IGlyphsState {
   current: number | null
   glyphs: IGlyph[]
-  addGlyph: (charIndex: number, x: number, y: number, axes: Record<string, string | number>) => void
+  addGlyph: (charIndex: number, x: number, y: number, axes: Record<string, number>) => void
   empty: () => void
   remove: (id: string) => void
   updateGlyphFrames: (id: string, frames: IGlyph['frames']) => void
   updateGlyphs: (glyphs: IGlyph[]) => void
-  updateGlyph: (id: string, glyph: IGlyph) => void
+  updateGlyph: (id: string, charIndex: number) => void
   setCurrent: (current: number | null) => void
+
+  updateGlyphAxes: (id: string, axes: Record<string, number>, frame?: number) => void
+  updateGlyphRotation: (id: string, rotation: number, frame?: number) => void
+  updateGlyphPosition: (id: string, position: [number, number], frame?: number) => void
+  updateGlyphProperties: (id: string, properties: ShapeConfig) => void
 }
 
 export interface IGlyphsContext extends Pick<IGlyphsState, 'current' | 'glyphs' | 'addGlyph' | 'remove' | 'setCurrent'>{
   getGlyph: (index: number) => Glyph | undefined
   setGlyphFrameAxes: (id: string, frame: number, axes: Record<string, number>) => void
   getGlyphVariation: (index: number, variants: number[]) => Glyph | undefined
-  setGlyphProperties: (id: string, properties: ShapeConfig) => void
   setGlyphPosition: (id: string, frame: number, position: [number, number]) => void
   setGlyphRotate: (id: string, frame: number, positions: [number, number], rotation: number) => void
   setGlyphInstance: (id: string, frame: number, coords: number[]) => void

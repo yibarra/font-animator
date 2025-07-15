@@ -11,7 +11,7 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
     set((state) => {
       const id =
         Date.now().toString() + Math.random().toString(36).substr(2, 9)
-      const defaultProperties = { fontSize: 24, fill: "#e3e9f9", stroke: "none", strokeWidth: 0 }
+      const defaultProperties = { fontSize: 64, fill: "#e3e9f9", textBaseline: 'alphabetic', stroke: "none", strokeWidth: 0 }
 
       const glyph: IGlyph = {
         id,
@@ -55,12 +55,75 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
       ),
     })),
 
-  updateGlyph: (id, glyph) =>
+  updateGlyph: (id, charIndex) =>
     set((state) => ({
       glyphs: state.glyphs.map((g) =>
-        g.id === id ? { ...g, ...glyph } : g
+        g.id === id ? { ...g, charIndex } : g
       ),
     })),
+
+  updateGlyphProperties: (id, properties) =>
+    set((state) => ({
+      glyphs: state.glyphs.map((g) =>
+        g.id === id
+          ? { ...g, properties: { ...g.properties, ...properties } }
+          : g
+      ),
+    })),
+
+    updateGlyphAxes: (id: string, axes: Record<string, number>, frame?: number) =>
+      set((state) => ({
+        glyphs: state.glyphs.map((g) => {
+          if (g.id !== id) {
+            return g
+          }
+
+          let frames = g.frames
+
+          if (typeof frame === 'number' && frames[frame]) {
+            frames = [...frames]
+            frames[frame] = { ...frames[frame], axes }
+          }
+
+          return { ...g, axes, frames }
+        }),
+      })),
+
+    updateGlyphRotation: (id: string, rotation: number, frame?: number) =>
+      set((state) => ({
+        glyphs: state.glyphs.map((g) => {
+          if (g.id !== id) {
+            return g
+          }
+
+          let frames = g.frames
+
+          if (typeof frame === 'number' && frames[frame]) {
+            frames = [...frames]
+            frames[frame] = { ...frames[frame], rotation }
+          }
+
+          return { ...g, rotation, frames }
+        }),
+      })),
+
+    updateGlyphPosition: (id: string, position: [number, number], frame?: number) =>
+      set((state) => ({
+        glyphs: state.glyphs.map((g) => {
+          if (g.id !== id) {
+            return g
+          }
+
+          let frames = g.frames
+
+          if (typeof frame === 'number' && frames[frame]) {
+            frames = [...frames]
+            frames[frame] = { ...frames[frame], position }
+          }
+          
+          return { ...g, position, frames }
+        }),
+      })),
 
   // update frames (axes instance)
   updateGlyphFrames: (id, frames) =>

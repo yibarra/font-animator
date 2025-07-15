@@ -1,10 +1,11 @@
 import { useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
-import { UseGlyphsContext } from '../../../../../../contexts/Glyphs/Glyphs'
+import type { IColor } from './interfaces'
+import { useGlyphsStore } from '../../../../../../contexts/Glyphs/store'
 
-const Color = ({ color, property }: { color: string | CanvasGradient, property: string }) => {
-  const { setGlyphProperties } = UseGlyphsContext()
+const Color = ({ color, id, property }: IColor) => {
+  const { updateGlyphProperties } = useGlyphsStore()
   const [searchParams] = useSearchParams()
   const current = searchParams.get('glyph')
 
@@ -18,7 +19,7 @@ const Color = ({ color, property }: { color: string | CanvasGradient, property: 
     <input
       onChange={({ target: { value }}) => {
         setInputValue(value)
-        setGlyphProperties({ [property]: value })
+        updateGlyphProperties(id, { [property]: value })
       }}
       type="color"
       value={inputValue}

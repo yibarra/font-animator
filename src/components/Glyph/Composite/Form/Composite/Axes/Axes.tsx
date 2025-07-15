@@ -1,29 +1,32 @@
-import { useFontStore } from '../../../../../../contexts/Font/store'
+import { useEffect, useState } from 'react'
+
 import { UseFontSettingsContext } from '../../../../../../contexts/FontSettings/FontSettings'
-import { UseGlyphsContext } from '../../../../../../contexts/Glyphs/Glyphs'
-import { getFontVariation } from '../../../../../../contexts/Glyphs/utils'
 import Form from '../../../../../Form'
 import styles from '../../styles.module.scss'
 import type { IAxes } from './interfaces'
+import { useGlyphsStore } from '../../../../../../contexts/Glyphs/store'
+import Instances from './Instances'
 
 const Axes = ({ glyph, frame }: IAxes) => {
-  const { font } = useFontStore()
   const { axes } = UseFontSettingsContext()
-  const { setGlyphFrameAxes, setGlyphInstance } = UseGlyphsContext()
+  const { updateGlyphAxes } = useGlyphsStore()
 
-  console.info(frame)
+  const [axesState, setAxesState] = useState<Record<string, number>>({})
 
-  // on handle instance
-  const onHandleInstance = (vars: number[]) => {
-    if (!axes) {
-      return
+  useEffect(() => {
+    if (axes && frame) {
+      const initialAxes: Record<string, number> = {}
+
+      Object.keys(axes).forEach((key) => {
+        initialAxes[key] = Number(frame.axes[key] ?? axes[key]?.default ?? 0)
+      })
+
+      setAxesState(initialAxes)
     }
-
-    setGlyphInstance(glyph?.id ?? '', 0, vars)
-  }
+  }, [axes, frame])
 
   if (!frame) {
-    return
+    return null
   }
 
   return (
@@ -43,14 +46,16 @@ const Axes = ({ glyph, frame }: IAxes) => {
               <p className={styles['form--group--label']}>{axes && axes[axe]?.name}</p>
               <Form.RangeSlider
                 {...axes[axe]}
-                defaultValue={Number(frame.axes[axe])}
+                defaultValue={axesState[axe]}
                 onHandler={(value) => {
-                  const newAxes = {...frame.axes}
-                  newAxes[axe] = Number(value)
+                  const newAxes = ({
+                    ...axesState,
+                    [axe]: Number(value),
+                  })
 
-                  console.info(frame.axes, newAxes, glyph?.axes)
-
-                  setGlyphFrameAxes(glyph?.id ?? '', 0, newAxes)
+                  console.info(newAxes, axesState)
+                  setAxesState(newAxes)
+                  updateGlyphAxes(glyph?.id ?? '', newAxes, 0)
                 }}
               />
             </div>
@@ -58,24 +63,7 @@ const Axes = ({ glyph, frame }: IAxes) => {
         </div>
       </div>
 
-      <div className={styles['form--axes']}>
-        <div className={styles['form--group--title']}>
-          <p>Instances</p>
-        </div>
-
-        <div className={styles['form--group']} style={{ fontFamily: font?.familyName }}>
-          {axes && font?.fvar?.instance.map((vars, index) => (
-            <button
-              className={styles['form--axes--instance']}
-              key={index}
-              onClick={() => onHandleInstance(vars.coord)}
-              style={{ fontVariationSettings: getFontVariation(axes, vars.coord)}}
-            >
-              {font?.stringsForGlyph(glyph?.charIndex ?? 0)}
-            </button>
-          ))}
-        </div>
-      </div>
+      <Instances glyph={glyph} frame={frame} />
     </>
   )
 }

@@ -9,6 +9,7 @@ import Grid from '../../components/Grid/Grid'
 import { useGridContext } from '../../contexts/Grid'
 import type { Stage as IStage } from 'konva/lib/Stage'
 import MenuContext from '../../components/MenuContext'
+import WheelGlyphs from '../../components/WheelGlyphs'
 
 const Main = () => {
   const stageRef = useRef<IStage>(null)
@@ -58,6 +59,8 @@ const Main = () => {
                 isPlaying={isPlaying}
               />
             )}
+
+            <WheelGlyphs glyph={glyphs[current ?? 0]} />
           </Layer>
         </Stage>
       </MenuContext>
