@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Group, Path as PathKonva } from 'react-konva'
 
 import { UseFontSettingsContext } from '../../../../contexts/FontSettings/FontSettings'
@@ -5,8 +6,8 @@ import { UseGlyphsContext } from '../../../../contexts/Glyphs/Glyphs'
 import type { IPath } from './interfaces'
 import type { KonvaEventObject } from 'konva/lib/Node'
 import Progress from '../Progress'
-import { useState } from 'react'
 import Bounding from '../Bounding'
+import FontMetricsLines from '../FontMetricsLines'
 
 const Path = ({
   charIndex,
@@ -112,7 +113,7 @@ const Path = ({
               fill: '#e3e9f9',
               stroke: '#e3e9f9',
               strokeWidth: 0.5,
-              offsetY: -20,
+              offsetY: -40,
             }}
           />
 
@@ -124,12 +125,20 @@ const Path = ({
               fill: '#e3e9f9',
               stroke: '#e3e9f9',
               strokeWidth: 0.5,
-              offsetX: 20,
+              offsetX: 40,
             }}
             vertical
           />
         </Group>
       )}
+
+      <FontMetricsLines
+        fontSize={properties.fontSize}
+        rotation={rotation}
+        x={position[0]}
+        y={position[1]}
+        width={(bounding.x2 - bounding.x1) + 40}
+      />
     </>
   )
 }

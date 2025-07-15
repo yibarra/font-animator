@@ -4,8 +4,8 @@ import type { Path as IPathKonva } from 'konva/lib/shapes/Path'
 import type { Transformer as ITransformer } from 'konva/lib/shapes/Transformer'
 
 import Path from './Composite/Path'
-import type { IGlyphProps } from './interfaces'
 import PathFrame from './Composite/PathFrame'
+import type { IGlyphProps } from './interfaces'
 
 const Glyph = ({ current, data, index, isPlaying }: IGlyphProps) => {
   const shapeRef = useRef<IPathKonva | null>(null)

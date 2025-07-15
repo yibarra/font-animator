@@ -25,6 +25,17 @@ const Form = ({ ...props }: IForm) => {
   
   return (
     <>
+      <div
+          className={styles['form']}
+          style={{
+            left: glyph.position[0] + offsetX,
+            overflow: 'visible',
+            top: glyph.position[1] + offsetY,
+            transform: `rotate(${glyph.rotation}deg)`
+          }}
+        >
+        <Frame frame={frame} glyph={glyph} />
+      </div>
       
       <div
         {...props}
@@ -38,17 +49,7 @@ const Form = ({ ...props }: IForm) => {
         <Properties frame={frame} glyph={glyph} />
         <Axes frame={frame} glyph={glyph} />
         <Frames frame={frame} glyph={glyph} />
-        {/* <div
-          className={styles['form']}
-          style={{
-            left: glyph.position[0] + offsetX,
-            overflow: 'visible',
-            top: glyph.position[1] + offsetY,
-            transform: `rotate(${glyph.rotation}deg)`
-          }}
-        >
-        <Frame frame={frame} glyph={glyph} />
-      </div> */}
+        {/*  */}
         {/* <Stroke currentFrame={0} glyph={glyph} /> */}
       </div>
     </>
