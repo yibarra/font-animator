@@ -1,27 +1,19 @@
-.frame {
+.glyph-selector {
   align-items: flex-start;
-  background: transparent;
+  background: var(--text-main);
   display: flex;
   flex-flow: row wrap;
   gap: 0px;
   justify-content: center;
-  left: 100%;
+  left: initial;
+  height: 100dvh;
+  right: 0%;
   margin: 0;
   padding: 8px;
   position: absolute;
+  transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
   top: 0px;
-  width: 320px;
-
-  background: transparent;
-  border: 1px dashed transparent;
-  background-size: 10px 10px;
-  background-image: repeating-linear-gradient(
-    -45deg,
-    var(--text-main) 0,
-    var(--text-main) 1px,
-    transparent 0,
-    transparent 50%
-  );
+  width: fit-content;
 
   &--item {
     background: transparent;
@@ -33,5 +25,16 @@
       background-color: var(--bg-panel);
       color: var(--bg-panel);
     }
+  }
+
+  &--toggle {
+    left: 0px;
+    position: absolute;
+    transform: translate3d(-100%, 0px, 0px);
+    top: 0px;
+  }
+
+  &[data-active="true"] {
+    transform: translate3d(100%, 0px, 0px);
   }
 }

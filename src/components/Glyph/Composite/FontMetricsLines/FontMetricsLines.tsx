@@ -4,11 +4,11 @@ import type { FontMetricsLinesProps } from './interfaces'
 import { UseFontContext } from '../../../../contexts/Font/Font'
 
 const FontMetricsLines = ({
-  x,
-  y,
   fontSize,
   rotation,
   width,
+  x,
+  y,
 }: FontMetricsLinesProps) => {
   const { font } = UseFontContext()
 
@@ -37,7 +37,7 @@ const FontMetricsLines = ({
   }
 
   return (
-    <Group x={x} y={0} rotation={rotation}>
+    <Group listening={false} x={x} y={0} rotation={rotation}>
       <Line points={[0, baselineY, width, baselineY]} {...lineProps} />
       <Text x={width + 12} y={baselineY - 7} text="Baseline" {...labelProps} />
 

@@ -2,9 +2,7 @@ import { useSearchParams } from 'react-router-dom'
 import { useMemo } from 'react'
 
 import Axes from './Composite/Axes/Axes'
-import Frame from './Composite/Frame'
 import Frames from './Composite/Frames'
-import Stroke from './Composite/Stroke/Stroke'
 import { UseGlyphsContext } from '../../../../contexts/Glyphs/Glyphs'
 import type { IForm } from './interfaces'
 import styles from './styles.module.scss'
@@ -24,35 +22,21 @@ const Form = ({ ...props }: IForm) => {
   }
   
   return (
-    <>
-      <div
-          className={styles['form']}
-          style={{
-            left: glyph.position[0] + offsetX,
-            overflow: 'visible',
-            top: glyph.position[1] + offsetY,
-            transform: `rotate(${glyph.rotation}deg)`
-          }}
-        >
-        <Frame frame={frame} glyph={glyph} />
-      </div>
-      
-      <div
-        {...props}
-        className={styles['form']}
-        style={{
-          left: glyph.position[0] + offsetX,
-          top: glyph.position[1] + offsetY,
-          transform: `rotate(${glyph.rotation}deg)`
-        }}
-      >
-        <Properties frame={frame} glyph={glyph} />
-        <Axes frame={frame} glyph={glyph} />
-        <Frames frame={frame} glyph={glyph} />
-        {/*  */}
-        {/* <Stroke currentFrame={0} glyph={glyph} /> */}
-      </div>
-    </>
+    <div
+      {...props}
+      className={styles['form']}
+      style={{
+        left: glyph.position[0] + offsetX,
+        top: glyph.position[1] + offsetY,
+        transform: `rotate(${glyph.rotation}deg)`
+      }}
+    >
+      <Properties frame={frame} glyph={glyph} />
+      <Axes frame={frame} glyph={glyph} />
+      <Frames frame={frame} glyph={glyph} />
+      {/*  */}
+      {/* <Stroke currentFrame={0} glyph={glyph} /> */}
+    </div>
   )
 }
 

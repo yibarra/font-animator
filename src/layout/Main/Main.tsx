@@ -9,12 +9,14 @@ import Grid from '../../components/Grid/Grid'
 import { useGridContext } from '../../contexts/Grid'
 import type { Stage as IStage } from 'konva/lib/Stage'
 import MenuContext from '../../components/MenuContext'
+import GlyphSelector from '../../components/GlyphSelector'
 
 const Main = () => {
   const stageRef = useRef<IStage>(null)
 
   const [isPlaying, setIsPlaying] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
+  const [isOpenSelector, setIsOpenSelector] = useState(false)
 
   const { current, glyphs } = UseGlyphsContext()
   const { offsetX, offsetY, setOffsetX, setOffsetY } = useGridContext()
@@ -65,6 +67,8 @@ const Main = () => {
       <div style={{ position: 'absolute', left: 0, bottom: 0 }}>
         <Animator duration={900} isPlaying={isPlaying} setIsPlaying={setIsPlaying} />
       </div>
+
+      <GlyphSelector isOpen={isOpenSelector} setIsOpen={setIsOpenSelector} />
 
       <Glyph.Form />
     </>

@@ -30,12 +30,13 @@
     &:before,
     &:after {
       background-color: var(--text-main);
+      border-radius: 4px;
       content: '';
-      height: 12px;
+      height: 4px;
       position: absolute;
       top: 50%;
       transform: translate3d(-0px, -50%, 0px);
-      width: 1px;
+      width: 4px;
     }
 
     &:before {

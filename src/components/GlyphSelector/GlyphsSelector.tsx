@@ -1,15 +1,18 @@
 import { useMemo, useState } from 'react'
-import { UseFontContext } from '../../../../../../contexts/Font/Font'
-import { Tabs } from './Composite'
-import type { IFrame } from './interfaces'
-import styles from './styles.module.scss'
 
-const Frame = ({ frame, glyph }: IFrame) => {
+import { Tabs } from './Composite'
+import { UseFontContext } from '../../contexts/Font/Font'
+import styles from './styles.module.scss'
+import { UseGlyphsContext } from '../../contexts/Glyphs/Glyphs'
+import type { IGlyphSelectorProps } from './interfaces'
+
+const GlyphSelector = ({ isOpen, setIsOpen }: IGlyphSelectorProps) => {
   const { font } = UseFontContext()
+  const { current, glyphs } = UseGlyphsContext()
 
   const [isActive, setIsActive] = useState(0)
 
-  const GLYPHS_PER_TAB = 48
+  const GLYPHS_PER_TAB = 148
   const totalGlyphs = font?.numGlyphs ?? 0
 
   const tabData = useMemo(() => {
@@ -30,12 +33,24 @@ const Frame = ({ frame, glyph }: IFrame) => {
     return tabs
   }, [totalGlyphs])
 
+  const glyph = glyphs[current ?? 0]
+  const frame = glyph && glyph?.frames[0]
+
   if (!frame || totalGlyphs === 0) {
     return
   }
 
   return (
-    <div className={styles['frame']}>
+    <div className={styles['glyph-selector']} data-active={isOpen}>
+      <button
+        className={styles['glyph-selector--toggle']}
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <span className="material-symbols-outlined">
+          glyphs
+        </span>
+      </button>
+
       <Tabs.Tabs defaultActiveTab={0}>
         <Tabs.TabHead items={tabData} callback={setIsActive} />
 
@@ -55,5 +70,5 @@ const Frame = ({ frame, glyph }: IFrame) => {
   )
 }
 
-Frame.displayName = 'Form.Frame'
-export default Frame
+GlyphSelector.displayName = 'Components.GlyphSelector'
+export default GlyphSelector

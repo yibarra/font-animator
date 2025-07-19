@@ -46,6 +46,16 @@ const Border = ({ radius, rotation, x, y }: IBorder) => {
     ctx.stroke()
     ctx.closePath()
 
+    ctx.rotate((rotation * Math.PI) / 180)
+    ctx.font = '14px Roboto Mono'
+    ctx.fillStyle = '#e3e9f9'
+    ctx.textAlign = 'right'
+    ctx.textBaseline = 'bottom'
+
+    const rotationNormalize = 360 - Math.round((((rotation + 90) % 360) + 360) % 360)
+
+    ctx.fillText(`${rotationNormalize === 360 ? 0 : rotationNormalize}°`, 55, radius)
+
     ctx.restore()
 
     ctx.strokeShape(shape)

@@ -41,12 +41,12 @@ const Bounding = ({ arrowHeight, arrowWidth, bounding, properties, vertical }: I
     ctx.lineTo(x2, y1)
     ctx.closePath()
 
-    ctx.moveTo(x1, y1 - arrowWidth * 2 - arrowHeight)
-    ctx.lineTo(x1, y1 + arrowWidth * 2 + arrowHeight)
+    ctx.moveTo(x1, y1 - arrowHeight)
+    ctx.lineTo(x1, y1 + arrowHeight)
     ctx.closePath()
 
-    ctx.moveTo(x2, y1 - arrowWidth * 2 - arrowHeight)
-    ctx.lineTo(x2, y1 + arrowWidth * 2 + arrowHeight)
+    ctx.moveTo(x2, y1 - arrowHeight)
+    ctx.lineTo(x2, y1 + arrowHeight)
     ctx.closePath()
 
     drawText(ctx, `${Math.round(x2 - x1)}px`, x2 - x1, y1 + 40)
@@ -74,12 +74,12 @@ const Bounding = ({ arrowHeight, arrowWidth, bounding, properties, vertical }: I
     ctx.lineTo(x1 - arrowWidth / 2, y2 + arrowHeight)
     ctx.closePath()
 
-    ctx.moveTo(x1 - arrowWidth * 2 - arrowHeight, y1)
-    ctx.lineTo(x1 + arrowWidth * 2 + arrowHeight, y1)
+    ctx.moveTo(x1 - arrowHeight, y1)
+    ctx.lineTo(x1 + arrowHeight, y1)
     ctx.closePath()
 
-    ctx.moveTo(x1- arrowWidth * 2 - arrowHeight, y2)
-    ctx.lineTo(x1 + arrowWidth * 2 + arrowHeight, y2)
+    ctx.moveTo(x1 - arrowHeight, y2)
+    ctx.lineTo(x1 + arrowHeight, y2)
     ctx.closePath()
 
     drawText(ctx, `${Math.round(y1 - y2)}px`, x1 - 10, y2 / 2, true)

@@ -14,7 +14,7 @@ const Properties = ({ frame, glyph }: any) => {
   return (
     <div className={styles['form--group']} data-group="2">
       <div className={styles['form--axes--item']}>
-        <p className={styles['form--group--label']}>font size</p>
+        <p className={styles['form--group--label']}>size</p>
 
         <Form.RangeSlider
           defaultValue={12}

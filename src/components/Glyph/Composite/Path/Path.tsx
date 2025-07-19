@@ -1,11 +1,11 @@
-import { useState } from 'react'
 import { Group, Path as PathKonva } from 'react-konva'
+import { useEffect, useRef } from 'react'
+import type { KonvaEventObject } from 'konva/lib/Node'
+import type { Group as IGroup } from 'konva/lib/Group'
 
 import { UseFontSettingsContext } from '../../../../contexts/FontSettings/FontSettings'
 import { UseGlyphsContext } from '../../../../contexts/Glyphs/Glyphs'
 import type { IPath } from './interfaces'
-import type { KonvaEventObject } from 'konva/lib/Node'
-import Progress from '../Progress'
 import Bounding from '../Bounding'
 import FontMetricsLines from '../FontMetricsLines'
 
@@ -17,11 +17,12 @@ const Path = ({
   axes,
   shapeRef,
   rotation,
-  position,
-  properties
+  properties,
+  setIsDragging,
+  setPositionDrag,
+  ...props
 }: IPath) => {
-  const [isDragging, setIsDragging] = useState(false)
-  const [positionDrag, setPositionDrag] = useState<[number, number, number]>([...position, rotation])
+  const groupRef = useRef<IGroup | null>(null)
 
   const { getPathDataGlyph } = UseFontSettingsContext()
   const { setCurrent, setGlyphRotate, setGlyphPosition } = UseGlyphsContext()
@@ -52,59 +53,65 @@ const Path = ({
     setGlyphRotate(id, 0, [x, y], rotation)
   }
 
+  useEffect(() => {
+    // La comprobación 'pathRef.current' asegura que no sea null antes de usarlo
+    if (groupRef.current && bounding) {
+      const shape = groupRef.current; // shape ahora es de tipo Konva.Path
+
+      const width = bounding.x2 - bounding.x1;
+      const height = bounding.y2 - bounding.y1;
+
+      const centerX = bounding.x1 + width / 2;
+      const centerY = bounding.y1 + height / 2;
+
+      shape.offsetX(centerX);
+      shape.offsetY(centerY);
+      
+      shape.getLayer()?.batchDraw()
+    }
+  }, [bounding])
+
   return (
-    <>
+    <Group
+      {...props}
+      draggable
+      ref={groupRef}
+      rotation={rotation}
+      onClick={() => setCurrent(current ? null : index)}
+      onDragStart={() => setIsDragging(true)}
+      onTransformStart={() => setIsDragging(true)}
+      onDragMove={(event) => {
+        const node = event.target
+        const x = node.x()
+        const y = node.y()
+        const rotation = node.rotation()
+
+        setPositionDrag([x, y, rotation])
+      }}
+      onDragEnd={onUpdateTranslate}
+      onTransform={(event) => {
+        const node = event.target
+        const x = node.x()
+        const y = node.y()
+        const rotation = node.rotation()
+        setPositionDrag([x, y, rotation])
+      }}
+      onTransformEnd={onUpdateTransform}
+    >
       <PathKonva
-        {...properties}
+        {...properties}        
         data={path}
-        draggable
-        onClick={() => setCurrent(current ? null : index)}
-        onDragStart={() => setIsDragging(true)}
-        onTransformStart={() => setIsDragging(true)}
-        onDragMove={(event) => {
-          const node = event.target
-          const x = node.x()
-          const y = node.y()
-          const rotation = node.rotation()
-
-          setPositionDrag([x, y, rotation])
-        }}
-        onDragEnd={onUpdateTranslate}
-        onTransform={(event) => {
-          const node = event.target
-          const x = node.x()
-          const y = node.y()
-          const rotation = node.rotation()
-
-          setPositionDrag([x, y, rotation])
-        }}
-        onTransformEnd={onUpdateTransform}
         ref={shapeRef}
-        rotation={rotation}
-        x={position[0]}
-        y={position[1]}
         scaleY={-1}
-
         shadowColor="#0f1d44"
         shadowOffset={{ x: 0, y: -4 }}
         shadowBlur={6}
         shadowOpacity={0.3}
-        shadowEnabled 
+        shadowEnabled
       />
 
       {current && (
-        <Group
-          rotation={isDragging ? positionDrag[2] : rotation}
-          x={isDragging ? positionDrag[0] : position[0]}
-          y={isDragging ? positionDrag[1] : position[1]}
-        >
-          <Progress.Border
-            radius={8}
-            rotation={isDragging ? positionDrag[2] : rotation}
-            x={(bounding.x2 - bounding.x1) / 2 + 8}
-            y={(bounding.y2 - 24)}
-          />
-
+        <>
           <Bounding
             arrowHeight={4}
             arrowWidth={6}
@@ -129,17 +136,17 @@ const Path = ({
             }}
             vertical
           />
-        </Group>
-      )}
 
-      <FontMetricsLines
-        fontSize={properties.fontSize}
-        rotation={rotation}
-        x={position[0]}
-        y={position[1]}
-        width={(bounding.x2 - bounding.x1) + 40}
-      />
-    </>
+          <FontMetricsLines
+            fontSize={properties.fontSize}
+            rotation={0}
+            x={0}
+            y={0}
+            width={(bounding.x2 - bounding.x1) + 40}
+          />
+        </>
+      )}
+    </Group>
   )
 }
 

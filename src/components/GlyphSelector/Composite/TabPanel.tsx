@@ -1,7 +1,7 @@
-import { UseFontContext } from '../../../../../../../contexts/Font/Font'
-import { getFontVariationSettings } from '../../../../../../../contexts/Font/utils'
-import { UseFontSettingsContext } from '../../../../../../../contexts/FontSettings/FontSettings'
-import { useGlyphsStore } from '../../../../../../../contexts/Glyphs/store'
+import { UseFontContext } from '../../../contexts/Font/Font'
+import { getFontVariationSettings } from '../../../contexts/Font/utils'
+import { UseFontSettingsContext } from '../../../contexts/FontSettings/FontSettings'
+import { useGlyphsStore } from '../../../contexts/Glyphs/store'
 import type { ITabPanelProps } from './interfaces'
 import styles from './styles.module.scss'
 

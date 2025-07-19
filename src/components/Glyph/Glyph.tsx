@@ -1,51 +1,64 @@
-import { useEffect, useRef } from 'react'
-import { Group, Transformer } from 'react-konva'
+import { useRef, useState } from 'react'
+import { Group } from 'react-konva'
 import type { Path as IPathKonva } from 'konva/lib/shapes/Path'
-import type { Transformer as ITransformer } from 'konva/lib/shapes/Transformer'
 
 import Path from './Composite/Path'
 import PathFrame from './Composite/PathFrame'
+import Rotation from './Composite/Rotation'
+import { UseFontSettingsContext } from '../../contexts/FontSettings/FontSettings'
 import type { IGlyphProps } from './interfaces'
 
 const Glyph = ({ current, data, index, isPlaying }: IGlyphProps) => {
-  const shapeRef = useRef<IPathKonva | null>(null)
-  const trRef = useRef<ITransformer>(null)
+  const [isDragging, setIsDragging] = useState(false)
+  const [positionDrag, setPositionDrag] = useState<[number, number, number]>([...data.position, data.rotation])
 
-  useEffect(() => {
-    if (trRef?.current && shapeRef.current) {
-      trRef?.current?.nodes([shapeRef.current])
-    }
-  }, [])
+  const shapeRef = useRef<IPathKonva | null>(null)
+
+  const { getPathDataGlyph } = UseFontSettingsContext()
+
+  const numericAxes = Object.fromEntries(
+    Object.entries(data.axes).map(([key, value]) => [key, Number(value)])
+  )
+
+  const { bounding, path } = getPathDataGlyph(
+    data.charIndex,
+    numericAxes,
+    data.properties.fontSize ?? 12
+  )
 
   return (
     <Group>
-      <PathFrame
+     {/* <PathFrame
         {...data}
-        position={data.frames[1].position}
-        rotation={data.frames[1].rotation}
+        //position={isDragging ? [positionDrag[0], positionDrag[1]] : data.frames[0].position}
+        //rotation={isDragging ? positionDrag[2] : data.frames[0].rotation}
         shapeRef={shapeRef}
         properties={{ ...data.properties, fill: '#FFF', opacity: 0.3 }}
       />
+      */}
 
-      <Path {...data} current={current} index={index} shapeRef={shapeRef} />
+      <Path
+        {...data}
+        current={current}
+        index={index}
+        shapeRef={shapeRef}
+        setIsDragging={setIsDragging}
+        setPositionDrag={setPositionDrag}
+        rotation={isDragging ? positionDrag[2] : data.frames[0].rotation}
+        x={isDragging ? positionDrag[0] : data.frames[0].position[0]}
+        y={isDragging ? positionDrag[1] : data.frames[0].position[1]}
+      />
 
-      {(!isPlaying) && (
-        <Transformer
-          anchorFill="transparent"
-          anchorSize={12}
-          opacity={0.6}
-          rotateAnchorOffset={24}
-          borderStrokeWidth={0}
-          enabledAnchors={[]}
-          boundBoxFunc={(oldBox, newBox) => {
-            return {
-              ...newBox,
-              width: oldBox.width,
-              height: oldBox.height,
-            }
-          }}
-          ref={trRef}
-          rotationSnaps={[0, 45, 90, 135, 180, 225, 270, 315, 360]}
+      {!isPlaying && (
+        <Rotation
+          bounding={bounding}
+          glyph={data}
+          isDragging={isDragging}
+          rotation={isDragging ? positionDrag[2] : data.frames[0].rotation}
+          setIsDragging={setIsDragging}
+          setPositionDrag={setPositionDrag}
+          x={isDragging ? positionDrag[0] : data.frames[0].position[0]}
+          y={isDragging ? positionDrag[1] : data.frames[0].position[1]}
         />
       )}
     </Group>

@@ -41,6 +41,7 @@ body {
   height: 100dvh;
   margin: 0;
   position: relative;
+  overflow: hidden;
   width: 100dvw;
 }
 
@@ -110,8 +111,8 @@ input[type='range'] {
 input[type='range']::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none; 
-  height: 20px;
-  width: 4px;
+  height: 14px;
+  width: 8px;
   background-color: var(--text-main);
   border-radius: 0px;
   border: none;
