@@ -5,9 +5,8 @@ import type { Group as IGroup } from 'konva/lib/Group'
 
 import { UseFontSettingsContext } from '../../../../contexts/FontSettings/FontSettings'
 import { UseGlyphsContext } from '../../../../contexts/Glyphs/Glyphs'
+import { default as Base } from '../../index'
 import type { IPath } from './interfaces'
-import Bounding from '../Bounding'
-import FontMetricsLines from '../FontMetricsLines'
 
 const Path = ({
   charIndex,
@@ -16,6 +15,7 @@ const Path = ({
   index,
   axes,
   shapeRef,
+  isDragging,
   rotation,
   properties,
   setIsDragging,
@@ -31,7 +31,7 @@ const Path = ({
     Object.entries(axes).map(([key, value]) => [key, Number(value)])
   )
 
-  const { bounding, path } = getPathDataGlyph(
+  const { bounding, path, points } = getPathDataGlyph(
     charIndex,
     numericAxes,
     properties.fontSize ?? 12
@@ -54,18 +54,17 @@ const Path = ({
   }
 
   useEffect(() => {
-    // La comprobación 'pathRef.current' asegura que no sea null antes de usarlo
     if (groupRef.current && bounding) {
-      const shape = groupRef.current; // shape ahora es de tipo Konva.Path
+      const shape = groupRef.current
 
-      const width = bounding.x2 - bounding.x1;
-      const height = bounding.y2 - bounding.y1;
+      const width = bounding.x2 - bounding.x1
+      const height = bounding.y2 - bounding.y1
 
-      const centerX = bounding.x1 + width / 2;
-      const centerY = bounding.y1 + height / 2;
+      const centerX = bounding.x1 + width / 2
+      const centerY = bounding.y1 + height / 2
 
-      shape.offsetX(centerX);
-      shape.offsetY(centerY);
+      shape.offsetX(centerX)
+      shape.offsetY(centerY)
       
       shape.getLayer()?.batchDraw()
     }
@@ -99,20 +98,23 @@ const Path = ({
       onTransformEnd={onUpdateTransform}
     >
       <PathKonva
-        {...properties}        
+        {...properties}
         data={path}
         ref={shapeRef}
         scaleY={-1}
         shadowColor="#0f1d44"
         shadowOffset={{ x: 0, y: -4 }}
         shadowBlur={6}
-        shadowOpacity={0.3}
+        shadowOpacity={0.7}
         shadowEnabled
+        opacity={1}
       />
+
+      <Base.Points points={points} />
 
       {current && (
         <>
-          <Bounding
+          <Base.Bounding
             arrowHeight={4}
             arrowWidth={6}
             bounding={bounding}
@@ -124,7 +126,7 @@ const Path = ({
             }}
           />
 
-          <Bounding
+          <Base.Bounding
             arrowHeight={4}
             arrowWidth={6}
             bounding={bounding}
@@ -137,13 +139,15 @@ const Path = ({
             vertical
           />
 
-          <FontMetricsLines
-            fontSize={properties.fontSize}
-            rotation={0}
-            x={0}
-            y={0}
-            width={(bounding.x2 - bounding.x1) + 40}
-          />
+          {(
+            <Base.FontMetricsLines
+              fontSize={properties.fontSize}
+              rotation={0}
+              x={0}
+              y={0}
+              width={(bounding.x2 - bounding.x1) + 40}
+            />
+          )}
         </>
       )}
     </Group>

@@ -6,6 +6,7 @@ export interface IPath extends IGlyph {
   current?: boolean
   index: number
   shapeRef: RefObject<Path | null>
+  isDragging?: boolean
   setIsDragging: any
   setPositionDrag: any
   x: number

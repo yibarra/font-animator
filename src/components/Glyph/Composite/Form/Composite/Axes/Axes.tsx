@@ -52,7 +52,6 @@ const Axes = ({ glyph, frame }: IAxes) => {
                     [axe]: Number(value),
                   })
 
-                  console.info(newAxes, axesState)
                   setAxesState(newAxes)
                   updateGlyphAxes(glyph?.id ?? '', newAxes, 0)
                 }}

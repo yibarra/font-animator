@@ -1,11 +1,10 @@
 import type { PathCommand } from 'fontkit'
 import type { IGlyphPoint } from '../Glyphs/interfaces'
+import type { ArrowPoint } from './interfaces'
 
 // convert to svg
-export const convertPathToSvg = (commands: PathCommand[], fontSize: number, unitsPerEm: number): string => {
+export const convertPathToSvg = (commands: PathCommand[], scaleFactor: number): string => {
   let svgData = ''
-  
-  const scaleFactor = fontSize / unitsPerEm
 
   commands.forEach((cmd) => {
     switch (cmd.command) {
@@ -31,10 +30,51 @@ export const convertPathToSvg = (commands: PathCommand[], fontSize: number, unit
   return svgData.trim()
 }
 
+// extract glyph
+export const extractGlyphArrows = (commands: PathCommand[]): ArrowPoint[] => {
+  const arrows: ArrowPoint[] = []
+  let currentSubpathStart: [number, number] | null = null
+  let lastPoint: [number, number] | null = null
+
+  commands.forEach((cmd) => {
+    switch (cmd.command) {
+      case 'moveTo':
+        if (lastPoint && currentSubpathStart && (lastPoint[0] !== currentSubpathStart[0] || lastPoint[1] !== currentSubpathStart[1])) {
+          arrows.push({ x: lastPoint[0], y: lastPoint[1], type: 'end' })
+        }
+        
+        arrows.push({ x: cmd.args[0], y: cmd.args[1], type: 'start' })
+        currentSubpathStart = cmd.args as [number, number]
+        lastPoint = cmd.args as [number, number]
+        break
+
+      case 'lineTo':
+      case 'quadraticCurveTo':
+        lastPoint = cmd.args.slice(-2) as [number, number]
+        break
+
+      case 'closePath':
+        if (currentSubpathStart) {
+          arrows.push({ x: currentSubpathStart[0], y: currentSubpathStart[1], type: 'closure' })
+        }
+        lastPoint = currentSubpathStart
+        break
+      
+      default:
+        break
+    }
+  })
+
+  if (lastPoint && currentSubpathStart && (lastPoint[0] !== currentSubpathStart[0] || lastPoint[1] !== currentSubpathStart[1])) {
+    arrows.push({ x: lastPoint[0], y: lastPoint[1], type: 'end' })
+  }
+  
+  return arrows
+}
+
 // extract glyph points
-export const extractGlyphPoints = (commands: PathCommand[], fontSize: number, unitsPerEm: number): IGlyphPoint[] => {
+export const extractGlyphPoints = (commands: PathCommand[], scaleFactor: number): IGlyphPoint[] => {
   const points: IGlyphPoint[] = []
-  const scaleFactor = fontSize / unitsPerEm
 
   commands.forEach((cmd: PathCommand) => {
     switch (cmd.command) {

@@ -19,7 +19,7 @@ const Properties = ({ frame, glyph }: any) => {
         <Form.RangeSlider
           defaultValue={12}
           min={12}
-          max={350}
+          max={600}
           onHandler={onHandler}
         />
       </div>

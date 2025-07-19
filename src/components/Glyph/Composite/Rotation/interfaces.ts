@@ -1,3 +1,4 @@
+import type { Dispatch, SetStateAction } from 'react'
 import type { BoundingBoxPos, IGlyph } from '../../../../contexts/Glyphs/interfaces'
 
 export interface IRotationProps {
@@ -6,8 +7,8 @@ export interface IRotationProps {
   isDragging?: boolean
   outerCircleRadius?: number
   innerCircleRadius?: number
-  setIsDragging: any
-  setPositionDrag: any
+  setIsDragging: Dispatch<SetStateAction<boolean>>
+  setPositionDrag: Dispatch<SetStateAction<[number, number, number]>>
   rotation: number
   x: number
   y: number

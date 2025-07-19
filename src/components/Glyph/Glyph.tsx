@@ -2,9 +2,7 @@ import { useRef, useState } from 'react'
 import { Group } from 'react-konva'
 import type { Path as IPathKonva } from 'konva/lib/shapes/Path'
 
-import Path from './Composite/Path'
-import PathFrame from './Composite/PathFrame'
-import Rotation from './Composite/Rotation'
+import { default as Base } from './index'
 import { UseFontSettingsContext } from '../../contexts/FontSettings/FontSettings'
 import type { IGlyphProps } from './interfaces'
 
@@ -20,7 +18,7 @@ const Glyph = ({ current, data, index, isPlaying }: IGlyphProps) => {
     Object.entries(data.axes).map(([key, value]) => [key, Number(value)])
   )
 
-  const { bounding, path } = getPathDataGlyph(
+  const { bounding } = getPathDataGlyph(
     data.charIndex,
     numericAxes,
     data.properties.fontSize ?? 12
@@ -37,10 +35,11 @@ const Glyph = ({ current, data, index, isPlaying }: IGlyphProps) => {
       />
       */}
 
-      <Path
+      <Base.Path
         {...data}
         current={current}
         index={index}
+        isDragging={isDragging}
         shapeRef={shapeRef}
         setIsDragging={setIsDragging}
         setPositionDrag={setPositionDrag}
@@ -50,7 +49,7 @@ const Glyph = ({ current, data, index, isPlaying }: IGlyphProps) => {
       />
 
       {!isPlaying && (
-        <Rotation
+        <Base.Rotation
           bounding={bounding}
           glyph={data}
           isDragging={isDragging}

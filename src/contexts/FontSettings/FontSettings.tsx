@@ -1,9 +1,8 @@
 import { createContext, useCallback, useMemo, useContext } from 'react'
 
-import type { IFontSettingsContext, IFontSettingsProvider } from './interfaces'
+import type { IDataGlyphCommand, IFontSettingsContext, IFontSettingsProvider } from './interfaces'
 import { UseFontContext } from '../Font/Font'
-import { convertPathToSvg } from './utils'
-import type { BoundingBoxPos } from '../Glyphs/interfaces'
+import { convertPathToSvg, extractGlyphArrows, extractGlyphPoints } from './utils'
 
 // load font context
 const FontSettingsContext = createContext({} as IFontSettingsContext)
@@ -45,19 +44,18 @@ const FontSettingsProvider = ({ children }: IFontSettingsProvider ) => {
 
   // get path data - remove
   const getPathDataGlyph = useCallback(
-    (id: number, coords: Record<string, string | number>, size: number): {
-      path: string
-      bounding: BoundingBoxPos
-     } => {
+    (id: number, coords: Record<string, string | number>, size: number): IDataGlyphCommand => {
       if (!font || !id) {
         return {
-          path: '',
+          arrows: [],
           bounding: {
             x1: 0,
             y1: 0,
             x2: 0,
             y2: 0
-          }
+          },
+          path: '',
+          points: []
         }
       }
       
@@ -78,19 +76,23 @@ const FontSettingsProvider = ({ children }: IFontSettingsProvider ) => {
         }
 
         return {
-          path: convertPathToSvg(commands, size, units),
-          bounding
+          bounding,
+          arrows: extractGlyphArrows(commands),
+          path: convertPathToSvg(commands, size / units),
+          points: extractGlyphPoints(commands, size / units),
         }
       }
 
       return {
+        arrows: [],
         path: '',
         bounding: {
           x1: 0,
           y1: 0,
           x2: 0,
           y2: 0
-        }
+        },
+        points: []
       }
   }, [font])
 

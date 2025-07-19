@@ -33,7 +33,7 @@ const Form = ({ ...props }: IForm) => {
     >
       <Properties frame={frame} glyph={glyph} />
       <Axes frame={frame} glyph={glyph} />
-      <Frames frame={frame} glyph={glyph} />
+      {/* <Frames frame={frame} glyph={glyph} /> */}
       {/*  */}
       {/* <Stroke currentFrame={0} glyph={glyph} /> */}
     </div>
