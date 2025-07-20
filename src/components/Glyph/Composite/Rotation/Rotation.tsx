@@ -41,7 +41,7 @@ const Rotation = ({
   }
 
   return (
-    <Group x={bounding.x2 / 2 + 30} y={-bounding.y2 / 2 + 40}>
+    <Group x={bounding.x2 / 2 + 80} y={-bounding.y2 / 2 + 40}>
       <Progress.Border
         radius={outerCircleRadius - 2}
         rotation={-((isDragging ? rotation : glyph.rotation) + 90)}

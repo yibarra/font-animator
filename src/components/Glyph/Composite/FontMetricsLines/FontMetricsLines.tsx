@@ -1,4 +1,4 @@
-import { Group, Line, Text } from 'react-konva'
+import { Group, Shape } from 'react-konva'
 
 import type { FontMetricsLinesProps } from './interfaces'
 import { UseFontContext } from '../../../../contexts/Font/Font'
@@ -24,44 +24,40 @@ const FontMetricsLines = ({
   const capHeightY = y - (font?.capHeight * scaleFactor)
   const ascenderY = y - (font?.ascent * scaleFactor)
 
-  const lineProps = {
-    stroke: '#FFF',
-    strokeWidth: 0.5,
-    dash: [5, 5],
-  }
+  const lines: { y: number; label: string }[] = [
+    { y: baselineY, label: 'Baseline' },
+    { y: descenderY, label: 'Descender' },
+    { y: xHeightY, label: `x-Height${capHeightY === xHeightY ? ' / Cap Height' : ''}` },
+    { y: ascenderY, label: 'Ascender' },
+  ]
 
-  const labelProps = {
-    fontSize: 10,
-    fill: '#FFF',
-    fontFamily: 'Roboto Mono',
+  if (capHeightY !== xHeightY) {
+    lines.push({ y: capHeightY, label: 'Cap Height' })
   }
 
   return (
     <Group listening={false} x={x} y={0} rotation={rotation}>
-      <Line points={[0, baselineY, width, baselineY]} {...lineProps} />
-      <Text x={width + 12} y={baselineY - 7} text="Baseline" {...labelProps} />
+      <Shape
+        sceneFunc={(ctx) => {
+          ctx.setLineDash([5, 5])
+          ctx.strokeStyle = '#FFF'
+          ctx.fillStyle = '#FFF'
+          ctx.lineWidth = 0.5
+          ctx.font = '10px Roboto Mono'
 
-      <Line points={[0, descenderY, width, descenderY]} {...lineProps} />
-      <Text x={width + 12} y={descenderY - 7} text="Descender" {...labelProps} />
+          for (const line of lines) {
+            ctx.beginPath()
+            ctx.moveTo(0, line.y)
+            ctx.lineTo(width + 20, line.y)
+            ctx.stroke()
 
-      <Line points={[0, xHeightY, width, xHeightY]} {...lineProps} />
-      <Text
-        {...labelProps}
-        text={`x-Height ${capHeightY === xHeightY ? 'Cap Height' : ''}`}
-        x={width + 12}
-        y={xHeightY - 7}
+            ctx.fillText(line.label, width + 40, line.y - 2)
+          }
+
+          ctx.restore()
+        }}
+        listening={false}
       />
-
-      {(capHeightY !== xHeightY) && (
-        <>
-          <Line points={[0, capHeightY, width, capHeightY]} {...lineProps} />
-          <Text x={width + 12} y={capHeightY - 7} text="Cap Height" {...labelProps} />
-        </>
-      )}
-
-      <Line points={[0, ascenderY, width, ascenderY]} {...lineProps} />
-      <Text x={width + 12} y={ascenderY - 7} text="Ascender" {...labelProps} />
-
     </Group>
   )
 }

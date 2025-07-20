@@ -14,8 +14,8 @@ const Path = ({
   id,
   index,
   axes,
+  skeleton,
   shapeRef,
-  isDragging,
   rotation,
   properties,
   setIsDragging,
@@ -104,52 +104,51 @@ const Path = ({
         scaleY={-1}
         shadowColor="#0f1d44"
         shadowOffset={{ x: 0, y: -4 }}
-        shadowBlur={6}
-        shadowOpacity={0.7}
+        shadowBlur={4}
+        shadowOpacity={0.4}
         shadowEnabled
-        opacity={1}
+        opacity={skeleton ? 0 : 1}
       />
 
-      <Base.Points points={points} />
-
-      {current && (
+      {skeleton && (
         <>
-          <Base.Bounding
-            arrowHeight={4}
-            arrowWidth={6}
-            bounding={bounding}
-            properties={{
-              fill: '#e3e9f9',
-              stroke: '#e3e9f9',
-              strokeWidth: 0.5,
-              offsetY: -40,
-            }}
-          />
-
-          <Base.Bounding
-            arrowHeight={4}
-            arrowWidth={6}
-            bounding={bounding}
-            properties={{
-              fill: '#e3e9f9',
-              stroke: '#e3e9f9',
-              strokeWidth: 0.5,
-              offsetX: 40,
-            }}
-            vertical
-          />
-
-          {(
-            <Base.FontMetricsLines
-              fontSize={properties.fontSize}
-              rotation={0}
-              x={0}
-              y={0}
-              width={(bounding.x2 - bounding.x1) + 40}
-            />
-          )}
+          <Base.Skeleton points={points} />
+          <Base.Points points={points} />
         </>
       )}
+
+      <Base.Bounding
+        arrowHeight={4}
+        arrowWidth={6}
+        bounding={bounding}
+        properties={{
+          fill: '#e3e9f9',
+          stroke: '#e3e9f9',
+          strokeWidth: 0.5,
+          offsetY: -40,
+        }}
+      />
+
+      <Base.Bounding
+        arrowHeight={4}
+        arrowWidth={6}
+        bounding={bounding}
+        properties={{
+          fill: '#e3e9f9',
+          stroke: '#e3e9f9',
+          strokeWidth: 0.5,
+          offsetX: 40,
+        }}
+        vertical
+      />
+
+      <Base.FontMetricsLines
+        fontSize={properties.fontSize}
+        rotation={0}
+        x={0}
+        y={0}
+        width={(bounding.x2 - bounding.x1) + 40}
+      />
     </Group>
   )
 }

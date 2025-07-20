@@ -8,6 +8,7 @@ import type { IGlyphProps } from './interfaces'
 
 const Glyph = ({ current, data, index, isPlaying }: IGlyphProps) => {
   const [isDragging, setIsDragging] = useState(false)
+  const [skeleton, setSkeleton] = useState(false)
   const [positionDrag, setPositionDrag] = useState<[number, number, number]>([...data.position, data.rotation])
 
   const shapeRef = useRef<IPathKonva | null>(null)
@@ -38,12 +39,23 @@ const Glyph = ({ current, data, index, isPlaying }: IGlyphProps) => {
       <Base.Path
         {...data}
         current={current}
+        skeleton={skeleton}
         index={index}
         isDragging={isDragging}
         shapeRef={shapeRef}
         setIsDragging={setIsDragging}
         setPositionDrag={setPositionDrag}
         rotation={isDragging ? positionDrag[2] : data.frames[0].rotation}
+        x={isDragging ? positionDrag[0] : data.frames[0].position[0]}
+        y={isDragging ? positionDrag[1] : data.frames[0].position[1]}
+      />
+
+      <Base.Toggle
+        bounding={bounding}
+        glyph={data}
+        numericAxes={numericAxes}
+        skeleton={skeleton}
+        setSkeleton={setSkeleton}
         x={isDragging ? positionDrag[0] : data.frames[0].position[0]}
         y={isDragging ? positionDrag[1] : data.frames[0].position[1]}
       />
