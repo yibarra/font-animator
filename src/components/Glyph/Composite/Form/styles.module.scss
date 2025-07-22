@@ -1,6 +1,8 @@
 .form {
   background-color: transparent;
   color: var(--bg-panel);
+  display: flex;
+  flex-flow: row nowrap;
   left: 0px;
   height: 100%;
   overflow: hidden;
@@ -8,11 +10,10 @@
   padding: 60px 0px 40px;
   position: absolute;
   top: 0px;
-  max-width: 320px;
   transition: all 0.4s cubic-bezier(0.075, 0.82, 0.165, 1);
   pointer-events: none;
   transform-origin: left top;
-  width: 100%;
+  width: fit-content;
 
   &--axes {
     display: flex;
@@ -22,7 +23,7 @@
 
     &--instance {
       background: transparent;
-      border: 1px dashed var(--text-main);;
+      border: 1px solid var(--text-main);
       background-size: 10px 10px;
       background-image: none;
       color: var(--text-main);
@@ -35,7 +36,6 @@
       min-width: 40px;
 
       &[data-active="true"] {
-        border-color: transparent;
         background-image: repeating-linear-gradient(
           -45deg,
           var(--text-main) 0,
@@ -56,8 +56,8 @@
   }
 
   &--group {
-    padding: 10px 0px;
-    width: 100%;
+    padding: 0px;
+    width: fit-content;
 
     &--dash {
       display: flex;

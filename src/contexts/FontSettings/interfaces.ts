@@ -9,7 +9,7 @@ export interface ArrowPoint {
 }
 
 export interface IDataGlyphCommand {
-  arrows: ArrowPoint[]
+  arrows: number[][]
   bounding: BoundingBoxPos
   path: string
   points: IGlyphPoint[]

@@ -40,8 +40,8 @@ const FontMetricsLines = ({
       <Shape
         sceneFunc={(ctx) => {
           ctx.setLineDash([5, 5])
-          ctx.strokeStyle = '#FFF'
-          ctx.fillStyle = '#FFF'
+          ctx.strokeStyle = '#fff'
+          ctx.fillStyle = '#fff'
           ctx.lineWidth = 0.5
           ctx.font = '10px Roboto Mono'
 
@@ -50,11 +50,8 @@ const FontMetricsLines = ({
             ctx.moveTo(0, line.y)
             ctx.lineTo(width + 20, line.y)
             ctx.stroke()
-
             ctx.fillText(line.label, width + 40, line.y - 2)
           }
-
-          ctx.restore()
         }}
         listening={false}
       />

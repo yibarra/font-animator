@@ -2,7 +2,9 @@
   display: flex;
   padding: 20px 30px;
   position: relative;
-  width: 100%;
+  transform: rotate(90deg);
+  transform-origin: center bottom;
+  width: 140px;
 
   &--labels {
     display: flex;
@@ -12,12 +14,13 @@
     position: absolute;
     pointer-events: none;
     top: 0%;
-    transform: translate3d(-50%, -50%, 0px);
+    transform: translate3d(-50%, -50%, 0px) rotate(0deg);
     width: calc(100% + 50px);
 
     &--value {
       color: var(--text-main);
       font-size: 10px;
+      transform: rotate(-90deg);
     }
   }
 

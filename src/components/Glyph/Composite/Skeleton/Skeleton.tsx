@@ -1,13 +1,15 @@
 import type { Context } from 'konva/lib/Context'
 import { Shape } from 'react-konva'
 
+import type { ISkeletonProps } from './interfaces'
+
 const Skeleton = ({
   points,
   lineColor = '#ffffff',
   lineWidth = 3,
   holeRadius = 6,
   pathData,
-}: any) => {
+}: ISkeletonProps) => {
   const sceneFunc = (ctx: Context) => {
     if (pathData) {
       const path2d = new window.Path2D(pathData)
@@ -36,10 +38,14 @@ const Skeleton = ({
   }
 
   return (
-    <Shape sceneFunc={sceneFunc} scaleY={-1} shadowColor="#0f1d44"
-        shadowOffset={{ x: 0, y: -2 }}
-        shadowBlur={4}
-        shadowOpacity={0.4} />
+    <Shape
+      scaleY={-1}
+      sceneFunc={sceneFunc}
+      shadowColor="#0f1d44"
+      shadowOffset={{ x: 0, y: -2 }}
+      shadowBlur={4}
+      shadowOpacity={0.4}
+    />
   )
 }
 

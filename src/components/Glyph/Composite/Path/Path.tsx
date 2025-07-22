@@ -1,4 +1,4 @@
-import { Group, Path as PathKonva } from 'react-konva'
+import { Group, Path as PathKonva, Shape } from 'react-konva'
 import { useEffect, useRef } from 'react'
 import type { KonvaEventObject } from 'konva/lib/Node'
 import type { Group as IGroup } from 'konva/lib/Group'
@@ -7,6 +7,7 @@ import { UseFontSettingsContext } from '../../../../contexts/FontSettings/FontSe
 import { UseGlyphsContext } from '../../../../contexts/Glyphs/Glyphs'
 import { default as Base } from '../../index'
 import type { IPath } from './interfaces'
+import { UseFontContext } from '../../../../contexts/Font/Font'
 
 const Path = ({
   charIndex,
@@ -24,14 +25,17 @@ const Path = ({
 }: IPath) => {
   const groupRef = useRef<IGroup | null>(null)
 
+  const { font } = UseFontContext()
   const { getPathDataGlyph } = UseFontSettingsContext()
   const { setCurrent, setGlyphRotate, setGlyphPosition } = UseGlyphsContext()
+
+  const scale = properties.fontSize / (font?.unitsPerEm || 1000)
 
   const numericAxes = Object.fromEntries(
     Object.entries(axes).map(([key, value]) => [key, Number(value)])
   )
 
-  const { bounding, path, points } = getPathDataGlyph(
+  const { arrows, bounding, path, points } = getPathDataGlyph(
     charIndex,
     numericAxes,
     properties.fontSize ?? 12
@@ -97,6 +101,15 @@ const Path = ({
       }}
       onTransformEnd={onUpdateTransform}
     >
+      <Base.FontMetricsLines
+        path={path}
+        fontSize={properties.fontSize}
+        rotation={0}
+        x={0}
+        y={0}
+        width={(bounding.x2 - bounding.x1) + 40}
+      />
+      
       <PathKonva
         {...properties}
         data={path}
@@ -142,12 +155,43 @@ const Path = ({
         vertical
       />
 
-      <Base.FontMetricsLines
-        fontSize={properties.fontSize}
-        rotation={0}
-        x={0}
-        y={0}
-        width={(bounding.x2 - bounding.x1) + 40}
+      <Shape
+        scaleY={-1}
+        sceneFunc={(ctx) => {
+          const arrowLength = 10
+          const arrowAperture = 8
+
+          arrows.forEach(([x1, y1, x2, y2]) => {
+            x1 *= scale
+            y1 *= scale
+            x2 *= scale
+            y2 *= scale
+
+            const dx = x2 - x1
+            const dy = y2 - y1
+            const segmentLength = Math.sqrt(dx * dx + dy * dy)
+
+            if (segmentLength === 0) return
+
+            const unitx = dx / segmentLength
+            const unity = dy / segmentLength
+
+            const basex = x2 - arrowLength * unitx
+            const basey = y2 - arrowLength * unity
+
+            const normalx = arrowAperture * unity
+            const normaly = -arrowAperture * unitx
+
+            ctx.beginPath()
+            ctx.moveTo(x2, y2)
+            ctx.lineTo(basex + normalx, basey + normaly)
+            ctx.lineTo(basex - normalx, basey - normaly)
+            ctx.closePath()
+            ctx.fillStyle = '#ffffff'
+            ctx.fill()
+          })
+        }
+       }
       />
     </Group>
   )

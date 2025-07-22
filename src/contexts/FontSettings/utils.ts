@@ -1,6 +1,5 @@
 import type { PathCommand } from 'fontkit'
 import type { IGlyphPoint } from '../Glyphs/interfaces'
-import type { ArrowPoint } from './interfaces'
 
 // convert to svg
 export const convertPathToSvg = (commands: PathCommand[], scaleFactor: number): string => {
@@ -31,45 +30,47 @@ export const convertPathToSvg = (commands: PathCommand[], scaleFactor: number): 
 }
 
 // extract glyph
-export const extractGlyphArrows = (commands: PathCommand[]): ArrowPoint[] => {
-  const arrows: ArrowPoint[] = []
-  let currentSubpathStart: [number, number] | null = null
-  let lastPoint: [number, number] | null = null
+export const extractGlyphArrows = (commands: PathCommand[]): number[][] => {
+   let startPoint: [number, number] | null = null;
+  let endPoint: [number, number] | null = null;
 
-  commands.forEach((cmd) => {
-    switch (cmd.command) {
-      case 'moveTo':
-        if (lastPoint && currentSubpathStart && (lastPoint[0] !== currentSubpathStart[0] || lastPoint[1] !== currentSubpathStart[1])) {
-          arrows.push({ x: lastPoint[0], y: lastPoint[1], type: 'end' })
-        }
-        
-        arrows.push({ x: cmd.args[0], y: cmd.args[1], type: 'start' })
-        currentSubpathStart = cmd.args as [number, number]
-        lastPoint = cmd.args as [number, number]
-        break
-
-      case 'lineTo':
-      case 'quadraticCurveTo':
-        lastPoint = cmd.args.slice(-2) as [number, number]
-        break
-
-      case 'closePath':
-        if (currentSubpathStart) {
-          arrows.push({ x: currentSubpathStart[0], y: currentSubpathStart[1], type: 'closure' })
-        }
-        lastPoint = currentSubpathStart
-        break
-      
-      default:
-        break
+  // Encontrar el primer punto
+  for (const cmd of commands) {
+    if (cmd.command === 'moveTo' || cmd.command === 'lineTo') {
+      startPoint = [cmd.args[0], cmd.args[1]];
+      break;
+    } else if (cmd.command === 'bezierCurveTo') {
+      // Para bezierCurveTo, el punto final es el último par de coordenadas
+      startPoint = [cmd.args[4], cmd.args[5]];
+      break;
+    } else if (cmd.command === 'quadraticCurveTo') {
+      // Para quadraticCurveTo, el punto final es el último par de coordenadas
+      startPoint = [cmd.args[2], cmd.args[3]];
+      break;
     }
-  })
-
-  if (lastPoint && currentSubpathStart && (lastPoint[0] !== currentSubpathStart[0] || lastPoint[1] !== currentSubpathStart[1])) {
-    arrows.push({ x: lastPoint[0], y: lastPoint[1], type: 'end' })
   }
-  
-  return arrows
+
+  // Encontrar el último punto
+  for (let i = commands.length - 1; i >= 0; i--) {
+    const cmd = commands[i];
+    if (cmd.command === 'moveTo' || cmd.command === 'lineTo') {
+      endPoint = [cmd.args[0], cmd.args[1]];
+      break;
+    } else if (cmd.command === 'bezierCurveTo') {
+      endPoint = [cmd.args[4], cmd.args[5]];
+      break;
+    } else if (cmd.command === 'quadraticCurveTo') {
+      endPoint = [cmd.args[2], cmd.args[3]];
+      break;
+    }
+  }
+
+  // Si ambos puntos se encontraron, retornamos el array combinado
+  if (startPoint && endPoint) {
+    return [[...startPoint, ...endPoint]]
+  }
+
+  return []
 }
 
 // extract glyph points

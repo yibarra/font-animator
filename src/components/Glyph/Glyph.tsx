@@ -25,6 +25,10 @@ const Glyph = ({ current, data, index, isPlaying }: IGlyphProps) => {
     data.properties.fontSize ?? 12
   )
 
+  const rotation = isDragging ? positionDrag[2] : data.frames[0].rotation
+  const x = isDragging ? positionDrag[0] : data.frames[0].position[0]
+  const y = isDragging ? positionDrag[1] : data.frames[0].position[1]
+
   return (
     <Group>
      {/* <PathFrame
@@ -45,19 +49,19 @@ const Glyph = ({ current, data, index, isPlaying }: IGlyphProps) => {
         shapeRef={shapeRef}
         setIsDragging={setIsDragging}
         setPositionDrag={setPositionDrag}
-        rotation={isDragging ? positionDrag[2] : data.frames[0].rotation}
-        x={isDragging ? positionDrag[0] : data.frames[0].position[0]}
-        y={isDragging ? positionDrag[1] : data.frames[0].position[1]}
+        rotation={rotation}
+        x={x}
+        y={y}
       />
 
       <Base.Toggle
         bounding={bounding}
         glyph={data}
         numericAxes={numericAxes}
-        skeleton={skeleton}
+        skeleton={!skeleton}
         setSkeleton={setSkeleton}
-        x={isDragging ? positionDrag[0] : data.frames[0].position[0]}
-        y={isDragging ? positionDrag[1] : data.frames[0].position[1]}
+        x={x}
+        y={y}
       />
 
       {!isPlaying && (
@@ -65,11 +69,11 @@ const Glyph = ({ current, data, index, isPlaying }: IGlyphProps) => {
           bounding={bounding}
           glyph={data}
           isDragging={isDragging}
-          rotation={isDragging ? positionDrag[2] : data.frames[0].rotation}
+          rotation={rotation}
           setIsDragging={setIsDragging}
           setPositionDrag={setPositionDrag}
-          x={isDragging ? positionDrag[0] : data.frames[0].position[0]}
-          y={isDragging ? positionDrag[1] : data.frames[0].position[1]}
+          x={x}
+          y={y}
         />
       )}
     </Group>
