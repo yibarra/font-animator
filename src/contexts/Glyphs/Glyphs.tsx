@@ -104,15 +104,15 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
         const coordInit = Object.values(frameInit.axes)
         const coordEnd = Object.values(frameEnd.axes)
 
-        const wdth = percentToRange(percent, Number(coordInit[0]), Number(coordEnd[0]))
-        const wght = percentToRange(percent, Number(coordInit[1]), Number(coordEnd[1]))
+        // const wdth = percentToRange(percent, Number(coordInit[0]), Number(coordEnd[0]))
+        const wght = percentToRange(percent, Number(coordInit[0]), Number(coordEnd[0]))
 
         const x = percentToRange(percent, frameInit.position[0], frameEnd.position[0])
         const y = percentToRange(percent, frameInit.position[1], frameEnd.position[1])
 
         const rotate = percentToRange(percent, frameInit.rotation, frameEnd.rotation)
 
-        axesUpdate.push({ rotate, axes: { wdth, wght }, position: [x, y] })
+        axesUpdate.push({ rotate, axes: { wght }, position: [x, y] })
       }
     })
 

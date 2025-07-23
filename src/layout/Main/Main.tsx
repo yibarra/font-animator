@@ -1,15 +1,15 @@
 import { Layer, Stage } from 'react-konva'
-import { useCallback, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 
 import { UseGlyphsContext } from '../../contexts/Glyphs/Glyphs'
-import Glyph from '../../components/Glyph'
 import Animator from '../../components/Animator'
 import Form from '../../components/Form'
+import Glyph from '../../components/Glyph'
 import Grid from '../../components/Grid/Grid'
+import GlyphSelector from '../../components/GlyphSelector'
+import MenuContext from '../../components/MenuContext'
 import { useGridContext } from '../../contexts/Grid'
 import type { Stage as IStage } from 'konva/lib/Stage'
-import MenuContext from '../../components/MenuContext'
-import GlyphSelector from '../../components/GlyphSelector'
 
 const Main = () => {
   const stageRef = useRef<IStage>(null)
@@ -19,29 +19,15 @@ const Main = () => {
   const [isOpenSelector, setIsOpenSelector] = useState(false)
 
   const { current, glyphs } = UseGlyphsContext()
-  const { offsetX, offsetY, setOffsetX, setOffsetY } = useGridContext()
-
-  const handleDragEnd = useCallback(() => {
-    if (stageRef.current) {
-      // setOffsetX(stageRef.current.x())
-      // setOffsetY(stageRef.current.y())
-    }
-
-    setIsDragging(false)
-  }, [setOffsetX, setOffsetY])
+  const { offsetX, offsetY } = useGridContext()
 
   return (
     <>
       <MenuContext menuItems={<Form.Letter />}>
         <Stage
-          draggable
-          x={offsetX}
-          y={offsetY}
           ref={stageRef}
           height={window.innerHeight}
           width={window.innerWidth}
-          onDragStart={() => setIsDragging(true)}
-          onDragEnd={handleDragEnd}
         >
           <Layer>
             <Grid
@@ -57,6 +43,8 @@ const Main = () => {
                 data={glyph}
                 index={index}
                 key={index}
+                isDragging={isDragging}
+                setIsDragging={setIsDragging}
                 isPlaying={isPlaying}
               />
             )}

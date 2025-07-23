@@ -6,7 +6,12 @@ import { default as Base } from './index'
 import { UseFontSettingsContext } from '../../contexts/FontSettings/FontSettings'
 import type { IGlyphProps } from './interfaces'
 
-const Glyph = ({ current, data, index, isPlaying }: IGlyphProps) => {
+const Glyph = ({
+  current,
+  data,
+  index,
+  isPlaying,
+}: IGlyphProps) => {
   const [isDragging, setIsDragging] = useState(false)
   const [skeleton, setSkeleton] = useState(false)
   const [positionDrag, setPositionDrag] = useState<[number, number, number]>([...data.position, data.rotation])

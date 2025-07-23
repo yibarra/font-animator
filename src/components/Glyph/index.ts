@@ -1,3 +1,4 @@
+import ArrowsPoint from './Composite/ArrowsPoint'
 import Form from './Composite/Form'
 import Letter from './Glyph'
 import Path from './Composite/Path'
@@ -9,6 +10,7 @@ import Skeleton from './Composite/Skeleton'
 import Toggle from './Composite/Skeleton/Toggle'
 
 const Glyph = {
+  ArrowsPoint,
   Bounding,
   FontMetricsLines,
   Form,
