@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 
-import { UseFontSettingsContext } from '../../../../../../contexts/FontSettings/FontSettings'
-import Form from '../../../../../Form'
+import { UseFontSettingsContext } from '../../../../../contexts/FontSettings/FontSettings'
+import Form from '../../..'
 import styles from '../../styles.module.scss'
 import type { IAxes } from './interfaces'
-import { useGlyphsStore } from '../../../../../../contexts/Glyphs/store'
+import { useGlyphsStore } from '../../../../../contexts/Glyphs/store'
 import Instances from './Instances'
 
-const Axes = ({ glyph, frame }: IAxes) => {
+const Axes = ({ currentFrame, glyph, frame }: IAxes) => {
   const { axes } = UseFontSettingsContext()
   const { updateGlyphAxes } = useGlyphsStore()
 
@@ -31,31 +31,30 @@ const Axes = ({ glyph, frame }: IAxes) => {
 
   return (
     <>
-      <div className={styles['form--axes']}>
-        <div className={styles['form--group--title']}>
-          <h2>Axes</h2>
-        </div>
-
-        <div className={styles['form--group']} data-group="2">
+      <div className={styles['form--glyph--axes']}>
+        <div className={styles['form--glyph--axes--controls']}>
           {axes && Object.keys(axes ?? {}).map((axe, i) => (
             <div
-              className={styles['form--axes--item']}
+              className={styles['form--glyph--axes--controls--item']}
               key={i}
             >
               <p className={styles['form--group--label']}>{axes && axes[axe]?.name}</p>
-              <Form.RangeSlider
-                {...axes[axe]}
-                defaultValue={axesState[axe]}
-                onHandler={(value) => {
-                  const newAxes = ({
-                    ...axesState,
-                    [axe]: Number(value),
-                  })
 
-                  setAxesState(newAxes)
-                  updateGlyphAxes(glyph?.id ?? '', newAxes, 0)
-                }}
-              />
+              <div className={styles['form--glyph--axes--controls--item--range']}>
+                <Form.RangeSlider
+                  {...axes[axe]}
+                  defaultValue={axesState[axe]}
+                  onHandler={(value) => {
+                    const newAxes = ({
+                      ...axesState,
+                      [axe]: Number(value),
+                    })
+
+                    setAxesState(newAxes)
+                    updateGlyphAxes(glyph?.id ?? '', newAxes, currentFrame)
+                  }}
+                />
+              </div>
             </div>
           ))}
         </div>

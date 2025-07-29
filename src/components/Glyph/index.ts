@@ -1,5 +1,5 @@
 import ArrowsPoint from './Composite/ArrowsPoint'
-import Form from './Composite/Form'
+import Form from '../Form/Glyph'
 import Letter from './Glyph'
 import Path from './Composite/Path'
 import Points from './Composite/Points'

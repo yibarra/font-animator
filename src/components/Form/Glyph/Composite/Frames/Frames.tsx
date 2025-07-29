@@ -3,8 +3,8 @@ import { useSearchParams } from 'react-router-dom'
 import Rotation from '../Rotation'
 import styles from './styles.module.scss'
 import type { IFrames } from './interfaces'
-import { UseGlyphsContext } from '../../../../../../contexts/Glyphs/Glyphs'
-import GlyphSVG from '../../../../../GlyphSvg'
+import { UseGlyphsContext } from '../../../../../contexts/Glyphs/Glyphs'
+import GlyphSVG from '../../../../GlyphSvg'
 
 const Frames = ({ frame, glyph, ...props }: IFrames) => {
   const { setGlyphFramesAxesAnimation } = UseGlyphsContext()
@@ -41,7 +41,7 @@ const Frames = ({ frame, glyph, ...props }: IFrames) => {
               >
                 <GlyphSVG
                   charIndex={glyph?.charIndex}
-                  size={40}
+                  size={20}
                   properties={{ fill: '#e3e9f9' }}
                 />
               </button>

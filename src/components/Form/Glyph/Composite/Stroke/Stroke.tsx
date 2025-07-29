@@ -1,6 +1,6 @@
-import { UseGlyphsContext } from '../../../../../../contexts/Glyphs/Glyphs'
-import type { IGlyph } from '../../../../../../contexts/Glyphs/interfaces'
-import Form from '../../../../../Form'
+import { UseGlyphsContext } from '../../../../../contexts/Glyphs/Glyphs'
+import type { IGlyph } from '../../../../../contexts/Glyphs/interfaces'
+import Form from '../../..'
 import styles from '../../styles.module.scss'
 import Color from '../Color'
 

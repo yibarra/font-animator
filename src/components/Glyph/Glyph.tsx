@@ -59,28 +59,33 @@ const Glyph = ({
         y={y}
       />
 
-      <Base.Toggle
-        bounding={bounding}
-        glyph={data}
-        numericAxes={numericAxes}
-        skeleton={!skeleton}
-        setSkeleton={setSkeleton}
-        x={x}
-        y={y}
-      />
-
-      {!isPlaying && (
-        <Base.Rotation
-          bounding={bounding}
-          glyph={data}
-          isDragging={isDragging}
-          rotation={rotation}
-          setIsDragging={setIsDragging}
-          setPositionDrag={setPositionDrag}
-          x={x}
-          y={y}
-        />
+      {current && (
+        <>
+          <Base.Toggle
+            bounding={bounding}
+            glyph={data}
+            numericAxes={numericAxes}
+            skeleton={!skeleton}
+            setSkeleton={setSkeleton}
+            x={x}
+            y={y}
+          />
+          
+          {!isPlaying && (
+            <Base.Rotation
+              bounding={bounding}
+              glyph={data}
+              isDragging={isDragging}
+              rotation={rotation}
+              setIsDragging={setIsDragging}
+              setPositionDrag={setPositionDrag}
+              x={x}
+              y={y}
+            />
+          )}
+        </>
       )}
+
     </Group>
   )
 }

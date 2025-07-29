@@ -97,14 +97,16 @@ const Path = ({
       }}
       onTransformEnd={onUpdateTransform}
     >
-      <Base.FontMetricsLines
-        path={path}
-        fontSize={properties.fontSize}
-        rotation={0}
-        x={0}
-        y={0}
-        width={(bounding.x2 - bounding.x1) + 40}
-      />
+      {current && (
+        <Base.FontMetricsLines
+          path={path}
+          fontSize={properties.fontSize}
+          rotation={0}
+          x={0}
+          y={0}
+          width={(bounding.x2 - bounding.x1) + 40}
+        />
+      )}
       
       <PathKonva
         {...properties}
@@ -114,7 +116,7 @@ const Path = ({
         shadowColor="#0f1d44"
         shadowOffset={{ x: 0, y: -4 }}
         shadowBlur={4}
-        shadowOpacity={0.4}
+        shadowOpacity={current ? 0 : 0.4}
         shadowEnabled
         opacity={skeleton ? 0 : 1}
       />
@@ -127,31 +129,34 @@ const Path = ({
         </>
       )}
 
-      <Base.Bounding
-        arrowHeight={4}
-        arrowWidth={6}
-        bounding={bounding}
-        properties={{
-          fill: '#e3e9f9',
-          stroke: '#e3e9f9',
-          strokeWidth: 0.5,
-          offsetY: -40,
-        }}
-      />
-
-      <Base.Bounding
-        arrowHeight={4}
-        arrowWidth={6}
-        bounding={bounding}
-        properties={{
-          fill: '#e3e9f9',
-          stroke: '#e3e9f9',
-          strokeWidth: 0.5,
-          offsetX: 40,
-        }}
-        vertical
-      />
-    </Group>
+      {current && (
+        <>
+          <Base.Bounding
+            arrowHeight={4}
+            arrowWidth={6}
+            bounding={bounding}
+            properties={{
+              fill: '#e3e9f9',
+              stroke: '#e3e9f9',
+              strokeWidth: 0.5,
+              offsetY: -40,
+            }}
+          />
+          <Base.Bounding
+            arrowHeight={4}
+            arrowWidth={6}
+            bounding={bounding}
+            properties={{
+              fill: '#e3e9f9',
+              stroke: '#e3e9f9',
+              strokeWidth: 0.5,
+              offsetX: 40,
+            }}
+            vertical
+          />
+      </>
+    )}
+    </Group> 
   )
 }
 

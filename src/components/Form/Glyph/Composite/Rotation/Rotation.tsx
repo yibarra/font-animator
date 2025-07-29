@@ -1,5 +1,5 @@
-import type { IGlyph } from '../../../../../../contexts/Glyphs/interfaces'
-import Progress from '../../../Progress'
+import type { IGlyph } from '../../../../../contexts/Glyphs/interfaces'
+import Progress from '../../../../Glyph/Composite/Progress'
 import styles from './styles.module.scss'
 
 interface IRotation {

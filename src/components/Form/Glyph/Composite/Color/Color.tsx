@@ -2,7 +2,7 @@ import { useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
 import type { IColor } from './interfaces'
-import { useGlyphsStore } from '../../../../../../contexts/Glyphs/store'
+import { useGlyphsStore } from '../../../../../contexts/Glyphs/store'
 
 const Color = ({ color, id, property }: IColor) => {
   const { updateGlyphProperties } = useGlyphsStore()

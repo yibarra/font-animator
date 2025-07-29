@@ -1,8 +1,8 @@
 import { useCallback } from 'react'
-import Form from '../../../../../Form'
+
+import Form from '../../..'
 import styles from '../../styles.module.scss'
-import { useGlyphsStore } from '../../../../../../contexts/Glyphs/store'
-import Color from '../Color'
+import { useGlyphsStore } from '../../../../../contexts/Glyphs/store'
 
 const Properties = ({ frame, glyph }: any) => {
   const { updateGlyphProperties } = useGlyphsStore()
@@ -12,26 +12,17 @@ const Properties = ({ frame, glyph }: any) => {
   }, [glyph?.id, updateGlyphProperties])
 
   return (
-    <div className={styles['form--group']} data-group="2">
-      <div className={styles['form--axes--item']}>
-        <p className={styles['form--group--label']}>size</p>
+    <div className={styles['form--glyph--axes--controls--item']}>
+      <p className={styles['form--group--label']}>size</p>
 
+      <div className={styles['form--glyph--axes--controls--item--range']}>
         <Form.RangeSlider
-          defaultValue={12}
+          defaultValue={glyph.properties.fontSize}
           min={12}
           max={600}
           onHandler={onHandler}
         />
       </div>
-
-      {/*
-      <div>
-        <Color
-          color={glyph?.properties?.fill ?? ''}
-          id={glyph?.id}
-          property='fill' />
-      </div>
-      */}
     </div>
   )
 }

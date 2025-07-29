@@ -13,7 +13,7 @@ const Animator = ({ duration = 2000, isPlaying, setIsPlaying }: IAnimator) => {
     <div>
       <Form.Loader />
 
-      <button onClick={() => isLoop((prev) => !prev)}>
+      <button onClick={() => isLoop((prev) => !prev)} style={{ display: 'none' }}>
         <span className="material-symbols-outlined">
           {!loop ? 'timer_1' : 'all_inclusive'}
         </span>

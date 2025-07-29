@@ -1,13 +1,13 @@
 import { useCallback } from 'react'
 
-import { useFontStore } from '../../../../../../contexts/Font/store'
-import { UseFontSettingsContext } from '../../../../../../contexts/FontSettings/FontSettings'
-import { UseGlyphsContext } from '../../../../../../contexts/Glyphs/Glyphs'
-import { getFontVariation } from '../../../../../../contexts/Glyphs/utils'
+import { useFontStore } from '../../../../../contexts/Font/store'
+import { UseFontSettingsContext } from '../../../../../contexts/FontSettings/FontSettings'
+import { UseGlyphsContext } from '../../../../../contexts/Glyphs/Glyphs'
+import { getFontVariation } from '../../../../../contexts/Glyphs/utils'
 import styles from '../../styles.module.scss'
 import type { IAxes } from './interfaces'
 
-const Instances = ({ glyph, frame }: IAxes) => {
+const Instances = ({ currentFrame, glyph, frame }: IAxes) => {
   const { font } = useFontStore()
   const { axes } = UseFontSettingsContext()
   const { setGlyphInstance } = UseGlyphsContext()
@@ -18,19 +18,17 @@ const Instances = ({ glyph, frame }: IAxes) => {
       return
     }
 
-    setGlyphInstance(glyph?.id ?? '', 0, vars)
-  }, [axes, glyph?.id ,setGlyphInstance])
+    setGlyphInstance(glyph?.id ?? '', currentFrame ?? 0, vars)
+  }, [axes, currentFrame, glyph?.id ,setGlyphInstance])
 
   return (
-    <div className={styles['form--axes']}>
-      <div className={styles['form--group--title']}>
-        <p>Instances</p>
-      </div>
+    <div className={styles['form--glyph--axes']}>
+      <p className={styles['form--group--label']}>Instances</p>
 
-      <div className={styles['form--group']} style={{ fontFamily: font?.familyName }}>
+      <div className={styles['form--glyph--axes--list']} style={{ fontFamily: font?.familyName }}>
         {axes && font?.fvar?.instance.map((vars, index) => (
           <button
-            className={styles['form--axes--instance']}
+            className={styles['form--glyph--axes--instance']}
             data-active={
               Object.values(frame?.axes ?? {}).length === vars.coord.length &&
               Object.values(frame?.axes ?? {}).every((v, i) => v === vars.coord[i])

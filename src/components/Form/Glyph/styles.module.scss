@@ -1,15 +1,17 @@
-.form {
+.form--glyph {
+  align-items: flex-end;
   background-color: transparent;
-  color: var(--bg-panel);
+  bottom: 0px;
   display: flex;
   flex-flow: row nowrap;
-  left: 0px;
-  height: 100%;
+  left: 100%;
+  gap: 20px;
+  height: fit-content;
   overflow: hidden;
   overflow-y: auto;
-  padding: 60px 0px 40px;
+  padding: 0px 20px 20px;
   position: absolute;
-  top: 0px;
+  top: initial;
   transition: all 0.4s cubic-bezier(0.075, 0.82, 0.165, 1);
   pointer-events: none;
   transform-origin: left top;
@@ -18,8 +20,49 @@
   &--axes {
     display: flex;
     flex-flow: column wrap;
+    gap: 12px;
     position: relative;
     width: 100%;
+
+    &--controls {
+      display: flex;
+      gap: 20px;
+      position: relative;
+      width: auto;
+
+      &--item {
+        align-items: flex-start;
+        display: flex;
+        gap: 12px;
+        flex-flow: column wrap;
+        justify-content: flex-start;
+        width: 40px;
+
+        p {
+          font-size: 12px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          width: 100%;
+        }
+
+        &--range {
+          display: flex;
+          height: 140px;
+          overflow: hidden;
+          position: relative;
+          width: 40px;
+
+          > div {
+            left: 100%;
+            position: absolute;
+            transform: rotate(90deg);
+            transform-origin: top left;
+            top: 0px;
+          }
+        }
+      }
+    }
 
     &--instance {
       background: transparent;
@@ -46,6 +89,13 @@
       }
     }
 
+    &--list {
+      display: flex;
+      gap: 2px;
+      flex-flow: row wrap;
+      width: 200px;
+    }
+
     .form--group {
       display: flex;
       gap: 2px;
@@ -56,6 +106,9 @@
   }
 
   &--group {
+    align-items: flex-start;
+    display: flex;
+    justify-content: flex-start;
     padding: 0px;
     width: fit-content;
 
