@@ -1,4 +1,5 @@
 import { Group, Path as PathKonva } from 'react-konva'
+import { useSearchParams } from 'react-router-dom'
 import { useEffect, useRef } from 'react'
 import type { KonvaEventObject } from 'konva/lib/Node'
 import type { Group as IGroup } from 'konva/lib/Group'
@@ -22,6 +23,9 @@ const Path = ({
   setPositionDrag,
   ...props
 }: IPath) => {
+  const [searchParams] = useSearchParams()
+
+  const currentFrame = Number(searchParams.get('frame') ?? 0)
   const groupRef = useRef<IGroup | null>(null)
 
   const { getPathDataGlyph } = UseFontSettingsContext()
@@ -43,14 +47,14 @@ const Path = ({
     const y = node.y()
 
     setIsDragging(false)
-    setGlyphPosition(id, 0, [x, y])
+    setGlyphPosition(id, currentFrame, [x, y])
   }
 
   const onUpdateTransform = (event: KonvaEventObject<DragEvent>) => {
     const { rotation, x, y } = event.target.attrs
 
     setIsDragging(false)
-    setGlyphRotate(id, 0, [x, y], rotation)
+    setGlyphRotate(id, currentFrame, [x, y], rotation)
   }
 
   useEffect(() => {

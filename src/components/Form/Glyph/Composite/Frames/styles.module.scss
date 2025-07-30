@@ -6,7 +6,7 @@
 
   &--frame {
     background: transparent;
-    border: 1px dashed transparent;
+    border: 1px dashed var(--text-main);
     background-size: 10px 10px;
     background-image: repeating-linear-gradient(
       -45deg,
@@ -17,34 +17,25 @@
     );
     color: var(--text-main);
     display: flex;
-    height: 80px;
+    height: 70px;
     position: relative;
-    width: 80px;
+    width: 70px;
 
     &--options {
-      right: -2px;
+      right: -8px;
       position: absolute;
       padding: 0;
       pointer-events: none;
-      top: -2px;
+      top: 0px;
+      transform: translateY(-100%);
     }
 
     &[data-active="true"] {
-      border-color: var(--text-main);
       background-image: none;
+    }
 
-      .frames {
-        &--glyph {
-          &--pos {
-            p {
-              color: var(--primary-bg-back);
-            }
-          }
-          &--text {
-            color: var(--primary-bg-back);
-          }
-        }
-      }
+    &:last-child {
+      border-left: none;
     }
   }
 
@@ -57,9 +48,11 @@
     width: 100%;
 
     &--pos {
-      bottom: 0;
+      border: none;
+      border-top: 1px dashed var(--text-main);
+      bottom: 2px;
       display: flex;
-      font-size: 6px;
+      font-size: 7px;
       gap: 4px;
       left: 0;
       padding: 8px;
@@ -70,8 +63,9 @@
 
       p {
         color: var(--text-main);
+        font-size: 8px;
         display: flex;
-        line-height: 0.5rem;
+        line-height: 0rem;
 
         span {
           font-weight: 700;
@@ -83,10 +77,12 @@
       background: transparent;
       border: none;
       box-shadow: none;
-      color: var(--bg-panel);
-      font-size: 32px;
-      height: 60px;
+      font-size: 28px;
+      height: calc(100% - 20px);
       text-align: center;
+      left: 0px;
+      position: absolute;
+      top: 0px;
       width: 100%;
       user-select: none;
     }
@@ -94,7 +90,7 @@
 
   &--wrapper {
     display: flex;
-    padding: 0px 0px 20px;
+    padding: 0px;
     position: relative;
     width: 100%;
   }

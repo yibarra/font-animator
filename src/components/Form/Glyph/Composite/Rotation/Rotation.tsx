@@ -7,7 +7,7 @@ interface IRotation {
   rotation: IGlyph['properties']['rotation']
 }
 
-const Rotation = ({ size = 30, rotation }: IRotation) => {
+const Rotation = ({ size, rotation }: IRotation) => {
   const clamp = Math.max(0, Math.min(360, Number(rotation)))
   const percent = (clamp / 360) * 100
 

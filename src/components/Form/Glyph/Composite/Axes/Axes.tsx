@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 
-import { UseFontSettingsContext } from '../../../../../contexts/FontSettings/FontSettings'
 import Form from '../../..'
-import styles from '../../styles.module.scss'
-import type { IAxes } from './interfaces'
-import { useGlyphsStore } from '../../../../../contexts/Glyphs/store'
 import Instances from './Instances'
+import styles from '../../styles.module.scss'
+import { UseFontSettingsContext } from '../../../../../contexts/FontSettings/FontSettings'
+import { useGlyphsStore } from '../../../../../contexts/Glyphs/store'
+import type { IAxes } from './interfaces'
 
-const Axes = ({ currentFrame, glyph, frame }: IAxes) => {
+const Axes = ({ currentFrame, char, id, frame }: IAxes) => {
   const { axes } = UseFontSettingsContext()
   const { updateGlyphAxes } = useGlyphsStore()
 
@@ -38,12 +38,11 @@ const Axes = ({ currentFrame, glyph, frame }: IAxes) => {
               className={styles['form--glyph--axes--controls--item']}
               key={i}
             >
-              <p className={styles['form--group--label']}>{axes && axes[axe]?.name}</p>
+              <p>{axes && axes[axe]?.name}</p>
 
               <div className={styles['form--glyph--axes--controls--item--range']}>
                 <Form.RangeSlider
                   {...axes[axe]}
-                  defaultValue={axesState[axe]}
                   onHandler={(value) => {
                     const newAxes = ({
                       ...axesState,
@@ -51,7 +50,7 @@ const Axes = ({ currentFrame, glyph, frame }: IAxes) => {
                     })
 
                     setAxesState(newAxes)
-                    updateGlyphAxes(glyph?.id ?? '', newAxes, currentFrame)
+                    updateGlyphAxes(id ?? '', newAxes, currentFrame)
                   }}
                 />
               </div>
@@ -60,7 +59,12 @@ const Axes = ({ currentFrame, glyph, frame }: IAxes) => {
         </div>
       </div>
 
-      <Instances glyph={glyph} frame={frame} />
+      <Instances
+        currentFrame={currentFrame}
+        char={char}
+        id={id}
+        frame={frame}
+      />
     </>
   )
 }

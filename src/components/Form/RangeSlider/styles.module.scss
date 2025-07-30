@@ -19,6 +19,8 @@
       color: var(--text-main);
       font-size: 10px;
       transform: rotate(-90deg);
+      text-align: center;
+      width: 25px;
     }
   }
 
@@ -27,25 +29,5 @@
     padding: 0px;
     position: relative;
     width: 100%;
-
-    &:before,
-    &:after {
-      background-color: var(--text-main);
-      border-radius: 4px;
-      content: '';
-      height: 4px;
-      position: absolute;
-      top: 50%;
-      transform: translate3d(-0px, -50%, 0px);
-      width: 4px;
-    }
-
-    &:before {
-      left: 0px;
-    }
-
-    &:after {
-      right: 0px;
-    }
   }
 }

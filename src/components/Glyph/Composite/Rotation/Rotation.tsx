@@ -4,6 +4,7 @@ import type { KonvaEventObject } from 'konva/lib/Node'
 import Progress from '../Progress'
 import { UseGlyphsContext } from '../../../../contexts/Glyphs/Glyphs'
 import type { IRotationProps } from './interfaces'
+import { useSearchParams } from 'react-router-dom'
 
 const Rotation = ({
   bounding,
@@ -17,6 +18,9 @@ const Rotation = ({
   x = 20,
   y = 20
 }: IRotationProps) => {
+  const [searchParams] = useSearchParams()
+  const currentFrame = Number(searchParams.get('frame') ?? 0)
+
   const shapeRef = useRef(null)
   const { setGlyphRotate } = UseGlyphsContext()
 
@@ -55,7 +59,7 @@ const Rotation = ({
         ref={shapeRef}
         onDragStart={() => setIsDragging(true)}
         onDragMove={handleDragMove}
-        onDragEnd={() => setGlyphRotate(glyph?.id, 0, glyph?.position, rotation)}
+        onDragEnd={() => setGlyphRotate(glyph?.id, currentFrame, glyph?.position, rotation)}
         radius={outerCircleRadius}
         x={x + outerCircleRadius - innerCircleRadius}
         y={y}

@@ -30,9 +30,9 @@ const Glyph = ({
     data.properties.fontSize ?? 12
   )
 
-  const rotation = isDragging ? positionDrag[2] : data.frames[0].rotation
-  const x = isDragging ? positionDrag[0] : data.frames[0].position[0]
-  const y = isDragging ? positionDrag[1] : data.frames[0].position[1]
+  const rotation = isDragging ? positionDrag[2] : data.rotation
+  const x = isDragging ? positionDrag[0] : data.position[0]
+  const y = isDragging ? positionDrag[1] : data.position[1]
 
   return (
     <Group>

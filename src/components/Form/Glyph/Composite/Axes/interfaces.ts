@@ -1,7 +1,7 @@
 import type { IGlyph } from '../../../../../contexts/Glyphs/interfaces'
 
-export interface IAxes {
+export interface IAxes extends Pick<IGlyph, 'id'> {
   currentFrame?: number
-  glyph: IGlyph | undefined
+  char?: string
   frame: IGlyph['frames'][number] | null
 }

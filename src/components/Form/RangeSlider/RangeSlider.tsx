@@ -39,7 +39,6 @@ const RangeSlider = ({
       <div className={styles['range-slider--wrapper']}>
         <input
           {...props}
-          defaultValue={defaultValue}
           max={max}
           min={min}
           step={step}

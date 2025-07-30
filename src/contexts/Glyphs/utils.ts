@@ -41,12 +41,17 @@ export const percentToRange = (percent: number, start: number, end: number) => {
 }
 
 // get font variation
-export const getFontVariation = (axes: object, coord: number[]) => {
-  if (axes) {
-    const axesNames = Object.keys(axes)
-
-    return `"${axesNames[0]}" ${coord[0]}, "${axesNames[1]}" ${coord[1]}`
+export const getFontVariation = (axes: Record<string, unknown>, coord: number[]): string => {
+  if (!axes || !coord || coord.length === 0) {
+    return ''
   }
 
-  return ''
+  const axesNames = Object.keys(axes)
+  const settings: string[] = []
+
+  for (let i = 0; i < axesNames.length && i < coord.length; i++) {
+    settings.push(`'${axesNames[i]}' ${coord[i]}`)
+  }
+
+  return settings.join(', ')
 }

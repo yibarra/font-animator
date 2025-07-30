@@ -54,10 +54,12 @@ const Main = () => {
 
       <div style={{ position: 'absolute', left: 0, bottom: 0 }}>
         <Animator duration={900} isPlaying={isPlaying} setIsPlaying={setIsPlaying} />
-        <Form.Glyph />
+        {!isPlaying && (<Form.Glyph />)}
       </div>
 
-      <GlyphSelector isOpen={isOpenSelector} setIsOpen={setIsOpenSelector} />
+      {!isPlaying && (
+        <GlyphSelector isOpen={isOpenSelector} setIsOpen={setIsOpenSelector} />
+      )}
     </>
   )
 }

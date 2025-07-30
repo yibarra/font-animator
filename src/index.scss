@@ -38,6 +38,7 @@
 
 body {
   background-color: var(--bg-panel);
+  font-family: var(--font-family);
   height: 100dvh;
   margin: 0;
   position: relative;
@@ -139,4 +140,9 @@ input[type='color']::-webkit-color-swatch-wrapper {
 }
 input[type='color']::-webkit-color-swatch {
 	border: none;
+}
+
+p {
+  font-size: 11px;
+  text-transform: capitalize;
 }

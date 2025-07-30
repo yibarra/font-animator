@@ -13,7 +13,7 @@ const Properties = ({ frame, glyph }: any) => {
 
   return (
     <div className={styles['form--glyph--axes--controls--item']}>
-      <p className={styles['form--group--label']}>size</p>
+      <p>size</p>
 
       <div className={styles['form--glyph--axes--controls--item--range']}>
         <Form.RangeSlider

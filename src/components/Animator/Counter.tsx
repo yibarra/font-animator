@@ -70,7 +70,7 @@ const Counter = ({
   }, [isPlaying, direction])
 
   return (
-    <div style={{ display: 'none' }}>
+    <div>
       <button onClick={() => setIsPlaying(true)}>
         <span className="material-symbols-outlined">
           {!isPlaying ? 'play_arrow' : 'resume'}
