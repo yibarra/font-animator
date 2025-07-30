@@ -52,10 +52,11 @@
       border-top: 1px dashed var(--text-main);
       bottom: 2px;
       display: flex;
+      justify-content: space-between;
       font-size: 7px;
       gap: 4px;
       left: 0;
-      padding: 8px;
+      padding: 10px 8px 8px;
       pointer-events: none;
       position: absolute;
       width: 100%;
@@ -63,7 +64,7 @@
 
       p {
         color: var(--text-main);
-        font-size: 8px;
+        font-size: 7px;
         display: flex;
         line-height: 0rem;
 

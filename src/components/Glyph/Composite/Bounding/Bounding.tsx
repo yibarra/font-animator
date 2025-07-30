@@ -10,6 +10,7 @@ const Bounding = ({ arrowHeight, arrowWidth, bounding, properties, vertical }: I
 
     ctx.font = '10px Roboto Mono'
     ctx.fillStyle = properties.fill ?? '#FFF'
+    ctx.textBaseline = 'bottom'
 
     if (rotate) {
       ctx.save()
@@ -20,7 +21,7 @@ const Bounding = ({ arrowHeight, arrowWidth, bounding, properties, vertical }: I
   
       ctx.restore()
     } else {
-      ctx.fillText(text, (x - width) / 2, (y / 2))
+      ctx.fillText(text, (x - width) / 2, y)
     }
   }
 
@@ -49,7 +50,7 @@ const Bounding = ({ arrowHeight, arrowWidth, bounding, properties, vertical }: I
     ctx.lineTo(x2, y1 + arrowHeight)
     ctx.closePath()
 
-    drawText(ctx, `${Math.round(x2 - x1)}px`, x2 - x1, y1 + 40)
+    drawText(ctx, `${Math.round(x2 - x1)}px`, (x1 + x2), y1 + 20)
 
     ctx.fillShape(shape)
     ctx.strokeShape(shape)

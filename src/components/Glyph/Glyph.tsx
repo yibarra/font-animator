@@ -16,6 +16,8 @@ const Glyph = ({
   const [skeleton, setSkeleton] = useState(false)
   const [positionDrag, setPositionDrag] = useState<[number, number, number]>([...data.position, data.rotation])
 
+  const { position, properties, ...propsData } = data
+
   const shapeRef = useRef<IPathKonva | null>(null)
 
   const { getPathDataGlyph } = UseFontSettingsContext()
@@ -27,30 +29,22 @@ const Glyph = ({
   const { bounding } = getPathDataGlyph(
     data.charIndex,
     numericAxes,
-    data.properties.fontSize ?? 12
+    properties.fontSize ?? 12
   )
 
   const rotation = isDragging ? positionDrag[2] : data.rotation
-  const x = isDragging ? positionDrag[0] : data.position[0]
-  const y = isDragging ? positionDrag[1] : data.position[1]
+  const x = isDragging ? positionDrag[0] : position[0]
+  const y = isDragging ? positionDrag[1] : position[1]
 
   return (
     <Group>
-     {/* <PathFrame
-        {...data}
-        //position={isDragging ? [positionDrag[0], positionDrag[1]] : data.frames[0].position}
-        //rotation={isDragging ? positionDrag[2] : data.frames[0].rotation}
-        shapeRef={shapeRef}
-        properties={{ ...data.properties, fill: '#FFF', opacity: 0.3 }}
-      />
-      */}
-
       <Base.Path
-        {...data}
+        {...propsData}
         current={current}
         skeleton={skeleton}
         index={index}
         isDragging={isDragging}
+        properties={properties}
         shapeRef={shapeRef}
         setIsDragging={setIsDragging}
         setPositionDrag={setPositionDrag}

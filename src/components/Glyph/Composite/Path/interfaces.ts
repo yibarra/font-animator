@@ -2,7 +2,7 @@ import type { Dispatch, RefObject, SetStateAction } from 'react'
 import type { IGlyph } from '../../../../contexts/Glyphs/interfaces'
 import type { Path } from 'konva/lib/shapes/Path'
 
-export interface IPath extends IGlyph {
+export interface IPath extends Pick<IGlyph, 'charIndex' | 'axes' | 'id' | 'properties'> {
   current?: boolean
   index: number
   shapeRef: RefObject<Path | null>
