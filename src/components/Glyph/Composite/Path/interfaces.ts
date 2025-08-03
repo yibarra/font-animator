@@ -1,9 +1,12 @@
 import type { Dispatch, RefObject, SetStateAction } from 'react'
 import type { IGlyph } from '../../../../contexts/Glyphs/interfaces'
 import type { Path } from 'konva/lib/shapes/Path'
+import type { IDataGlyphCommand } from '../../../../contexts/FontSettings/interfaces'
 
-export interface IPath extends Pick<IGlyph, 'charIndex' | 'axes' | 'id' | 'properties'> {
+export interface IPath extends Pick<IGlyph, 'charIndex' | 'axes' | 'id' | 'properties'>,
+  IDataGlyphCommand {
   current?: boolean
+  currentFrame: number
   index: number
   shapeRef: RefObject<Path | null>
   isDragging?: boolean

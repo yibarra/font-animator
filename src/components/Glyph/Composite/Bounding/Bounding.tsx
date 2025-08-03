@@ -14,7 +14,6 @@ const Bounding = ({ arrowHeight, arrowWidth, bounding, properties, vertical }: I
 
     if (rotate) {
       ctx.save()
-  
       ctx.translate(x, y + width / 2)
       ctx.rotate(-Math.PI / 2)
       ctx.fillText(text, 0, 0)

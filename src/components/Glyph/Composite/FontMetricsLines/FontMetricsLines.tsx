@@ -50,7 +50,7 @@ const FontMetricsLines = ({
             ctx.moveTo(0, line.y)
             ctx.lineTo(width + 20, line.y)
             ctx.stroke()
-            ctx.fillText(line.label, width + 40, line.y - 2)
+            ctx.fillText(line.label, width - width, line.y + 18)
           }
         }}
         listening={false}

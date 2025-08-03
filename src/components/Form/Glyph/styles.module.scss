@@ -65,8 +65,8 @@
 
     &--instance {
       background: transparent;
-      border: 1px dashed var(--text-main);
-      background-size: 10px 10px;
+      border: none;
+      background-size: 8px 8px;
       background-image: repeating-linear-gradient(
         -45deg,
         var(--text-main) 0,
@@ -76,15 +76,16 @@
       );
       color: var(--text-main);
       box-shadow: none;
-      height: 34px;
+      height: 40px;
       color: var(--secondary-color);
       font-family: inherit;
       font-size: 20px;
       transition: all 0.4s cubic-bezier(0.075, 0.82, 0.165, 1);
-      min-width: 34px;
+      min-width: 40px;
 
       &[data-active="true"] {
         background-image: none;
+        border: 1px dashed var(--text-main);
       }
     }
 

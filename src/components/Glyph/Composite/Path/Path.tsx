@@ -1,45 +1,32 @@
 import { Group, Path as PathKonva } from 'react-konva'
-import { useSearchParams } from 'react-router-dom'
 import { useEffect, useRef } from 'react'
 import type { KonvaEventObject } from 'konva/lib/Node'
 import type { Group as IGroup } from 'konva/lib/Group'
 
-import { UseFontSettingsContext } from '../../../../contexts/FontSettings/FontSettings'
 import { UseGlyphsContext } from '../../../../contexts/Glyphs/Glyphs'
 import { default as Base } from '../../index'
 import type { IPath } from './interfaces'
 
 const Path = ({
-  charIndex,
+  arrows,
+  bounding,
   current,
+  currentFrame,
   id,
   index,
-  axes,
   skeleton,
   shapeRef,
   rotation,
+  path,
+  points,
   properties,
   setIsDragging,
   setPositionDrag,
   ...props
 }: IPath) => {
-  const [searchParams] = useSearchParams()
-
-  const currentFrame = Number(searchParams.get('frame') ?? 0)
   const groupRef = useRef<IGroup | null>(null)
 
-  const { getPathDataGlyph } = UseFontSettingsContext()
   const { setCurrent, setGlyphRotate, setGlyphPosition } = UseGlyphsContext()
-
-  const numericAxes = Object.fromEntries(
-    Object.entries(axes).map(([key, value]) => [key, Number(value)])
-  )
-
-  const { arrows, bounding, path, points } = getPathDataGlyph(
-    charIndex,
-    numericAxes,
-    properties.fontSize ?? 12
-  )
   
   const onUpdateTranslate = (event: KonvaEventObject<DragEvent>) => {
     const node = event.target

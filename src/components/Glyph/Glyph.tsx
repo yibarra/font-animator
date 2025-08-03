@@ -5,6 +5,8 @@ import type { Path as IPathKonva } from 'konva/lib/shapes/Path'
 import { default as Base } from './index'
 import { UseFontSettingsContext } from '../../contexts/FontSettings/FontSettings'
 import type { IGlyphProps } from './interfaces'
+import Info from './Composite/Info'
+import { useSearchParams } from 'react-router-dom'
 
 const Glyph = ({
   current,
@@ -12,13 +14,16 @@ const Glyph = ({
   index,
   isPlaying,
 }: IGlyphProps) => {
+  const [searchParams] = useSearchParams()
+  const currentFrame = Number(searchParams.get('frame') ?? 0)
+
+  const shapeRef = useRef<IPathKonva | null>(null)
+
   const [isDragging, setIsDragging] = useState(false)
   const [skeleton, setSkeleton] = useState(false)
   const [positionDrag, setPositionDrag] = useState<[number, number, number]>([...data.position, data.rotation])
 
-  const { position, properties, ...propsData } = data
-
-  const shapeRef = useRef<IPathKonva | null>(null)
+  const { charIndex, position, properties, ...propsData } = data
 
   const { getPathDataGlyph } = UseFontSettingsContext()
 
@@ -26,8 +31,8 @@ const Glyph = ({
     Object.entries(data.axes).map(([key, value]) => [key, Number(value)])
   )
 
-  const { bounding } = getPathDataGlyph(
-    data.charIndex,
+  const { bounding, points, ...pathData } = getPathDataGlyph(
+    charIndex,
     numericAxes,
     properties.fontSize ?? 12
   )
@@ -40,6 +45,11 @@ const Glyph = ({
     <Group>
       <Base.Path
         {...propsData}
+        {...pathData}
+        currentFrame={currentFrame}
+        points={points}
+        bounding={bounding}
+        charIndex={charIndex}
         current={current}
         skeleton={skeleton}
         index={index}
@@ -55,31 +65,34 @@ const Glyph = ({
 
       {current && (
         <>
-          <Base.Toggle
-            bounding={bounding}
-            glyph={data}
-            numericAxes={numericAxes}
-            skeleton={!skeleton}
-            setSkeleton={setSkeleton}
-            x={x}
-            y={y}
-          />
-          
           {!isPlaying && (
-            <Base.Rotation
-              bounding={bounding}
-              glyph={data}
-              isDragging={isDragging}
-              rotation={rotation}
-              setIsDragging={setIsDragging}
-              setPositionDrag={setPositionDrag}
-              x={x}
-              y={y}
-            />
+            <>
+              <Base.Rotation
+                bounding={bounding}
+                glyph={data}
+                isDragging={isDragging}
+                rotation={rotation}
+                setIsDragging={setIsDragging}
+                setPositionDrag={setPositionDrag}
+                x={x}
+                y={y}
+              />
+
+              {!isDragging && (<Info
+                id={data.id}
+                currentFrame={currentFrame}
+                position={data.position}
+                bounding={bounding}
+                points={points}
+                skeleton={skeleton}
+                setSkeleton={setSkeleton}
+                x={x}
+                y={y}
+              />)}
+            </>
           )}
         </>
       )}
-
     </Group>
   )
 }

@@ -53,7 +53,7 @@ const Main = () => {
       </MenuContext>
 
       <div style={{ position: 'absolute', left: 0, bottom: 0 }}>
-        <Animator duration={900} isPlaying={isPlaying} setIsPlaying={setIsPlaying} />
+        <Animator duration={1900} isPlaying={isPlaying} setIsPlaying={setIsPlaying} />
         {!isPlaying && (<Form.Glyph />)}
       </div>
 
