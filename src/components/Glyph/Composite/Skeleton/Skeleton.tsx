@@ -9,6 +9,7 @@ const Skeleton = ({
   lineWidth = 3,
   holeRadius = 6,
   pathData,
+  ...props
 }: ISkeletonProps) => {
   const sceneFunc = (ctx: Context) => {
     if (pathData) {
@@ -39,6 +40,7 @@ const Skeleton = ({
 
   return (
     <Shape
+      {...props}
       scaleY={-1}
       sceneFunc={sceneFunc}
       shadowColor="#0f1d44"

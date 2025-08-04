@@ -2,11 +2,15 @@ import type { Dispatch, SetStateAction } from 'react'
 import type { IGlyph } from '../../../../contexts/Glyphs/interfaces'
 
 export interface IInfo extends Pick<IGlyph, 'id' | 'position'> {
-  currentFrame: number
+  baseLines: boolean
   bounding: any
+  currentFrame: number
   points: any
-  x: number
-  y: number
+  metrics: boolean
+  setBaseLines: Dispatch<SetStateAction<boolean>>
+  setMetrics: Dispatch<SetStateAction<boolean>>
   skeleton: boolean
   setSkeleton: Dispatch<SetStateAction<boolean>>
+  x: number
+  y: number
 }

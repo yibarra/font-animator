@@ -5,9 +5,11 @@ import type { IDataGlyphCommand } from '../../../../contexts/FontSettings/interf
 
 export interface IPath extends Pick<IGlyph, 'charIndex' | 'axes' | 'id' | 'properties'>,
   IDataGlyphCommand {
+  baseLines: boolean
   current?: boolean
   currentFrame: number
   index: number
+  metrics: boolean
   shapeRef: RefObject<Path | null>
   isDragging?: boolean
   skeleton?: boolean

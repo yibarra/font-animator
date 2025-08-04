@@ -1,13 +1,13 @@
 import { useRef } from 'react'
-import { Circle, Group } from 'react-konva'
+import { Circle } from 'react-konva'
 import type { KonvaEventObject } from 'konva/lib/Node'
+
 import Progress from '../Progress'
 import { UseGlyphsContext } from '../../../../contexts/Glyphs/Glyphs'
 import type { IRotationProps } from './interfaces'
-import { useSearchParams } from 'react-router-dom'
 
 const Rotation = ({
-  bounding,
+  currentFrame,
   glyph,
   isDragging,
   outerCircleRadius = 10,
@@ -18,9 +18,6 @@ const Rotation = ({
   x = 20,
   y = 20
 }: IRotationProps) => {
-  const [searchParams] = useSearchParams()
-  const currentFrame = Number(searchParams.get('frame') ?? 0)
-
   const shapeRef = useRef(null)
   const { setGlyphRotate } = UseGlyphsContext()
 
@@ -45,7 +42,7 @@ const Rotation = ({
   }
 
   return (
-    <Group x={bounding.x2 / 2 + 80} y={-bounding.y2 / 2 + 40}>
+    <>
       <Progress.Border
         radius={outerCircleRadius - 2}
         rotation={-((isDragging ? rotation : glyph.rotation) + 90)}
@@ -64,7 +61,7 @@ const Rotation = ({
         x={x + outerCircleRadius - innerCircleRadius}
         y={y}
       />
-    </Group>
+    </>
   )
 }
 

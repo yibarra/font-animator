@@ -4,8 +4,9 @@
   max-width: 200px;
   margin: 0 0 0 20px;
   flex-flow: row wrap;
-  padding: 0 0 0 20px;
+  padding: 0;
   position: absolute;
+  transform: translate3d(0px, calc(-100% - 36px), 0px);
   width: auto;
 
   &--contours {
@@ -52,25 +53,5 @@
       background: var(--text-main);
       border-radius: 0px;
     }
-  }
-
-  &:before {
-    background: transparent;
-    border: none;
-    background-size: 4px 20px;
-    background-image: repeating-linear-gradient(
-      -0deg,
-      var(--text-main) 0,
-      var(--text-main) 4px,
-      transparent 0,
-      transparent 50%
-    );
-    content: '';
-    height: 400dvh;
-    left: 0px;
-    position: absolute;
-    top: 50%;
-    transform: translate3d(0px, -50%, 0px);
-    width: 1px;
   }
 }

@@ -20,7 +20,9 @@ const Glyph = ({
   const shapeRef = useRef<IPathKonva | null>(null)
 
   const [isDragging, setIsDragging] = useState(false)
-  const [skeleton, setSkeleton] = useState(false)
+  const [metrics, setMetrics] = useState(true)
+  const [baseLines, setBaseLines] = useState(true)
+  const [skeleton, setSkeleton] = useState(true)
   const [positionDrag, setPositionDrag] = useState<[number, number, number]>([...data.position, data.rotation])
 
   const { charIndex, position, properties, ...propsData } = data
@@ -46,11 +48,13 @@ const Glyph = ({
       <Base.Path
         {...propsData}
         {...pathData}
+        baseLines={baseLines}
         currentFrame={currentFrame}
         points={points}
         bounding={bounding}
         charIndex={charIndex}
         current={current}
+        metrics={metrics}
         skeleton={skeleton}
         index={index}
         isDragging={isDragging}
@@ -69,6 +73,7 @@ const Glyph = ({
             <>
               <Base.Rotation
                 bounding={bounding}
+                currentFrame={currentFrame}
                 glyph={data}
                 isDragging={isDragging}
                 rotation={rotation}
@@ -78,17 +83,23 @@ const Glyph = ({
                 y={y}
               />
 
-              {!isDragging && (<Info
-                id={data.id}
-                currentFrame={currentFrame}
-                position={data.position}
-                bounding={bounding}
-                points={points}
-                skeleton={skeleton}
-                setSkeleton={setSkeleton}
-                x={x}
-                y={y}
-              />)}
+              {(
+                <Info
+                  bounding={bounding}
+                  currentFrame={currentFrame}
+                  id={data.id}
+                  position={data.position}
+                  points={points}
+                  skeleton={skeleton}
+                  setSkeleton={setSkeleton}
+                  metrics={metrics}
+                  baseLines={baseLines}
+                  setBaseLines={setBaseLines}
+                  setMetrics={setMetrics}
+                  x={x}
+                  y={y}
+                />
+              )}
             </>
           )}
         </>

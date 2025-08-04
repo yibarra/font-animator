@@ -1,4 +1,6 @@
-export interface FontMetricsLinesProps {
+import type { NodeConfig } from 'konva/lib/Node'
+
+export interface FontMetricsLinesProps extends NodeConfig {
   x: number
   y: number
   path?: string

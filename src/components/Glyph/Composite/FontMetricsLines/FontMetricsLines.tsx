@@ -1,7 +1,7 @@
-import { Group, Shape } from 'react-konva'
+import { Shape } from 'react-konva'
 
-import type { FontMetricsLinesProps } from './interfaces'
 import { UseFontContext } from '../../../../contexts/Font/Font'
+import type { FontMetricsLinesProps } from './interfaces'
 
 const FontMetricsLines = ({
   fontSize,
@@ -9,6 +9,7 @@ const FontMetricsLines = ({
   width,
   x,
   y,
+  ...props
 }: FontMetricsLinesProps) => {
   const { font } = UseFontContext()
 
@@ -36,26 +37,28 @@ const FontMetricsLines = ({
   }
 
   return (
-    <Group listening={false} x={x} y={0} rotation={rotation}>
-      <Shape
-        sceneFunc={(ctx) => {
-          ctx.setLineDash([5, 5])
-          ctx.strokeStyle = '#fff'
-          ctx.fillStyle = '#fff'
-          ctx.lineWidth = 0.5
-          ctx.font = '10px Roboto Mono'
+    <Shape
+      {...props}
+      listening={false}
+      rotation={rotation}
+      x={x}
+      y={y}
+      sceneFunc={(ctx) => {
+        ctx.setLineDash([5, 5])
+        ctx.strokeStyle = '#fff'
+        ctx.fillStyle = '#fff'
+        ctx.lineWidth = 0.5
+        ctx.font = '9px Roboto Mono'
 
-          for (const line of lines) {
-            ctx.beginPath()
-            ctx.moveTo(0, line.y)
-            ctx.lineTo(width + 20, line.y)
-            ctx.stroke()
-            ctx.fillText(line.label, width - width, line.y + 18)
-          }
-        }}
-        listening={false}
-      />
-    </Group>
+        for (const line of lines) {
+          ctx.beginPath()
+          ctx.moveTo(0, line.y)
+          ctx.lineTo(width, line.y)
+          ctx.stroke()
+          ctx.fillText(line.label, 0, line.y + 18)
+        }
+      }}
+    />
   )
 }
 

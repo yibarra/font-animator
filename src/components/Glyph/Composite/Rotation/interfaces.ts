@@ -3,6 +3,7 @@ import type { BoundingBoxPos, IGlyph } from '../../../../contexts/Glyphs/interfa
 
 export interface IRotationProps {
   bounding: BoundingBoxPos
+  currentFrame: number
   glyph: IGlyph
   isDragging?: boolean
   outerCircleRadius?: number

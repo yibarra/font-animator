@@ -1,8 +1,9 @@
 import { Shape } from 'react-konva'
 
-const ArrowsPoint = ({ arrows }: any) => {
+const ArrowsPoint = ({ arrows, ...props }: any) => {
   return (
     <Shape
+      {...props}
       scaleY={-1}
       sceneFunc={(ctx) => {
         const arrowLength = 16

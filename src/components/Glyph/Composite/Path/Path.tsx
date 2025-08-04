@@ -9,11 +9,13 @@ import type { IPath } from './interfaces'
 
 const Path = ({
   arrows,
+  baseLines,
   bounding,
   current,
   currentFrame,
   id,
   index,
+  metrics,
   skeleton,
   shapeRef,
   rotation,
@@ -25,7 +27,6 @@ const Path = ({
   ...props
 }: IPath) => {
   const groupRef = useRef<IGroup | null>(null)
-
   const { setCurrent, setGlyphRotate, setGlyphPosition } = UseGlyphsContext()
   
   const onUpdateTranslate = (event: KonvaEventObject<DragEvent>) => {
@@ -84,15 +85,17 @@ const Path = ({
         const x = node.x()
         const y = node.y()
         const rotation = node.rotation()
+
         setPositionDrag([x, y, rotation])
       }}
       onTransformEnd={onUpdateTransform}
     >
-      {current && (
+      {current && baseLines && (
         <Base.FontMetricsLines
           path={path}
           fontSize={properties.fontSize}
           rotation={0}
+          offsetY={-bounding.y2 / 2 + 70}
           x={0}
           y={0}
           width={(bounding.x2 - bounding.x1) + 40}
@@ -102,6 +105,8 @@ const Path = ({
       <PathKonva
         {...properties}
         data={path}
+        offsetY={bounding.y2 / 2 - 70}
+        opacity={skeleton ? 0 : 1}
         ref={shapeRef}
         scaleY={-1}
         shadowColor="#0f1d44"
@@ -109,18 +114,17 @@ const Path = ({
         shadowBlur={4}
         shadowOpacity={current ? 0 : 0.4}
         shadowEnabled
-        opacity={skeleton ? 0 : 1}
       />
 
       {skeleton && (
         <>
-          <Base.Skeleton points={points} />
-          <Base.Points points={points} />
-          <Base.ArrowsPoint arrows={arrows} />
+          <Base.Skeleton points={points} offsetY={bounding.y2 / 2 - 70} />
+          <Base.Points points={points} offsetY={bounding.y2 / 2 - 70} />
+          <Base.ArrowsPoint arrows={arrows} offsetY={bounding.y2 / 2 - 70} />
         </>
       )}
 
-      {current && (
+      {current && metrics && (
         <>
           <Base.Bounding
             arrowHeight={4}
@@ -130,7 +134,7 @@ const Path = ({
               fill: '#e3e9f9',
               stroke: '#e3e9f9',
               strokeWidth: 0.5,
-              offsetY: -40,
+              offsetY: -bounding.y2 / 2 + 40
             }}
           />
           <Base.Bounding
@@ -142,6 +146,7 @@ const Path = ({
               stroke: '#e3e9f9',
               strokeWidth: 0.5,
               offsetX: 40,
+              offsetY: -bounding.y2 / 2 + 70
             }}
             vertical
           />
