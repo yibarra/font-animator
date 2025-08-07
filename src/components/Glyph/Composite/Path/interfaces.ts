@@ -4,7 +4,7 @@ import type { Path } from 'konva/lib/shapes/Path'
 import type { IDataGlyphCommand } from '../../../../contexts/FontSettings/interfaces'
 
 export interface IPath extends Pick<IGlyph, 'charIndex' | 'axes' | 'id' | 'properties'>,
-  IDataGlyphCommand {
+  Pick<IDataGlyphCommand, 'arrows' | 'bounding' | 'path' | 'points'> {
   baseLines: boolean
   current?: boolean
   currentFrame: number

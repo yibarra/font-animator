@@ -3,8 +3,13 @@ import type { Shape as IShape } from 'konva/lib/Shape'
 import { Shape } from 'react-konva'
 
 import type { IBounding } from './interfaces'
+import { useEffect, useRef } from 'react'
+import { Easings, Tween } from 'konva/lib/Tween'
 
 const Bounding = ({ arrowHeight, arrowWidth, bounding, properties, vertical }: IBounding) => {
+  const shapeRef = useRef<IShape>(null)
+
+  // text
   const drawText = (ctx: Context, text: string, x: number, y: number, rotate = false) => {
     const { width } = ctx.measureText(text)
 
@@ -24,6 +29,7 @@ const Bounding = ({ arrowHeight, arrowWidth, bounding, properties, vertical }: I
     }
   }
 
+  // box arrows
   const drawBox = (ctx: Context, shape: IShape) => {
     ctx.beginPath()
 
@@ -55,6 +61,7 @@ const Bounding = ({ arrowHeight, arrowWidth, bounding, properties, vertical }: I
     ctx.strokeShape(shape)
   }
 
+  // box vertical
   const drawVerticalBox = (ctx: Context, shape: IShape) => {
     ctx.beginPath()
 
@@ -88,8 +95,41 @@ const Bounding = ({ arrowHeight, arrowWidth, bounding, properties, vertical }: I
     ctx.strokeShape(shape)
   }
 
+  useEffect(() => {
+    const shape = shapeRef.current
+
+    if (!shape) {
+      return
+    }
+
+    if (vertical) {
+      shape.scale({ x: 1, y: 1.2 })
+    } else {
+      shape.scale({ x: 1.2, y: 1 })
+    }
+
+    shape.opacity(0)
+
+    const tween = new Tween({
+      node: shape,
+      duration: 0.4,
+      opacity: 1,
+      scaleX: 1,
+      scaleY: 1,
+      easing: Easings.StrongEaseInOut,
+    })
+
+    tween.play()
+  }, [vertical])
+
   return (
-    <Shape {...properties} sceneFunc={vertical ? drawVerticalBox : drawBox} />
+    <Shape
+      ref={shapeRef}
+      {...properties}
+      scaleX={vertical ? 1 : undefined}
+      scaleY={vertical ? undefined : 1}
+      sceneFunc={vertical ? drawVerticalBox : drawBox}
+    />
   )
 }
 

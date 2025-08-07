@@ -33,7 +33,7 @@ const Glyph = ({
     Object.entries(data.axes).map(([key, value]) => [key, Number(value)])
   )
 
-  const { bounding, points, ...pathData } = getPathDataGlyph(
+  const { bounding, commands, points, ...pathData } = getPathDataGlyph(
     charIndex,
     numericAxes,
     properties.fontSize ?? 12
@@ -87,6 +87,7 @@ const Glyph = ({
                 <Info
                   bounding={bounding}
                   currentFrame={currentFrame}
+                  commands={commands}
                   id={data.id}
                   position={data.position}
                   points={points}

@@ -1,7 +1,10 @@
+import { useEffect, useRef } from 'react'
 import { Shape } from 'react-konva'
+import type { Shape as IShape } from 'konva/lib/Shape'
 
 import { UseFontContext } from '../../../../contexts/Font/Font'
 import type { FontMetricsLinesProps } from './interfaces'
+import { Tween, Easings } from 'konva/lib/Tween'
 
 const FontMetricsLines = ({
   fontSize,
@@ -12,18 +15,45 @@ const FontMetricsLines = ({
   ...props
 }: FontMetricsLinesProps) => {
   const { font } = UseFontContext()
+  const shapeRef = useRef<IShape>(null)
+
+  useEffect(() => {
+    const shape = shapeRef.current
+
+    if (!shape) {
+      return
+    }
+
+    shape.opacity(0)
+    shape.scale({ x: 0.7, y: 1 })
+
+    const tween = new Tween({
+      node: shape,
+      duration: 0.4,
+      easing: Easings.BackEaseOut,
+      opacity: 1,
+      scaleX: 1,
+      scaleY: 1
+    })
+
+    tween.play()
+
+    return () => {
+      tween.pause()
+    }
+  }, [])
 
   if (!font) {
-    return
+    return null
   }
 
   const scaleFactor = fontSize / font.unitsPerEm
 
   const baselineY = y
-  const descenderY = y + (font?.descent * scaleFactor)
-  const xHeightY = y - (font?.xHeight * scaleFactor)
-  const capHeightY = y - (font?.capHeight * scaleFactor)
-  const ascenderY = y - (font?.ascent * scaleFactor)
+  const descenderY = y + font.descent * scaleFactor
+  const xHeightY = y - font.xHeight * scaleFactor
+  const capHeightY = y - font.capHeight * scaleFactor
+  const ascenderY = y - font.ascent * scaleFactor
 
   const lines: { y: number; label: string }[] = [
     { y: baselineY, label: 'Baseline' },
@@ -39,10 +69,10 @@ const FontMetricsLines = ({
   return (
     <Shape
       {...props}
-      listening={false}
-      rotation={rotation}
+      ref={shapeRef}
       x={x}
       y={y}
+      rotation={rotation}
       sceneFunc={(ctx) => {
         ctx.setLineDash([5, 5])
         ctx.strokeStyle = '#fff'

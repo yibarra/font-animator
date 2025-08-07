@@ -48,6 +48,7 @@ const FontSettingsProvider = ({ children }: IFontSettingsProvider ) => {
       if (!font || !id) {
         return {
           arrows: [],
+          commands: [],
           bounding: {
             x1: 0,
             y1: 0,
@@ -77,6 +78,7 @@ const FontSettingsProvider = ({ children }: IFontSettingsProvider ) => {
 
         return {
           bounding,
+          commands,
           arrows: extractGlyphArrows(commands, size / units),
           path: convertPathToSvg(commands, size / units),
           points: extractGlyphPoints(commands, size / units),
@@ -85,6 +87,7 @@ const FontSettingsProvider = ({ children }: IFontSettingsProvider ) => {
 
       return {
         arrows: [],
+        commands: [],
         path: '',
         bounding: {
           x1: 0,
