@@ -2,17 +2,17 @@ import { Shape } from 'react-konva'
 import type { Context } from 'konva/lib/Context'
 import type { Shape as IShape } from 'konva/lib/Shape'
 
-interface GridProps {
-  offsetX: number;
-  offsetY: number;
-  cellSize: number; // Tu 'step' ahora es 'cellSize'
-  gridColor: string; // Tu '#888' ahora es 'gridColor'
-}
+import type { IGridProps } from './interfaces'
 
-const Grid = ({ cellSize, gridColor }: GridProps) => {
-  const width = window.innerWidth;
-  const height = window.innerHeight;
-
+const Grid = ({
+  cellSize,
+  dash = [0, 0],
+  height,
+  stroke = '#FFF',
+  strokeWidth = 1,
+  width,
+  ...props
+}: IGridProps) => {
   const draw = (ctx: Context, shape: IShape) => {
     ctx.clearRect(0, 0, width, height)
 
@@ -22,25 +22,24 @@ const Grid = ({ cellSize, gridColor }: GridProps) => {
     const centerY = height / 2
 
     ctx.save()
-    ctx.translate(centerX, centerY) // Mueve (0,0) al centro del canvas
+    ctx.translate(centerX, centerY)
 
     ctx.beginPath()
-    ctx.lineWidth = 0.5
-    ctx.strokeStyle = gridColor
 
-    // Líneas verticales
+    ctx.lineWidth = strokeWidth
+    ctx.strokeStyle = stroke
+
     for (let i = -cols; i <= cols; i++) {
       const x = i * cellSize
       ctx.moveTo(x, -height)
       ctx.lineTo(x, height)
     }
 
-    // Líneas horizontales
     for (let i = -rows; i <= rows; i++) {
       const y = i * cellSize
       ctx.moveTo(-width, y)
       ctx.lineTo(width, y)
-      ctx.setLineDash([4, 4])
+      ctx.setLineDash(dash)
     }
 
     ctx.stroke()
@@ -51,9 +50,9 @@ const Grid = ({ cellSize, gridColor }: GridProps) => {
 
   return (
     <Shape
+      {...props}
       listening={false}
       sceneFunc={draw}
-      opacity={0.2}
       x={0}
       y={0}
     />

@@ -1,5 +1,5 @@
 import type { PropsWithChildren, ReactElement } from 'react'
-import type { IGlyph } from '../../../../../../../contexts/Glyphs/interfaces'
+import type { IGlyph } from '../../../contexts/Glyphs/interfaces'
 
 export interface TabItems {
   label: string
@@ -16,7 +16,7 @@ export interface Tab {
 
 export interface ITabProps {
   items: Tab[]
-  isActive?: boolean
+  isActive?: number
   callback?: (index: number) => void
 }
 

@@ -3,7 +3,7 @@ import type { Context } from 'konva/lib/Context'
 import { Shape } from 'react-konva'
 import type { IPointProps } from './interfaces'
 
-const Points = ({ points, ...props }: IPointProps) => {
+const Points = ({ points, viewPoints = false, ...props }: IPointProps) => {
   const sceneFunc = (ctx: Context) => {
     for (let i = 0; i < points.length; i++) {
       const p = points[i]
@@ -59,6 +59,24 @@ const Points = ({ points, ...props }: IPointProps) => {
         ctx.arc(point.x, point.y, 4, 0, Math.PI * 2, false)
         ctx.fill()
         ctx.stroke()
+
+        ctx.fillStyle = 'transparent'
+        ctx.strokeStyle = '#ffffff'
+        ctx.lineWidth = 2
+        ctx.beginPath();
+        ctx.arc(point.x, point.y, 1, 0, Math.PI * 2, false)
+        ctx.fill()
+        ctx.stroke()
+
+        if (viewPoints) {
+          ctx.save()
+          ctx.scale(1, -1)
+  
+          ctx.fillStyle = '#FFF'
+          ctx.fillText(`${point.x.toFixed(1)}, ${point.y.toFixed(1)}`, point.x + 0, -(point.y + 10))
+          ctx.fill()
+          ctx.restore()
+        }
       } else {
         ctx.fillStyle = '#ffffff'
         ctx.beginPath()

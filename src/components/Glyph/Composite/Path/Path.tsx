@@ -24,6 +24,7 @@ const Path = ({
   properties,
   setIsDragging,
   setPositionDrag,
+  viewPoints,
   ...props
 }: IPath) => {
   const groupRef = useRef<IGroup | null>(null)
@@ -119,7 +120,7 @@ const Path = ({
       {skeleton && (
         <>
           <Base.Skeleton points={points} offsetY={bounding.y2 / 2 - 70} />
-          <Base.Points points={points} offsetY={bounding.y2 / 2 - 70} />
+          <Base.Points points={points} offsetY={bounding.y2 / 2 - 70} viewPoints={viewPoints} />
           <Base.ArrowsPoint arrows={arrows} offsetY={bounding.y2 / 2 - 70} />
         </>
       )}

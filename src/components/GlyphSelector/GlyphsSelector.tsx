@@ -12,7 +12,7 @@ const GlyphSelector = ({ isOpen, setIsOpen }: IGlyphSelectorProps) => {
 
   const [isActive, setIsActive] = useState(0)
 
-  const GLYPHS_PER_TAB = 148
+  const GLYPHS_PER_TAB = 240
   const totalGlyphs = font?.numGlyphs ?? 0
 
   const tabData = useMemo(() => {
@@ -47,12 +47,12 @@ const GlyphSelector = ({ isOpen, setIsOpen }: IGlyphSelectorProps) => {
         onClick={() => setIsOpen(!isOpen)}
       >
         <span className="material-symbols-outlined">
-          glyphs
+          letter_switch
         </span>
       </button>
 
       <Tabs.Tabs defaultActiveTab={0}>
-        <Tabs.TabHead items={tabData} callback={setIsActive} />
+        <Tabs.TabHead isActive={isActive} items={tabData} callback={setIsActive} />
 
         <>
           {Array.isArray(tabData) && tabData.map((tab, index) => (

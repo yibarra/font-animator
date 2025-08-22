@@ -8,7 +8,9 @@ import styles from './styles.module.scss'
 const TabPanel = ({ id, items, frame, isActive }: ITabPanelProps) => {
   const { font } = UseFontContext()
   const { axes } = UseFontSettingsContext()
-  const { updateGlyph } = useGlyphsStore()
+  const { current, glyphs, updateGlyph } = useGlyphsStore()
+
+  const currentGlyph = glyphs[current ?? 0].charIndex
 
   return (
     <div
@@ -16,16 +18,17 @@ const TabPanel = ({ id, items, frame, isActive }: ITabPanelProps) => {
       data-active={isActive}
       hidden={!isActive}
     >
-      <p>Glifos del {items.startIndex} al {items.endIndex}</p>
       <div className={styles['tabs--panel--grid']}>
         {items.glyphIndexes.map((g, i) => (
           <button
             className={styles['frame--item']}
-            data-active={i === g}
+            data-active={g === currentGlyph}
+            data-chart-index={i}
             onClick={() => updateGlyph(id, g)}
             key={font?.familyName + '-' + i}
           >
             <p
+              data-char={g}
               style={{
                 fontFamily: font?.familyName,
                 fontVariationSettings: axes ? getFontVariationSettings(frame['axes']) : ''

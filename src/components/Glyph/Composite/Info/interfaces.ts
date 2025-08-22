@@ -15,4 +15,6 @@ export interface IInfo extends Pick<IGlyph, 'id' | 'position'> {
   setSkeleton: Dispatch<SetStateAction<boolean>>
   x: number
   y: number
+  viewPoints?: boolean
+  setViewPoints: Dispatch<SetStateAction<boolean>>
 }

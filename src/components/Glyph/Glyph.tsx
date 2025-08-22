@@ -1,12 +1,12 @@
 import { useRef, useState } from 'react'
 import { Group } from 'react-konva'
+import { useSearchParams } from 'react-router-dom'
 import type { Path as IPathKonva } from 'konva/lib/shapes/Path'
 
 import { default as Base } from './index'
 import { UseFontSettingsContext } from '../../contexts/FontSettings/FontSettings'
-import type { IGlyphProps } from './interfaces'
 import Info from './Composite/Info'
-import { useSearchParams } from 'react-router-dom'
+import type { IGlyphProps } from './interfaces'
 
 const Glyph = ({
   current,
@@ -23,6 +23,8 @@ const Glyph = ({
   const [metrics, setMetrics] = useState(true)
   const [baseLines, setBaseLines] = useState(true)
   const [skeleton, setSkeleton] = useState(true)
+  const [viewPoints, setViewPoints] = useState(false)
+
   const [positionDrag, setPositionDrag] = useState<[number, number, number]>([...data.position, data.rotation])
 
   const { charIndex, position, properties, ...propsData } = data
@@ -63,6 +65,7 @@ const Glyph = ({
         setIsDragging={setIsDragging}
         setPositionDrag={setPositionDrag}
         rotation={rotation}
+        viewPoints={viewPoints}
         x={x}
         y={y}
       />
@@ -97,6 +100,8 @@ const Glyph = ({
                   baseLines={baseLines}
                   setBaseLines={setBaseLines}
                   setMetrics={setMetrics}
+                  setViewPoints={setViewPoints}
+                  viewPoints={viewPoints}
                   x={x}
                   y={y}
                 />

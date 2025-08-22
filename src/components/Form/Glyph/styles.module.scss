@@ -68,12 +68,12 @@
       border: none;
       background-size: 8px 8px;
       background-image: repeating-linear-gradient(
-        -45deg,
-        var(--text-main) 0,
-        var(--text-main) 1px,
-        transparent 0,
-        transparent 50%
-      );
+      -45deg,
+      rgba(255,255,255,0.4) 0,
+      rgba(255,255,255,0.4) 0.1px,
+      transparent 0,
+      transparent 50%
+    );
       color: var(--text-main);
       box-shadow: none;
       height: 40px;

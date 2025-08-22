@@ -62,7 +62,7 @@
   }
 
   &--contours {
-    display: none; // flex;
+    display: flex;
     flex-flow: row wrap;
     gap: 8px;
     max-height: 30dvh;
@@ -85,6 +85,7 @@
         display: flex;
         flex-flow: row nowrap;
         padding: 0 4px;
+        text-transform: uppercase;
         white-space: nowrap;
         width: 70px;
       }
@@ -98,6 +99,10 @@
       left: 100%;
       padding: 0 0 0 12px;
       position: absolute;
+
+      h5 {
+        font-weight: 400;
+      }
     }
 
     &::-webkit-scrollbar {

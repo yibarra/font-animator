@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Html } from 'react-konva-utils'
 
 import type { IInfo } from './interfaces'
@@ -12,9 +13,13 @@ const Info = ({
   setBaseLines,
   setMetrics,
   setSkeleton,
+  setViewPoints,
+  viewPoints,
   x,
   y,
 }: IInfo) => {
+  const [viewCommands, setViewCommands] = useState(false)
+
   return (
     <Html>
       <div
@@ -40,52 +45,54 @@ const Info = ({
             <span className="material-symbols-outlined">square_foot</span>
           </button>
 
+          <button data-active={viewCommands} onClick={() => setViewCommands(!viewCommands)}>
+            <span className="material-symbols-outlined">code_blocks</span>
+          </button>
+
+          <button data-active={viewPoints} onClick={() => setViewPoints(!viewPoints)}>
+            <span className="material-symbols-outlined">point_scan</span>
+          </button>
+
           <button data-active="true" onClick={() => console.info("yeah")}>
             <span className="material-symbols-outlined">rotate_right</span>
           </button>
         </div>
 
-        <div className={styles["glyph--info--contours--wrapper"]}>
-          <p>Commands</p>
+        {viewCommands && (
+          <div className={styles["glyph--info--contours--wrapper"]}>
+            <h5>Commands</h5>
 
-          <div
-            className={styles["glyph--info--contours"]}
-            style={{
-              maxHeight: Math.abs(bounding.y2),
-            }}
-          >
-            {Array.isArray(commands) &&
-              commands.map((point, index) => {
-                const argNamesMap: Record<string, string[]> = {
-                  moveTo: ["x", "y"],
-                  lineTo: ["x", "y"],
-                  quadraticCurveTo: ["cp1x", "cp1y", "x", "y"],
-                  bezierCurveTo: ["cp1x", "cp1y", "cp2x", "cp2y", "x", "y"],
-                  closePath: [],
-                };
+            <div
+              className={styles["glyph--info--contours"]}
+              style={{
+                maxHeight: Math.abs(bounding.y2),
+              }}
+            >
+              {Array.isArray(commands) &&
+                commands.map((point, index) => {
+                  const argNames = point.command
+                  const args: (number | null)[] = [...point.args]
 
-                const argNames = argNamesMap[point.command]
-                const args: (number | null)[] = [...point.args]
+                  while (args.length < 6) {
+                    args.push(null)
+                  }
 
-                while (args.length < 6) {
-                  args.push(null)
-                }
+                  const displayedArgs = args.slice(0, 6)
 
-                const displayedArgs = args.slice(0, 6)
-
-                return (
-                  <p
-                    className={styles["glyph--info--contours--item"]}
-                    key={index}
-                  >
-                    {displayedArgs.map((value, k) => (
-                      value !== null ? <strong>{argNames[k] || `arg${k + 1}`}: {value}</strong> : null
-                    ))}
-                  </p>
-                );
-              })}
+                  return (
+                    <p
+                      className={styles["glyph--info--contours--item"]}
+                      key={index}
+                    >
+                      {displayedArgs.map((value, k) => (
+                        value !== null ? <strong>{argNames[k] || `arg${k + 1}`}: {value}</strong> : null
+                      ))}
+                    </p>
+                  );
+                })}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </Html>
   )

@@ -2,7 +2,6 @@ import { useSearchParams } from 'react-router-dom'
 import { useMemo } from 'react'
 
 import Axes from './Composite/Axes/Axes'
-import Frames from './Composite/Frames'
 import Properties from './Composite/Properties'
 import { UseFontContext } from '../../../contexts/Font/Font'
 import { UseGlyphsContext } from '../../../contexts/Glyphs/Glyphs'
@@ -33,11 +32,6 @@ const Glyph = ({ ...props }: IForm) => {
         currentFrame={currentFrame}
         frame={frame}
         id={glyph.id}
-      />
-      <Frames
-        charIndex={glyph['charIndex']}
-        currentFrame={currentFrame}
-        frames={glyph['frames']}
       />
       {/* <Stroke currentFrame={0} glyph={glyph} /> */}
     </div>

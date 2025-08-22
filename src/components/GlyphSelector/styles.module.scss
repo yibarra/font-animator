@@ -1,6 +1,6 @@
 .glyph-selector {
   align-items: flex-start;
-  background: var(--text-main);
+  background: transparent;
   display: flex;
   flex-flow: row wrap;
   gap: 0px;
@@ -28,10 +28,19 @@
   }
 
   &--toggle {
+    border: none;
+    background: var(--text-main);
+    color: var(--bg-panel);
     left: 0px;
+    height: 50px;
     position: absolute;
     transform: translate3d(-100%, 0px, 0px);
     top: 0px;
+    width: 50px;
+
+    span {
+      font-size: 27px;
+    }
   }
 
   &[data-active="true"] {

@@ -1,22 +1,17 @@
-// src/components/SmartContextMenu.tsx
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { UseMainContext } from '../../contexts/Main/Main';
+import { useState, useEffect, useRef, useCallback } from 'react'
+import { UseMainContext } from '../../contexts/Main/Main'
 
-interface SmartContextMenuProps {
-  children: React.ReactNode; // El contenido que se hará clic derecho
-  menuItems: React.ReactNode; // Los ítems del menú contextual en sí
-}
+import type { SmartContextMenuProps } from './interfaces'
 
-const SmartContextMenu: React.FC<SmartContextMenuProps> = ({ children, menuItems }) => {
+const SmartContextMenu = ({ children, menuItems }: SmartContextMenuProps) => {
   const { isVisible, setIsVisible } = UseMainContext()
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const menuRef = useRef<HTMLDivElement>(null); // Referencia al div del menú
-  const containerRef = useRef<HTMLDivElement>(null); // Referencia al div donde se detectará el clic
+  const [position, setPosition] = useState({ x: 0, y: 0 })
+  const menuRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
 
-  // Define el padding mínimo deseado desde los bordes
-  const PADDING = 30; // 30px de padding
+  const PADDING = 30
 
-  // --- Lógica de Posicionamiento Inteligente con Padding ---
+  // position
   const calculateMenuPosition = useCallback((clientX: number, clientY: number) => {
     const menuWidth = menuRef.current ? menuRef.current.offsetWidth : 0;
     const menuHeight = menuRef.current ? menuRef.current.offsetHeight : 0;
@@ -27,86 +22,79 @@ const SmartContextMenu: React.FC<SmartContextMenuProps> = ({ children, menuItems
     let newX = clientX;
     let newY = clientY;
 
-    // Ajustar si se sale por la derecha
-    // Si (posición del clic + ancho del menú) > (ancho del viewport - PADDING)
     if (clientX + menuWidth > viewportWidth - PADDING) {
       newX = viewportWidth - menuWidth - PADDING;
     }
-    // Ajustar si se sale por abajo
-    // Si (posición del clic + alto del menú) > (alto del viewport - PADDING)
+
     if (clientY + menuHeight > viewportHeight - PADDING) {
       newY = viewportHeight - menuHeight - PADDING;
     }
 
-    // Ajustar si se sale por la izquierda
-    // Si la nueva posición es menor que el PADDING, ajustarla a PADDING
     if (newX < PADDING) {
       newX = PADDING;
     }
-    // Ajustar si se sale por arriba
-    // Si la nueva posición es menor que el PADDING, ajustarla a PADDING
+
     if (newY < PADDING) {
       newY = PADDING;
     }
 
-    setPosition({ x: newX, y: newY });
-  }, []); // No tiene dependencias externas, se puede memoizar
+    setPosition({ x: newX, y: newY })
+  }, [])
 
-  // --- Manejador del Clic Derecho (contextmenu) ---
   const handleContextMenu = useCallback((event: MouseEvent) => {
-    event.preventDefault(); // Evita el menú contextual nativo del navegador
-    setIsVisible(true);
-    calculateMenuPosition(event.clientX, event.clientY);
-  }, [calculateMenuPosition]);
+    event.preventDefault()
 
-  // --- Manejador para ocultar el menú al hacer clic fuera o al scrollear ---
+    setIsVisible(true)
+    calculateMenuPosition(event.clientX, event.clientY)
+  }, [calculateMenuPosition])
+
+  // scroll
   const handleClickOutside = useCallback((event: MouseEvent) => {
     if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-      setIsVisible(false);
+      setIsVisible(false)
     }
-  }, []);
+  }, [])
 
-  const handleScroll = useCallback(() => {
-    setIsVisible(false); // Oculta el menú si el usuario scrollea
-  }, []);
+  const handleScroll = useCallback(() => setIsVisible(false), [])
 
-  // --- Efectos para añadir/quitar event listeners ---
+  // event listeners ---
   useEffect(() => {
-    const containerElement = containerRef.current;
+    const containerElement = containerRef.current
 
     if (containerElement) {
-      containerElement.addEventListener('contextmenu', handleContextMenu);
+      containerElement.addEventListener('contextmenu', handleContextMenu)
     }
 
     if (isVisible) {
-      document.addEventListener('click', handleClickOutside);
-      document.addEventListener('scroll', handleScroll);
-      // Opcional: Re-calcular posición si la ventana cambia de tamaño mientras el menú está abierto
+      document.addEventListener('click', handleClickOutside)
+      document.addEventListener('scroll', handleScroll)
+
       window.addEventListener('resize', () => {
-        if (menuRef.current) { // Solo si el menú ya está renderizado
-            calculateMenuPosition(position.x, position.y); // Usar la última posición para reajustar
+        if (menuRef.current) {
+          calculateMenuPosition(position.x, position.y)
         }
-      });
+      })
     }
 
-    // Limpieza de event listeners
+    // event listeners
     return () => {
       if (containerElement) {
-        containerElement.removeEventListener('contextmenu', handleContextMenu);
+        containerElement.removeEventListener('contextmenu', handleContextMenu)
       }
-      document.removeEventListener('click', handleClickOutside);
-      document.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', () => { /* remove listener */ }); // Se requiere un manejador con nombre para remover
-    };
-  }, [handleContextMenu, handleClickOutside, handleScroll, isVisible, calculateMenuPosition, position]); // Añadimos 'position' a las dependencias si se usa en resize
+      document.removeEventListener('click', handleClickOutside)
+      document.removeEventListener('scroll', handleScroll)
+
+      window.removeEventListener('resize', () => { /* remove listener */ })
+    }
+  }, [handleContextMenu, handleClickOutside, handleScroll, isVisible, calculateMenuPosition, position])
 
   return (
     <div
       ref={containerRef}
       style={{
+        height: '100%',
         position: 'relative',
         width: '100%',
-        height: '100%',
       }}
     >
       {children}
@@ -115,17 +103,11 @@ const SmartContextMenu: React.FC<SmartContextMenuProps> = ({ children, menuItems
         <div
           ref={menuRef}
           style={{
+            boxShadow: '2px 2px 5px rgba(0,0,0,0.2)',
+            left: position.x,
             position: 'fixed',
             top: position.y,
-            left: position.x,
-            backgroundColor: '#FFF',
-            border: '1px solid #CCC',
-            boxShadow: '2px 2px 5px rgba(0,0,0,0.2)',
             zIndex: 1000,
-            padding: '12px',
-            borderRadius: '4px',
-            display: 'flex',
-            flexDirection: 'column',
           }}
         >
           {menuItems}

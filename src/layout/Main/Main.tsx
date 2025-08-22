@@ -31,10 +31,14 @@ const Main = () => {
         >
           <Layer>
             <Grid
+              cellSize={16}
+              height={window.innerHeight}
               offsetX={offsetX}
               offsetY={offsetY}
-              cellSize={22}
-              gridColor="#fff"
+              dash={[2, 2]}
+              stroke="#FFF"
+              strokeWidth={0.1}
+              width={window.innerWidth}
             />
 
             {Array.isArray(glyphs) && glyphs.map((glyph, index) =>

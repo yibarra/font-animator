@@ -15,6 +15,7 @@ export interface IPath extends Pick<IGlyph, 'charIndex' | 'axes' | 'id' | 'prope
   skeleton?: boolean
   setIsDragging: Dispatch<SetStateAction<boolean>>
   setPositionDrag: Dispatch<SetStateAction<[number, number, number]>>
+  viewPoints?: boolean
   x: number
   y: number
   rotation: number
