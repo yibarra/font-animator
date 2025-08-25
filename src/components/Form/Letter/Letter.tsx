@@ -1,10 +1,10 @@
-import { UseFontContext } from '../../../contexts/Font/Font'
+import { useFontStore } from '../../../contexts/Font/store'
 
 import { default as Main } from './'
 import styles from './styles.module.scss'
 
 const Letter = () => {
-  const { font } = UseFontContext()
+  const { font } = useFontStore()
 
   if (!font) {
     return null

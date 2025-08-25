@@ -1,24 +1,19 @@
 import { Layer, Stage } from 'react-konva'
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
+import type { Stage as IStage } from 'konva/lib/Stage'
 
-import { UseGlyphsContext } from '../../contexts/Glyphs/Glyphs'
-import Animator from '../../components/Animator'
+import { useGridContext } from '../../contexts/Grid'
+import { useGlyphsStore } from '../../contexts/Glyphs/store'
 import Form from '../../components/Form'
 import Glyph from '../../components/Glyph'
 import Grid from '../../components/Grid/Grid'
 import GlyphSelector from '../../components/GlyphSelector'
 import MenuContext from '../../components/MenuContext'
-import { useGridContext } from '../../contexts/Grid'
-import type { Stage as IStage } from 'konva/lib/Stage'
 
 const Main = () => {
   const stageRef = useRef<IStage>(null)
 
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [isDragging, setIsDragging] = useState(false)
-  const [isOpenSelector, setIsOpenSelector] = useState(false)
-
-  const { current, glyphs } = UseGlyphsContext()
+  const { current, glyphs } = useGlyphsStore()
   const { offsetX, offsetY } = useGridContext()
 
   return (
@@ -31,6 +26,18 @@ const Main = () => {
         >
           <Layer>
             <Grid
+              cellSize={48}
+              height={window.innerHeight}
+              offsetX={offsetX}
+              offsetY={offsetY}
+              dash={[2, 2]}
+              stroke="#FFF"
+              strokeWidth={0.1}
+              opacity={0.8}
+              width={window.innerWidth}
+            />
+
+            <Grid
               cellSize={12}
               height={window.innerHeight}
               offsetX={offsetX}
@@ -38,7 +45,7 @@ const Main = () => {
               dash={[2, 2]}
               stroke="#FFF"
               strokeWidth={0.1}
-              opacity={0.5}
+              opacity={0.6}
               width={window.innerWidth}
             />
 
@@ -48,23 +55,15 @@ const Main = () => {
                 data={glyph}
                 index={index}
                 key={index}
-                isDragging={isDragging}
-                setIsDragging={setIsDragging}
-                isPlaying={isPlaying}
               />
             )}
           </Layer>
         </Stage>
       </MenuContext>
 
-      <div style={{ position: 'absolute', left: 0, bottom: 0 }}>
-        <Animator duration={1900} isPlaying={isPlaying} setIsPlaying={setIsPlaying} />
-        {!isPlaying && (<Form.Glyph />)}
-      </div>
+      <Form.Glyph />
 
-      {!isPlaying && (
-        <GlyphSelector isOpen={isOpenSelector} setIsOpen={setIsOpenSelector} />
-      )}
+      <GlyphSelector />
     </>
   )
 }

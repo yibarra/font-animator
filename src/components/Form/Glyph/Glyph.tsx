@@ -3,15 +3,17 @@ import { useMemo } from 'react'
 
 import Axes from './Composite/Axes/Axes'
 import Properties from './Composite/Properties'
-import { UseFontContext } from '../../../contexts/Font/Font'
-import { UseGlyphsContext } from '../../../contexts/Glyphs/Glyphs'
 import type { IForm } from './interfaces'
 import styles from './styles.module.scss'
+import { useMainStore } from '../../../contexts/Main/store'
+import { useFontStore } from '../../../contexts/Font/store'
+import { useGlyphsStore } from '../../../contexts/Glyphs/store'
 
 const Glyph = ({ ...props }: IForm) => {
-  const { font } = UseFontContext()
+  const { font } = useFontStore()
   const [searchParams] = useSearchParams()
-  const { current, glyphs } = UseGlyphsContext()
+  const { current, glyphs } = useGlyphsStore()
+  const { isPlaying = false, isOpenSelector = false } = useMainStore()
 
   const currentFrame = Number(searchParams.get('frame') ?? 0)
   
@@ -20,13 +22,18 @@ const Glyph = ({ ...props }: IForm) => {
 
   const [char] = font?.stringsForGlyph(glyph?.charIndex ?? 0) ?? []
   
-  if (!glyph) {
-    return
+  if (!glyph || isPlaying || !isOpenSelector) {
+    return <></>
   }
   
   return (
     <div {...props} className={styles['form--glyph']}>
-      <Properties frame={frame} glyph={glyph} />
+      <span className="material-symbols-outlined">
+        custom_typography
+      </span>
+
+      <Properties glyph={glyph} />
+
       <Axes
         char={char}
         currentFrame={currentFrame}

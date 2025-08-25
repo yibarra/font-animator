@@ -1,8 +1,8 @@
-import { UseFontContext } from '../../contexts/Font/Font'
+import { useFontStore } from '../../contexts/Font/store'
 import type { IGlyphSVG } from './interfaces'
 
 const GlyphSVG = ({ charIndex, size, properties }: IGlyphSVG) => {
-  const { font } = UseFontContext()
+  const { font } = useFontStore()
 
   return (
     <svg viewBox="0 0 1000 1000" width={size} height={size}>

@@ -7,13 +7,15 @@ import { default as Base } from './index'
 import { UseFontSettingsContext } from '../../contexts/FontSettings/FontSettings'
 import Info from './Composite/Info'
 import type { IGlyphProps } from './interfaces'
+import { useMainStore } from '../../contexts/Main/store'
 
 const Glyph = ({
   current,
   data,
   index,
-  isPlaying,
 }: IGlyphProps) => {
+  const { isPlaying = false } = useMainStore()
+
   const [searchParams] = useSearchParams()
   const currentFrame = Number(searchParams.get('frame') ?? 0)
 

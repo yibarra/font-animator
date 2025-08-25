@@ -1,12 +1,12 @@
-import { UseFontContext } from '../../../contexts/Font/Font'
+import { useFontStore } from '../../../contexts/Font/store'
+import { useGlyphsStore } from '../../../contexts/Glyphs/store'
 import { getFontVariationSettings } from '../../../contexts/Font/utils'
 import { UseFontSettingsContext } from '../../../contexts/FontSettings/FontSettings'
-import { useGlyphsStore } from '../../../contexts/Glyphs/store'
 import type { ITabPanelProps } from './interfaces'
 import styles from './styles.module.scss'
 
 const TabPanel = ({ id, items, frame, isActive }: ITabPanelProps) => {
-  const { font } = UseFontContext()
+  const { font } = useFontStore()
   const { axes } = UseFontSettingsContext()
   const { current, glyphs, updateGlyph } = useGlyphsStore()
 

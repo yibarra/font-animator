@@ -1,16 +1,17 @@
+import { useEffect, useRef, useState } from 'react'
 import { Shape } from 'react-konva'
 import type { IWheelGlyphsProps } from './interfaces'
 import type { Context } from 'konva/lib/Context'
-import { UseFontContext } from '../../contexts/Font/Font'
-import { useEffect, useRef, useState } from 'react'
+
 import { UseFontSettingsContext } from '../../contexts/FontSettings/FontSettings'
 import { useGlyphsStore } from '../../contexts/Glyphs/store'
+import { useFontStore } from '../../contexts/Font/store'
 
 const WheelGlyphs = ({ glyph }: IWheelGlyphsProps) => {
   const [activeGlyphIndex, setActiveGlyphIndex] = useState<number | null>(null)
   const prevActiveGlyphIndexRef = useRef<number | null>(null)
 
-  const { font } = UseFontContext()
+  const { font } = useFontStore()
   const { getGlyphs } = UseFontSettingsContext()
   const { updateGlyph } = useGlyphsStore()
 

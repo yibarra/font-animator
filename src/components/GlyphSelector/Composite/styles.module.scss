@@ -1,14 +1,10 @@
 .glyph-selector {
   &--info {
-    background-size: 8px 8px;
-    background-image: repeating-linear-gradient(
-      -45deg, rgba(255, 255, 255, 0.4) 0,
-      rgba(255, 255, 255, 0.4) 0.1px,
-      transparent 0, transparent 50%
-    );
+    border: 1px solid var(--text-main);
+    background: transparent;
     display: flex;
     flex-flow: column wrap;
-    gap: 12px;
+    gap: 4px;
     padding: 12px;
     max-width: 490px;
     width: 100%;

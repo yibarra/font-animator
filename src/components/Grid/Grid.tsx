@@ -1,6 +1,5 @@
 import { Shape } from 'react-konva'
 import type { Context } from 'konva/lib/Context'
-import type { Shape as IShape } from 'konva/lib/Shape'
 
 import type { IGridProps } from './interfaces'
 
@@ -13,9 +12,7 @@ const Grid = ({
   width,
   ...props
 }: IGridProps) => {
-  const draw = (ctx: Context, shape: IShape) => {
-    ctx.clearRect(0, 0, width, height)
-
+  const draw = (ctx: Context) => {
     const cols = Math.ceil(width / cellSize)
     const rows = Math.ceil(height / cellSize)
     const centerX = width / 2
@@ -45,7 +42,6 @@ const Grid = ({
     ctx.stroke()
 
     ctx.restore()
-    ctx.strokeShape(shape)
   }
 
   return (
@@ -56,7 +52,7 @@ const Grid = ({
       x={0}
       y={0}
     />
-  );
+  )
 }
 
 Grid.displayName = 'Components.Grid'

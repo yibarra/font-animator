@@ -15,7 +15,7 @@ export interface IFontState {
   setFontLoaded: (loaded: boolean) => void
 }
 
-export interface IFontContext extends Omit<IFontState, 'loadInitialFont' | 'setFontLoaded' | 'onReadFile'> {
+export interface IFontContext {
   handleFileChange(event: ChangeEvent<HTMLInputElement>): void
 }
 

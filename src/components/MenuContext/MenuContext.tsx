@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { UseMainContext } from '../../contexts/Main/Main'
 
 import type { SmartContextMenuProps } from './interfaces'
+import { useMainStore } from '../../contexts/Main/store';
 
 const SmartContextMenu = ({ children, menuItems }: SmartContextMenuProps) => {
-  const { isVisible, setIsVisible } = UseMainContext()
+  const { isVisible, setIsVisible } = useMainStore()
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const menuRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)

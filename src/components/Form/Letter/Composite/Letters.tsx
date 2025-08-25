@@ -1,11 +1,11 @@
 import { useMemo } from 'react'
 
 import { UseLetterContext } from '../Context'
+import { useMainStore } from '../../../../contexts/Main/store'
 import type { LetterProps } from './interfaces'
-import { UseMainContext } from '../../../../contexts/Main/Main'
 
 const Letters = ({ font }: LetterProps) => {
-  const { setIsVisible } = UseMainContext()
+  const { setIsVisible } = useMainStore()
   const { onHandlerAddGlyph } = UseLetterContext()
 
   const item = useMemo(() => {

@@ -7,7 +7,7 @@ import { useFontStore } from './store'
 const FontContext = createContext({} as IFontContext)
 
 const FontProvider = ({ children }: IFontProvider ) => {
-  const { loadInitialFont, onReadFile, ...store } = useFontStore()
+  const { loadInitialFont, onReadFile } = useFontStore()
 
   // handle file change
   const handleFileChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,10 +25,8 @@ const FontProvider = ({ children }: IFontProvider ) => {
   return (
     <FontContext.Provider
       value={useMemo(() => ({
-        ...store,
         handleFileChange
       }), [
-        store,
         handleFileChange,
     ])}
     >

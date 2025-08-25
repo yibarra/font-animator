@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react'
 import { Shape } from 'react-konva'
+import { Tween, Easings } from 'konva/lib/Tween'
 import type { Shape as IShape } from 'konva/lib/Shape'
 
-import { UseFontContext } from '../../../../contexts/Font/Font'
+import { useFontStore } from '../../../../contexts/Font/store'
 import type { FontMetricsLinesProps } from './interfaces'
-import { Tween, Easings } from 'konva/lib/Tween'
 
 const FontMetricsLines = ({
   fontSize,
@@ -14,7 +14,7 @@ const FontMetricsLines = ({
   y,
   ...props
 }: FontMetricsLinesProps) => {
-  const { font } = UseFontContext()
+  const { font } = useFontStore()
   const shapeRef = useRef<IShape>(null)
 
   useEffect(() => {

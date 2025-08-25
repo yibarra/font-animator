@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useMemo } from 'react'
 
 import { useGlyphsStore } from './store'
-import { UseFontContext } from '../Font/Font'
+import { useFontStore } from '../Font/store'
 import { UseFontSettingsContext } from '../FontSettings/FontSettings'
 import type { IFrame, IGlyphsContext, IGlyphsProvider } from './interfaces'
 import { percentToRange } from './utils'
@@ -11,10 +11,10 @@ const GlyphsContext = createContext({} as IGlyphsContext)
 
 // glyph provider
 const GlyphsProvider = ({ children }: IGlyphsProvider) => {
-  const { font } = UseFontContext()
+  const { font } = useFontStore()
   const { axes } = UseFontSettingsContext()
 
-  const { glyphs, updateGlyphs, ...props } = useGlyphsStore()
+  const { glyphs, updateGlyphs } = useGlyphsStore()
 
   // get glyph
   const getGlyph = useCallback((index: number) => font?.getGlyph(index), [font])
@@ -181,8 +181,6 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
     <GlyphsContext.Provider
       value={
         useMemo(() => ({
-          ...props,
-          glyphs,
           getGlyph,
           setGlyphPosition,
           setGlyphRotate,
@@ -191,8 +189,6 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
           setGlyphFrameAxes,
           setGlyphFramesAxesAnimation,
         }), [
-          props,
-          glyphs,
           getGlyph,
           setGlyphPosition,
           setGlyphRotate,

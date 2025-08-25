@@ -60,15 +60,15 @@ const Points = ({ points, viewPoints = false, ...props }: IPointProps) => {
         ctx.fill()
         ctx.stroke()
 
-        ctx.fillStyle = 'transparent'
-        ctx.strokeStyle = '#ffffff'
-        ctx.lineWidth = 2
-        ctx.beginPath();
-        ctx.arc(point.x, point.y, 1, 0, Math.PI * 2, false)
-        ctx.fill()
-        ctx.stroke()
-
         if (viewPoints) {
+          ctx.fillStyle = 'transparent'
+          ctx.strokeStyle = '#ffffff'
+          ctx.lineWidth = 2
+          ctx.beginPath();
+          ctx.arc(point.x, point.y, 1, 0, Math.PI * 2, false)
+          ctx.fill()
+          ctx.stroke()
+        
           ctx.save()
           ctx.scale(1, -1)
   

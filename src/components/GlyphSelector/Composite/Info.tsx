@@ -1,10 +1,9 @@
-
-import { UseFontContext } from '../../../contexts/Font/Font'
+import { useFontStore } from '../../../contexts/Font/store'
 
 import styles from './styles.module.scss'
 
 const Info = () => {
-  const { font } = UseFontContext()
+  const { font } = useFontStore()
 
   const info = {
     familyName: font?.familyName,

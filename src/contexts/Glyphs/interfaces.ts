@@ -58,7 +58,7 @@ export interface IGlyphsState {
   updateGlyphProperties: (id: string, properties: ShapeConfig) => void
 }
 
-export interface IGlyphsContext extends Pick<IGlyphsState, 'current' | 'glyphs' | 'addGlyph' | 'remove' | 'setCurrent'>{
+export interface IGlyphsContext {
   getGlyph: (index: number) => Glyph | undefined
   setGlyphFrameAxes: (id: string, frame: number, axes: Record<string, number>) => void
   getGlyphVariation: (index: number, variants: number[]) => Glyph | undefined

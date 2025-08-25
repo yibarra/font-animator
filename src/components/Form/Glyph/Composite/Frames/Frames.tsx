@@ -2,14 +2,14 @@ import { useSearchParams } from 'react-router-dom'
 
 import Rotation from '../Rotation'
 import { getFontVariationSettings } from '../../../../../contexts/Font/utils'
-import { UseFontContext } from '../../../../../contexts/Font/Font'
+import { useFontStore } from '../../../../../contexts/Font/store'
 import styles from './styles.module.scss'
 import type { IFrames } from './interfaces'
 import { UseGlyphsContext } from '../../../../../contexts/Glyphs/Glyphs'
 
 const Frames = ({ charIndex, currentFrame, frames, ...props }: IFrames) => {
   const { setGlyphFramesAxesAnimation } = UseGlyphsContext()
-  const { font } = UseFontContext()
+  const { font } = useFontStore()
 
   const [, setSearchParams] = useSearchParams()
 

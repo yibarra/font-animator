@@ -1,13 +1,13 @@
 import { createContext, useCallback, useContext, useMemo } from 'react'
 
-import { UseGlyphsContext } from '../../../contexts/Glyphs/Glyphs'
-import type { ILetterContext, ILetterProvider } from './interfaces'
 import { UseFontSettingsContext } from '../../../contexts/FontSettings/FontSettings'
+import { useGlyphsStore } from '../../../contexts/Glyphs/store'
+import type { ILetterContext, ILetterProvider } from './interfaces'
 
 const LetterContext = createContext({} as ILetterContext)
 
 const LetterProvider = ({ children, font }: ILetterProvider) => {
-  const { addGlyph } = UseGlyphsContext()
+  const { addGlyph } = useGlyphsStore()
   const { axes } = UseFontSettingsContext()
 
   const glyphs = useMemo(() => {

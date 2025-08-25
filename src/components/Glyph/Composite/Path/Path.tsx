@@ -5,6 +5,7 @@ import type { Group as IGroup } from 'konva/lib/Group'
 
 import { UseGlyphsContext } from '../../../../contexts/Glyphs/Glyphs'
 import { default as Base } from '../../index'
+import { useGlyphsStore } from '../../../../contexts/Glyphs/store'
 import type { IPath } from './interfaces'
 
 const Path = ({
@@ -28,7 +29,8 @@ const Path = ({
   ...props
 }: IPath) => {
   const groupRef = useRef<IGroup | null>(null)
-  const { setCurrent, setGlyphRotate, setGlyphPosition } = UseGlyphsContext()
+  const { setGlyphRotate, setGlyphPosition } = UseGlyphsContext()
+  const { setCurrent } = useGlyphsStore()
   
   const onUpdateTranslate = (event: KonvaEventObject<DragEvent>) => {
     const node = event.target

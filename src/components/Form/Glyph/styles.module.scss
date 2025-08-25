@@ -4,7 +4,7 @@
   bottom: 0px;
   display: flex;
   flex-flow: row nowrap;
-  left: 100%;
+  left: 0px;
   gap: 20px;
   height: fit-content;
   overflow: hidden;
@@ -91,10 +91,10 @@
 
     &--list {
       display: grid;
-      gap: 4px;
+      gap: 1px;
       grid-auto-flow: column;
-      grid-template-rows: repeat(3, 44px);
-      grid-auto-columns: 44px;
+      grid-template-rows: repeat(3, 46px);
+      grid-auto-columns: 48px;
       width: auto;
     }
 
