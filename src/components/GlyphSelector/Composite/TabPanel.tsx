@@ -12,11 +12,14 @@ const TabPanel = ({ id, items, frame, isActive }: ITabPanelProps) => {
 
   const currentGlyph = glyphs[current ?? 0].charIndex
 
+  if (!isActive) {
+    return <></>
+  }
+
   return (
     <div
       className={styles['tabs--panel']}
       data-active={isActive}
-      hidden={!isActive}
     >
       <div className={styles['tabs--panel--grid']}>
         {items.glyphIndexes.map((g, i) => (

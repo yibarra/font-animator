@@ -26,10 +26,12 @@ const Letters = ({ font }: LetterProps) => {
         event.preventDefault()
 
         setIsVisible(false)
-        onHandlerAddGlyph(item?.id ?? 70, event.clientX, event.clientY)}
+        onHandlerAddGlyph(item?.id ?? 70, event.clientX, event.clientY + 220)}
       }
     >
-      create glyph
+      <span className="material-symbols-outlined">
+        text_increase
+      </span>
     </button>
   )
 }

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 
 import type { IRangeSlider } from './interfaces'
 import styles from './styles.module.scss'
+import { formatValue } from './helpers'
 
 const RangeSlider = ({
   defaultValue = 0,
@@ -12,7 +13,6 @@ const RangeSlider = ({
   ...props
 }: IRangeSlider) => {
   const [value, setValue] = useState<number>()
-
   const inputRef = useRef<HTMLInputElement>(null)
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,6 +34,9 @@ const RangeSlider = ({
     }
   }, [defaultValue, min, max])
 
+  const minLabel = formatValue(min)
+  const maxLabel = formatValue(max)
+
   return (
     <div className={styles['range-slider']}>
       <div className={styles['range-slider--wrapper']}>
@@ -49,10 +52,18 @@ const RangeSlider = ({
         />
 
         <div className={styles['range-slider--labels']}>
-          <span className={styles['range-slider--labels--value']}>
-            {String(min).padStart(2, '0')}
+          <span
+            className={styles['range-slider--labels--value']}
+            data-sign={minLabel.sign}
+          >
+            {minLabel.value}
           </span>
-          <span className={styles['range-slider--labels--value']}>{max}</span>
+          <span
+            className={styles['range-slider--labels--value']}
+            data-sign={maxLabel.sign}
+          >
+            {maxLabel.value}
+          </span>
         </div>
       </div>
     </div>

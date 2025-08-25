@@ -6,7 +6,11 @@ const Loader = () => {
 
   return (
     <div className={styles['form--loader']}>
-      <label className="material-symbols-outlined" htmlFor="file-upload">file_open</label>
+      <label htmlFor="file-upload">
+        <span className="material-symbols-outlined">
+          upload_file
+        </span>
+      </label>
       
       <input
         type="file"

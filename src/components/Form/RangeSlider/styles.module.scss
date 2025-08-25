@@ -19,8 +19,19 @@
       color: var(--text-main);
       font-size: 10px;
       transform: rotate(-90deg);
+      position: relative;
       text-align: center;
       width: 25px;
+
+      &[data-sign="-"] {
+        &:before {
+          content: '-';
+          left: 0px;
+          position: absolute;
+          top: 50%;
+          transform: translate3d(-50%, -50%, 0px);
+        }
+      }
     }
   }
 

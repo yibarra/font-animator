@@ -31,13 +31,14 @@ const Main = () => {
         >
           <Layer>
             <Grid
-              cellSize={16}
+              cellSize={12}
               height={window.innerHeight}
               offsetX={offsetX}
               offsetY={offsetY}
               dash={[2, 2]}
               stroke="#FFF"
               strokeWidth={0.1}
+              opacity={0.5}
               width={window.innerWidth}
             />
 

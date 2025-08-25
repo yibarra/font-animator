@@ -9,7 +9,7 @@
   height: fit-content;
   overflow: hidden;
   overflow-y: auto;
-  padding: 0px 20px 20px;
+  padding: 0px 16px 16px;
   position: absolute;
   top: initial;
   transition: all 0.4s cubic-bezier(0.075, 0.82, 0.165, 1);
@@ -76,12 +76,12 @@
     );
       color: var(--text-main);
       box-shadow: none;
-      height: 40px;
+      height: 100%;
       color: var(--secondary-color);
       font-family: inherit;
       font-size: 20px;
       transition: all 0.4s cubic-bezier(0.075, 0.82, 0.165, 1);
-      min-width: 40px;
+      min-width: 100%;
 
       &[data-active="true"] {
         background-image: none;
@@ -90,10 +90,12 @@
     }
 
     &--list {
-      display: flex;
-      gap: 2px;
-      flex-flow: row wrap;
-      width: 180px;
+      display: grid;
+      gap: 4px;
+      grid-auto-flow: column;
+      grid-template-rows: repeat(3, 44px);
+      grid-auto-columns: 44px;
+      width: auto;
     }
 
     .form--group {

@@ -1,8 +1,57 @@
+.glyph-selector {
+  &--info {
+    background-size: 8px 8px;
+    background-image: repeating-linear-gradient(
+      -45deg, rgba(255, 255, 255, 0.4) 0,
+      rgba(255, 255, 255, 0.4) 0.1px,
+      transparent 0, transparent 50%
+    );
+    display: flex;
+    flex-flow: column wrap;
+    gap: 12px;
+    padding: 12px;
+    max-width: 490px;
+    width: 100%;
+
+    h1{
+      font-size: 16px;
+      font-weight: 400;
+      margin-top: 8px;
+      text-transform: uppercase;
+      width: 100%;
+    }
+
+    &--section {
+      color: #fff;
+      display: flex;
+      flex-flow: row wrap;
+      gap: 4px;
+      justify-content: flex-start;
+      width: 100%;
+
+      p {
+        font-size: 11px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: calc(50% - 4px);
+      }
+    }
+  }
+}
+
 .tabs {
+  align-content: flex-start;
+  align-items: flex-start;
   display: flex;
   gap: 12px;
-  flex-flow: column wrap;
+  justify-content: flex-start;
+  height: 100%;
+  flex-flow: row wrap;
   overflow: hidden;
+  overflow-y: scroll;
+  padding-right: 12px;
+  max-width: 490px;
   width: 100%;
 
   &--head {
@@ -50,7 +99,7 @@
     &--grid {
       display: grid;
       gap: 1px;
-      grid-template-columns: repeat(12, 40px);
+      grid-template-columns: repeat(11, 42px);
       grid-auto-rows: 40px;
       width: auto;
               
@@ -71,10 +120,11 @@
         font-weight: 600;
         height: 40px;
         justify-content: center;
-
+        
         > p {
           font-size: 14px;
           font-weight: 600;
+          text-transform: none;
         }
 
         &[data-active="true"] {
@@ -84,4 +134,26 @@
       }
     }
   }
+
+  &::-webkit-scrollbar {
+    height: 4px;
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 0px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #ececec;
+    border-radius: 0px;
+    opacity: 0.7;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #FFF;
+    opacity: 1;
+  }
+
 }

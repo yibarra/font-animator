@@ -2,7 +2,6 @@ import { useState } from 'react'
 
 import { UseGlyphsContext } from '../../contexts/Glyphs/Glyphs'
 import Counter from './Counter'
-import Form from '../Form'
 import type { IAnimator } from './interfaces'
 
 const Animator = ({ duration = 2000, isPlaying, setIsPlaying }: IAnimator) => {
@@ -11,8 +10,6 @@ const Animator = ({ duration = 2000, isPlaying, setIsPlaying }: IAnimator) => {
 
   return (
     <div>
-      <Form.Loader />
-
       <button onClick={() => isLoop((prev) => !prev)} style={{ display: 'none' }}>
         <span className="material-symbols-outlined">
           {!loop ? 'timer_1' : 'all_inclusive'}

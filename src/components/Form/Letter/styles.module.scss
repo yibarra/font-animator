@@ -3,4 +3,15 @@
   flex-flow: column wrap;
   position: relative;
   width: 100px;
+
+  button {
+    background: #fff;
+    border: none;
+    color: var(--bg-panel);
+    box-shadow: none;
+    font-size: 12px;
+    outline: none;
+    padding: 12px;
+    text-transform: uppercase;
+  }
 }

@@ -27,7 +27,8 @@
     }
   }
 
-  &--toggle {
+  &--toggle,
+  [class*="form--loader"] {
     border: none;
     background: var(--text-main);
     color: var(--bg-panel);
@@ -35,12 +36,16 @@
     height: 50px;
     position: absolute;
     transform: translate3d(-100%, 0px, 0px);
-    top: 0px;
+    top: 51px;
     width: 50px;
 
     span {
       font-size: 27px;
     }
+  }
+
+  [class*="form--loader"] {
+    top: 0px;
   }
 
   &[data-active="true"] {

@@ -5,6 +5,7 @@ import { UseFontContext } from '../../contexts/Font/Font'
 import styles from './styles.module.scss'
 import { UseGlyphsContext } from '../../contexts/Glyphs/Glyphs'
 import type { IGlyphSelectorProps } from './interfaces'
+import Form from '../Form'
 
 const GlyphSelector = ({ isOpen, setIsOpen }: IGlyphSelectorProps) => {
   const { font } = UseFontContext()
@@ -24,7 +25,7 @@ const GlyphSelector = ({ isOpen, setIsOpen }: IGlyphSelectorProps) => {
       const endIndex = Math.min(startIndex + GLYPHS_PER_TAB, totalGlyphs) - 1 // -1 para que sea inclusivo
 
       tabs.push({
-        label: `${startIndex} - ${endIndex}`,
+        label: `${startIndex + 1} - ${endIndex + 1}`,
         startIndex: startIndex,
         endIndex: endIndex,
         glyphIndexes: Array.from({ length: endIndex - startIndex + 1 }, (_, j) => startIndex + j),
@@ -51,7 +52,11 @@ const GlyphSelector = ({ isOpen, setIsOpen }: IGlyphSelectorProps) => {
         </span>
       </button>
 
+      <Form.Loader />
+
       <Tabs.Tabs defaultActiveTab={0}>
+        <Tabs.Info />
+
         <Tabs.TabHead isActive={isActive} items={tabData} callback={setIsActive} />
 
         <>
