@@ -79,7 +79,7 @@ const FontSettingsProvider = ({ children }: IFontSettingsProvider ) => {
         return {
           bounding,
           commands,
-          arrows: extractGlyphArrows(commands, size / units),
+          arrows: extractGlyphArrows(commands, size / units) ?? [],
           path: convertPathToSvg(commands, size / units),
           points: extractGlyphPoints(commands, size / units),
         }

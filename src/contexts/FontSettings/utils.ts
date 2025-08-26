@@ -1,6 +1,8 @@
 import type { PathCommand } from 'fontkit'
 import type { IGlyphPoint } from '../Glyphs/interfaces'
 
+import type { IArrowsArray, IArrowsProps } from './interfaces'
+
 // convert to svg
 export const convertPathToSvg = (commands: PathCommand[], scaleFactor: number): string => {
   let svgData = ''
@@ -30,9 +32,9 @@ export const convertPathToSvg = (commands: PathCommand[], scaleFactor: number): 
 }
 
 // extract glyph
-export const extractGlyphArrows = (commands: PathCommand[], scaleFactor: number): any => {
-  let startInfo: { point: any; direction: any } | null = null
-  let endInfo: { point: any; direction: any } | null = null
+export const extractGlyphArrows = (commands: PathCommand[], scaleFactor: number): IArrowsArray => {
+  let startInfo: IArrowsProps | null = null
+  let endInfo: IArrowsProps | null = null
 
   let currentX = 0
   let currentY = 0
@@ -55,7 +57,7 @@ export const extractGlyphArrows = (commands: PathCommand[], scaleFactor: number)
       case 'moveTo': {
         currentX = command.args[0] * scaleFactor
         currentY = command.args[1] * scaleFactor
-        startOfSubpathX = currentX // Reinicia el inicio del subpath
+        startOfSubpathX = currentX // subpath
         startOfSubpathY = currentY
 
         if (!startPointSet) {
@@ -134,17 +136,20 @@ export const extractGlyphArrows = (commands: PathCommand[], scaleFactor: number)
         if (startInfo && startInfo.direction.x === 0 && startInfo.direction.y === 0) {
             startInfo.direction = { x: startDirX_quad, y: startDirY_quad }
         }
+        
         endInfo = { point: { x: currentX, y: currentY }, direction: { x: endDirX_quad, y: endDirY_quad } }
         break
       }
 
       case 'closePath': {
-        // closePath cierra el subpath actual, volviendo al startOfSubpath
+        // closePath current path, return to startOfSubpath
         if (endInfo && (currentX !== startOfSubpathX || currentY !== startOfSubpathY)) {
           const dirX = startOfSubpathX - currentX
           const dirY = startOfSubpathY - currentY
+
           endInfo = { point: { x: startOfSubpathX, y: startOfSubpathY }, direction: { x: dirX, y: dirY } }
         }
+
         currentX = startOfSubpathX
         currentY = startOfSubpathY
         break
@@ -152,19 +157,22 @@ export const extractGlyphArrows = (commands: PathCommand[], scaleFactor: number)
     }
   }
 
-  // Normalizar las direcciones a vectores unitarios
+  // normalize dirs a vectors units
   if (startInfo && (startInfo.direction.x !== 0 || startInfo.direction.y !== 0)) {
     const magnitude = Math.sqrt(startInfo.direction.x**2 + startInfo.direction.y**2)
+
     startInfo.direction.x /= magnitude
     startInfo.direction.y /= magnitude
   }
+
   if (endInfo && (endInfo.direction.x !== 0 || endInfo.direction.y !== 0)) {
     const magnitude = Math.sqrt(endInfo.direction.x**2 + endInfo.direction.y**2)
+
     endInfo.direction.x /= magnitude
     endInfo.direction.y /= magnitude
   }
 
-  return { start: startInfo, end: endInfo }
+  return [startInfo, endInfo]
 }
 
 // extract glyph points

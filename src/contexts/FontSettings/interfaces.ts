@@ -5,11 +5,18 @@ import type { BoundingBoxPos, IGlyphPoint } from '../Glyphs/interfaces'
 export interface ArrowPoint {
   x: number
   y: number
-  type: 'start' | 'end' | 'closure'
+  type?: 'start' | 'end' | 'closure'
 }
 
+export type IArrowsProps = {
+  point: ArrowPoint
+  direction: ArrowPoint
+}
+
+export type IArrowsArray = (IArrowsProps | null)[]
+
 export interface IDataGlyphCommand {
-  arrows: any
+  arrows: IArrowsArray | []
   bounding: BoundingBoxPos
   commands: PathCommand[]
   path: string

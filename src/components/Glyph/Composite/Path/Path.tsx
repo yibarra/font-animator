@@ -121,9 +121,22 @@ const Path = ({
 
       {skeleton && (
         <>
-          <Base.Skeleton points={points} offsetY={bounding.y2 / 2 - 70} />
-          <Base.Points points={points} offsetY={bounding.y2 / 2 - 70} viewPoints={viewPoints} />
-          <Base.ArrowsPoint arrows={arrows} offsetY={bounding.y2 / 2 - 70} />
+          <Base.Skeleton
+            offsetY={bounding.y2 / 2 - 70}
+            points={points}
+          />
+
+          <Base.Points
+            offsetY={bounding.y2 / 2 - 70}
+            points={points}
+            viewPoints={viewPoints}
+          />
+
+          <Base.ArrowsPoint
+            arrows={arrows}
+            count={16}
+            offsetY={bounding.y2 / 2 - 70}
+          />
         </>
       )}
 

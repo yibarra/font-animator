@@ -181,12 +181,12 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
   }, [glyphs, updateGlyphs])
 
   // save to local storage
-  const saveLocalStorage = useCallback(() => {
+  const saveLocalStorage = useCallback(() =>
     setData((prev) => ({
       ...prev,
       glyphs,
     }))
-  }, [glyphs, setData])
+  , [glyphs, setData])
 
   // render
   return (

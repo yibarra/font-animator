@@ -1,13 +1,12 @@
 import { useMemo, useState } from 'react'
 
 import { Tabs } from './Composite'
-import styles from './styles.module.scss'
 import Form from '../Form'
 import { useMainStore } from '../../contexts/Main/store'
 import { useFontStore } from '../../contexts/Font/store'
 import { useGlyphsStore } from '../../contexts/Glyphs/store'
-import Credits from '../Credits'
 import { UseGlyphsContext } from '../../contexts/Glyphs/Glyphs'
+import styles from './styles.module.scss'
 
 const GlyphSelector = () => {
   const { font } = useFontStore()
@@ -71,8 +70,6 @@ const GlyphSelector = () => {
 
         <Form.Loader />
       </div>
-
-      <Credits />
 
       <Tabs.Tabs defaultActiveTab={0}>
         <Tabs.Info />

@@ -7,6 +7,7 @@ import { UseGlyphsContext } from '../../../../contexts/Glyphs/Glyphs'
 import type { IRotationProps } from './interfaces'
 
 const Rotation = ({
+  bounding,
   currentFrame,
   glyph,
   isDragging,
@@ -41,13 +42,15 @@ const Rotation = ({
     }
   }
 
+  const rotationY = y + Math.abs(bounding.y1 / 2) + 6
+
   return (
     <>
       <Progress.Border
         radius={outerCircleRadius - 2}
         rotation={-((isDragging ? rotation : glyph.rotation) + 90)}
         x={x}
-        y={y}
+        y={rotationY}
       />
 
       <Circle
@@ -59,7 +62,7 @@ const Rotation = ({
         onDragEnd={() => setGlyphRotate(glyph?.id, currentFrame, glyph?.position, rotation)}
         radius={outerCircleRadius}
         x={x + outerCircleRadius - innerCircleRadius}
-        y={y}
+        y={rotationY}
       />
     </>
   )

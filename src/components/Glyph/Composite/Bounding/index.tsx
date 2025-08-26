@@ -1,10 +1,10 @@
+import { Shape } from 'react-konva'
+import { useEffect, useRef } from 'react'
 import type { Context } from 'konva/lib/Context'
 import type { Shape as IShape } from 'konva/lib/Shape'
-import { Shape } from 'react-konva'
 
-import type { IBounding } from './interfaces'
-import { useEffect, useRef } from 'react'
 import { Easings, Tween } from 'konva/lib/Tween'
+import type { IBounding } from './interfaces'
 
 const Bounding = ({ arrowHeight, arrowWidth, bounding, properties, vertical }: IBounding) => {
   const shapeRef = useRef<IShape>(null)
@@ -124,8 +124,8 @@ const Bounding = ({ arrowHeight, arrowWidth, bounding, properties, vertical }: I
 
   return (
     <Shape
-      ref={shapeRef}
       {...properties}
+      ref={shapeRef}
       scaleX={vertical ? 1 : undefined}
       scaleY={vertical ? undefined : 1}
       sceneFunc={vertical ? drawVerticalBox : drawBox}
