@@ -3,10 +3,12 @@ import { Html } from 'react-konva-utils'
 
 import type { IInfo } from './interfaces'
 import styles from './style.module.scss'
+import { useGlyphsStore } from '../../../../contexts/Glyphs/store'
 
 const Info = ({
   baseLines,
   bounding,
+  id,
   metrics,
   commands,
   skeleton,
@@ -18,6 +20,7 @@ const Info = ({
   x,
   y,
 }: IInfo) => {
+  const { remove } = useGlyphsStore()
   const [viewCommands, setViewCommands] = useState(false)
 
   return (
@@ -53,8 +56,8 @@ const Info = ({
             <span className="material-symbols-outlined">point_scan</span>
           </button>
 
-          <button data-active="true" onClick={() => console.info("yeah")}>
-            <span className="material-symbols-outlined">rotate_right</span>
+          <button data-active="true" onClick={() => remove(id)}>
+            <span className="material-symbols-outlined">delete</span>
           </button>
         </div>
 

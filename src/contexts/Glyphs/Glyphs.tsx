@@ -5,12 +5,16 @@ import { useFontStore } from '../Font/store'
 import { UseFontSettingsContext } from '../FontSettings/FontSettings'
 import type { IFrame, IGlyphsContext, IGlyphsProvider } from './interfaces'
 import { percentToRange } from './utils'
+import useLocalStorage from '../../hooks/useLocalStorage'
+import { dataDefault } from './data'
 
 // glyph context
 const GlyphsContext = createContext({} as IGlyphsContext)
 
 // glyph provider
 const GlyphsProvider = ({ children }: IGlyphsProvider) => {
+  const [, setData] = useLocalStorage('font-animator-data', dataDefault)
+
   const { font } = useFontStore()
   const { axes } = UseFontSettingsContext()
 
@@ -176,12 +180,21 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
     )
   }, [glyphs, updateGlyphs])
 
+  // save to local storage
+  const saveLocalStorage = useCallback(() => {
+    setData((prev) => ({
+      ...prev,
+      glyphs,
+    }))
+  }, [glyphs, setData])
+
   // render
   return (
     <GlyphsContext.Provider
       value={
         useMemo(() => ({
           getGlyph,
+          saveLocalStorage,
           setGlyphPosition,
           setGlyphRotate,
           getGlyphVariation,
@@ -190,6 +203,7 @@ const GlyphsProvider = ({ children }: IGlyphsProvider) => {
           setGlyphFramesAxesAnimation,
         }), [
           getGlyph,
+          saveLocalStorage,
           setGlyphPosition,
           setGlyphRotate,
           getGlyphVariation,

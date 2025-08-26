@@ -1,5 +1,4 @@
 import { AnimationContext, AnimationProvider } from './Animation/Animation'
-import { DataProvider, DataContext } from './Data/Data'
 import { FontContext, FontProvider } from './Font/Font'
 import { FontSettingsContext, FontSettingsProvider  } from './FontSettings/FontSettings'
 import { GlyphsContext, GlyphsProvider } from './Glyphs/Glyphs'
@@ -16,8 +15,6 @@ const Providers = {
   GlyphsProvider,
   GridProvider,
   GridContext,
-  DataProvider,
-  DataContext,
 }
 
 export default Providers

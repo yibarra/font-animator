@@ -7,10 +7,12 @@ import { useMainStore } from '../../contexts/Main/store'
 import { useFontStore } from '../../contexts/Font/store'
 import { useGlyphsStore } from '../../contexts/Glyphs/store'
 import Credits from '../Credits'
+import { UseGlyphsContext } from '../../contexts/Glyphs/Glyphs'
 
 const GlyphSelector = () => {
   const { font } = useFontStore()
   const { current, glyphs } = useGlyphsStore()
+  const { saveLocalStorage } = UseGlyphsContext()
   const { isOpenSelector, setIsOpenSelector } = useMainStore()
 
   const [isActive, setIsActive] = useState(0)
@@ -44,17 +46,31 @@ const GlyphSelector = () => {
   }
 
   return (
-    <div className={styles['glyph-selector']} data-active={isOpenSelector}>
-      <button
-        className={styles['glyph-selector--toggle']}
-        onClick={() => setIsOpenSelector(!isOpenSelector)}
-      >
-        <span className="material-symbols-outlined">
-          letter_switch
-        </span>
-      </button>
+    <div
+      className={styles['glyph-selector']}
+      data-active={isOpenSelector}
+    >
+      <div className={styles['glyph-selector--header']}>
+        <button
+          className={styles['glyph-selector--toggle']}
+          onClick={() => setIsOpenSelector(!isOpenSelector)}
+        >
+          <span className="material-symbols-outlined">
+            letter_switch
+          </span>
+        </button>
 
-      <Form.Loader />
+        <button
+          className={styles['glyph-selector--toggle']}
+          onClick={() => saveLocalStorage()}
+        >
+          <span className="material-symbols-outlined">
+            save
+          </span>
+        </button>
+
+        <Form.Loader />
+      </div>
 
       <Credits />
 

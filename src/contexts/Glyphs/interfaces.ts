@@ -46,6 +46,7 @@ export interface IGlyphsState {
   glyphs: IGlyph[]
   addGlyph: (charIndex: number, x: number, y: number, axes: Record<string, number>) => void
   empty: () => void
+  initializeData: (data: Partial<IGlyphsState>) => void
   remove: (id: string) => void
   updateGlyphFrames: (id: string, frames: IGlyph['frames']) => void
   updateGlyphs: (glyphs: IGlyph[]) => void
@@ -60,6 +61,7 @@ export interface IGlyphsState {
 
 export interface IGlyphsContext {
   getGlyph: (index: number) => Glyph | undefined
+  saveLocalStorage: () => void
   setGlyphFrameAxes: (id: string, frame: number, axes: Record<string, number>) => void
   getGlyphVariation: (index: number, variants: number[]) => Glyph | undefined
   setGlyphPosition: (id: string, frame: number, position: [number, number]) => void
