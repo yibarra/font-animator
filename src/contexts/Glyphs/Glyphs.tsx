@@ -2,7 +2,7 @@ import { createContext, useCallback, useContext, useMemo } from 'react'
 
 import { useGlyphsStore } from './store'
 import { useFontStore } from '../Font/store'
-import { UseFontSettingsContext } from '../FontSettings/FontSettings'
+import { UseFontSettingsContext } from '../FontSettings'
 import type { IFrame, IGlyphsContext, IGlyphsProvider } from './interfaces'
 import { percentToRange } from './utils'
 import useLocalStorage from '../../hooks/useLocalStorage'

@@ -1,8 +1,8 @@
 import { AnimationContext, AnimationProvider } from './Animation/Animation'
-import { FontContext, FontProvider } from './Font/Font'
-import { FontSettingsContext, FontSettingsProvider  } from './FontSettings/FontSettings'
+import { FontContext, FontProvider } from './Font'
+import { FontSettingsContext, FontSettingsProvider  } from './FontSettings'
 import { GlyphsContext, GlyphsProvider } from './Glyphs/Glyphs'
-import { GridContext, GridProvider,  } from './Grid'
+import { GridContext, GridProvider } from './Grid'
 
 const Providers = {
   AnimationContext,

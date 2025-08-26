@@ -3,7 +3,7 @@ import { Shape } from 'react-konva'
 import type { IWheelGlyphsProps } from './interfaces'
 import type { Context } from 'konva/lib/Context'
 
-import { UseFontSettingsContext } from '../../contexts/FontSettings/FontSettings'
+import { UseFontSettingsContext } from '../../contexts/FontSettings'
 import { useGlyphsStore } from '../../contexts/Glyphs/store'
 import { useFontStore } from '../../contexts/Font/store'
 

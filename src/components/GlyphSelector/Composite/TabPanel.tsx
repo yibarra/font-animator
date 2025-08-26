@@ -1,7 +1,7 @@
 import { useFontStore } from '../../../contexts/Font/store'
 import { useGlyphsStore } from '../../../contexts/Glyphs/store'
 import { getFontVariationSettings } from '../../../contexts/Font/utils'
-import { UseFontSettingsContext } from '../../../contexts/FontSettings/FontSettings'
+import { UseFontSettingsContext } from '../../../contexts/FontSettings'
 import type { ITabPanelProps } from './interfaces'
 import styles from './styles.module.scss'
 

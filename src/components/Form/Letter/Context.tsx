@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useMemo } from 'react'
 
-import { UseFontSettingsContext } from '../../../contexts/FontSettings/FontSettings'
+import { UseFontSettingsContext } from '../../../contexts/FontSettings'
 import { useGlyphsStore } from '../../../contexts/Glyphs/store'
 import type { ILetterContext, ILetterProvider } from './interfaces'
 

@@ -1,14 +1,10 @@
 import { Shape } from 'react-konva'
-import { useEffect, useRef } from 'react'
 import type { Context } from 'konva/lib/Context'
 import type { Shape as IShape } from 'konva/lib/Shape'
 
-import { Easings, Tween } from 'konva/lib/Tween'
 import type { IBounding } from './interfaces'
 
 const Bounding = ({ arrowHeight, arrowWidth, bounding, properties, vertical }: IBounding) => {
-  const shapeRef = useRef<IShape>(null)
-
   // text
   const drawText = (ctx: Context, text: string, x: number, y: number, rotate = false) => {
     const { width } = ctx.measureText(text)
@@ -95,37 +91,9 @@ const Bounding = ({ arrowHeight, arrowWidth, bounding, properties, vertical }: I
     ctx.strokeShape(shape)
   }
 
-  useEffect(() => {
-    const shape = shapeRef.current
-
-    if (!shape) {
-      return
-    }
-
-    if (vertical) {
-      shape.scale({ x: 1, y: 1.2 })
-    } else {
-      shape.scale({ x: 1.2, y: 1 })
-    }
-
-    shape.opacity(0)
-
-    const tween = new Tween({
-      node: shape,
-      duration: 0.4,
-      opacity: 1,
-      scaleX: 1,
-      scaleY: 1,
-      easing: Easings.StrongEaseInOut,
-    })
-
-    tween.play()
-  }, [vertical])
-
   return (
     <Shape
       {...properties}
-      ref={shapeRef}
       scaleX={vertical ? 1 : undefined}
       scaleY={vertical ? undefined : 1}
       sceneFunc={vertical ? drawVerticalBox : drawBox}

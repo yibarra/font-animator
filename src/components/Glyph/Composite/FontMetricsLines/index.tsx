@@ -1,7 +1,4 @@
-import { useEffect, useRef } from 'react'
 import { Shape } from 'react-konva'
-import { Tween, Easings } from 'konva/lib/Tween'
-import type { Shape as IShape } from 'konva/lib/Shape'
 
 import { useFontStore } from '../../../../contexts/Font/store'
 import type { FontMetricsLinesProps } from './interfaces'
@@ -15,33 +12,6 @@ const FontMetricsLines = ({
   ...props
 }: FontMetricsLinesProps) => {
   const { font } = useFontStore()
-  const shapeRef = useRef<IShape>(null)
-
-  useEffect(() => {
-    const shape = shapeRef.current
-
-    if (!shape) {
-      return
-    }
-
-    shape.opacity(0)
-    shape.scale({ x: 0.7, y: 1 })
-
-    const tween = new Tween({
-      node: shape,
-      duration: 0.4,
-      easing: Easings.BackEaseOut,
-      opacity: 1,
-      scaleX: 1,
-      scaleY: 1
-    })
-
-    tween.play()
-
-    return () => {
-      tween.pause()
-    }
-  }, [])
 
   if (!font) {
     return null
@@ -69,7 +39,6 @@ const FontMetricsLines = ({
   return (
     <Shape
       {...props}
-      ref={shapeRef}
       x={x}
       y={y}
       rotation={rotation}

@@ -33,7 +33,7 @@ const GridProvider = ({
   )
 }
 
-const useGridContext = () => {
+const UseGridContext = () => {
   const context = useContext(GridContext);
   if (!context) {
     throw new Error('useGridContext must be used within a GridProvider')
@@ -41,5 +41,5 @@ const useGridContext = () => {
   return context;
 }
 
-export { GridContext, GridProvider, useGridContext }
+export { GridContext, GridProvider, UseGridContext }
 export default GridProvider

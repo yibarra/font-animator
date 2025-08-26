@@ -4,7 +4,7 @@ import { useSearchParams } from 'react-router-dom'
 import type { Path as IPathKonva } from 'konva/lib/shapes/Path'
 
 import { default as Base } from './index'
-import { UseFontSettingsContext } from '../../contexts/FontSettings/FontSettings'
+import { UseFontSettingsContext } from '../../contexts/FontSettings'
 import Info from './Composite/Info'
 import { useMainStore } from '../../contexts/Main/store'
 import type { IGlyphProps } from './interfaces'

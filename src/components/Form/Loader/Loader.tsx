@@ -1,4 +1,4 @@
-import { UseFontContext } from '../../../contexts/Font/Font'
+import { UseFontContext } from '../../../contexts/Font'
 import styles from '../styles.module.scss'
 
 const Loader = () => {

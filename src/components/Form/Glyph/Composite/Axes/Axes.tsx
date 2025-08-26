@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import Form from '../../..'
 import Instances from './Instances'
 import styles from '../../styles.module.scss'
-import { UseFontSettingsContext } from '../../../../../contexts/FontSettings/FontSettings'
+import { UseFontSettingsContext } from '../../../../../contexts/FontSettings'
 import { useGlyphsStore } from '../../../../../contexts/Glyphs/store'
 import type { IAxes } from './interfaces'
 

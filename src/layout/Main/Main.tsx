@@ -2,7 +2,7 @@ import { Layer, Stage } from 'react-konva'
 import { useRef } from 'react'
 import type { Stage as IStage } from 'konva/lib/Stage'
 
-import { useGridContext } from '../../contexts/Grid'
+import { UseGridContext } from '../../contexts/Grid'
 import { useGlyphsStore } from '../../contexts/Glyphs/store'
 import Form from '../../components/Form'
 import Glyph from '../../components/Glyph'
@@ -14,7 +14,7 @@ const Main = () => {
   const stageRef = useRef<IStage>(null)
 
   const { current, glyphs } = useGlyphsStore()
-  const { offsetX, offsetY } = useGridContext()
+  const { offsetX, offsetY } = UseGridContext()
 
   return (
     <>
