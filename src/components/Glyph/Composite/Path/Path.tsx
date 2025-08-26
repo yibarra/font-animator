@@ -31,6 +31,15 @@ const Path = ({
   const groupRef = useRef<IGroup | null>(null)
   const { setGlyphRotate, setGlyphPosition } = UseGlyphsContext()
   const { setCurrent } = useGlyphsStore()
+
+  const onUpdateMove = (event: KonvaEventObject<DragEvent>) => {
+    const node = event.target
+    const x = node.x()
+    const y = node.y()
+    const rotation = node.rotation()
+
+    setPositionDrag([x, y, rotation])
+  }
   
   const onUpdateTranslate = (event: KonvaEventObject<DragEvent>) => {
     const node = event.target
@@ -74,23 +83,9 @@ const Path = ({
       onClick={() => setCurrent(current ? null : index)}
       onDragStart={() => setIsDragging(true)}
       onTransformStart={() => setIsDragging(true)}
-      onDragMove={(event) => {
-        const node = event.target
-        const x = node.x()
-        const y = node.y()
-        const rotation = node.rotation()
-
-        setPositionDrag([x, y, rotation])
-      }}
       onDragEnd={onUpdateTranslate}
-      onTransform={(event) => {
-        const node = event.target
-        const x = node.x()
-        const y = node.y()
-        const rotation = node.rotation()
-
-        setPositionDrag([x, y, rotation])
-      }}
+      onDragMove={onUpdateMove}
+      onTransform={onUpdateMove}
       onTransformEnd={onUpdateTransform}
     >
       {current && baseLines && (

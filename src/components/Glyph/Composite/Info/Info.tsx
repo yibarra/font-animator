@@ -16,6 +16,7 @@ const Info = ({
   setMetrics,
   setSkeleton,
   setViewPoints,
+  rotation,
   viewPoints,
   x,
   y,
@@ -28,8 +29,9 @@ const Info = ({
       <div
         className={styles["glyph--info"]}
         style={{
-          left: x + bounding.x2 / 2 + 32,
-          top: y,
+          left: x,
+          transform: `translate(-50%, -50%) rotate(${rotation}deg)`,
+          top: y + Math.abs(bounding.y1 / 2) + 6,
         }}
       >
         <div className={styles["glyph--info--controls"]}>
@@ -37,9 +39,15 @@ const Info = ({
             <span className="material-symbols-outlined">skeleton</span>
           </button>
 
+          <button data-active={viewPoints} onClick={() => setViewPoints(!viewPoints)}>
+            <span className="material-symbols-outlined">point_scan</span>
+          </button>
+
           <button data-active={metrics} onClick={() => setMetrics(!metrics)}>
             <span className="material-symbols-outlined">straighten</span>
           </button>
+
+          <button className={styles['glyph--info--controls--disabled']}></button>
 
           <button
             data-active={baseLines}
@@ -50,10 +58,6 @@ const Info = ({
 
           <button data-active={viewCommands} onClick={() => setViewCommands(!viewCommands)}>
             <span className="material-symbols-outlined">code_blocks</span>
-          </button>
-
-          <button data-active={viewPoints} onClick={() => setViewPoints(!viewPoints)}>
-            <span className="material-symbols-outlined">point_scan</span>
           </button>
 
           <button data-active="true" onClick={() => remove(id)}>

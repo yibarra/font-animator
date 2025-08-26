@@ -96,6 +96,7 @@ const Glyph = ({
                   id={data.id}
                   position={data.position}
                   points={points}
+                  rotation={rotation}
                   skeleton={skeleton}
                   setSkeleton={setSkeleton}
                   metrics={metrics}
