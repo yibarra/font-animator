@@ -2,35 +2,34 @@ import { Group, Path as PathKonva } from 'react-konva'
 import { useEffect, useRef } from 'react'
 import type { KonvaEventObject } from 'konva/lib/Node'
 import type { Group as IGroup } from 'konva/lib/Group'
+import type { Path as IPathKonva } from 'konva/lib/shapes/Path'
 
 import { UseGlyphsContext } from '../../../../contexts/Glyphs/Glyphs'
 import { default as Base } from '../../index'
 import { useGlyphsStore } from '../../../../contexts/Glyphs/store'
+import { UseGlyphContext } from '../../Context'
+import { useMainStore } from '../../../../contexts/Main/store'
 import type { IPath } from './interfaces'
 
 const Path = ({
-  arrows,
-  baseLines,
-  bounding,
   current,
   currentFrame,
-  id,
   index,
-  metrics,
-  skeleton,
-  shapeRef,
   rotation,
-  path,
-  points,
-  properties,
-  setIsDragging,
   setPositionDrag,
-  viewPoints,
   ...props
 }: IPath) => {
+  const shapeRef = useRef<IPathKonva | null>(null)
   const groupRef = useRef<IGroup | null>(null)
   const { setGlyphRotate, setGlyphPosition } = UseGlyphsContext()
   const { setCurrent } = useGlyphsStore()
+
+  const { data, state, path } = UseGlyphContext()
+  const { setIsDragging } = useMainStore()
+
+  const { id, properties } = data
+  const { bounding, path: pathSVG, points } = path
+  const { metrics, skeleton, baseLines, viewPoints } = state
 
   const onUpdateMove = (event: KonvaEventObject<DragEvent>) => {
     const node = event.target
@@ -90,7 +89,7 @@ const Path = ({
     >
       {current && baseLines && (
         <Base.FontMetricsLines
-          path={path}
+          path={pathSVG}
           fontSize={properties.fontSize}
           rotation={0}
           offsetY={-bounding.y2 / 2 + 70}
@@ -102,7 +101,7 @@ const Path = ({
       
       <PathKonva
         {...properties}
-        data={path}
+        data={pathSVG}
         offsetY={bounding.y2 / 2 - 70}
         opacity={skeleton ? 0 : 1}
         ref={shapeRef}
@@ -128,7 +127,6 @@ const Path = ({
           />
 
           <Base.ArrowsPoint
-            arrows={arrows}
             count={16}
             offsetY={bounding.y2 / 2 - 70}
           />
@@ -140,25 +138,20 @@ const Path = ({
           <Base.Bounding
             arrowHeight={4}
             arrowWidth={6}
-            bounding={bounding}
-            properties={{
-              fill: '#e3e9f9',
-              stroke: '#e3e9f9',
-              strokeWidth: 0.5,
-              offsetY: -bounding.y2 / 2 + 40
-            }}
+            fill="#e3e9f9"
+            stroke="#e3e9f9"
+            strokeWidth={0.5}
+            offsetY={-bounding.y2 / 2 + 40}
           />
+
           <Base.Bounding
             arrowHeight={4}
             arrowWidth={6}
-            bounding={bounding}
-            properties={{
-              fill: '#e3e9f9',
-              stroke: '#e3e9f9',
-              strokeWidth: 0.5,
-              offsetX: 40,
-              offsetY: -bounding.y2 / 2 + 70
-            }}
+            fill="#e3e9f9"
+            stroke="#e3e9f9"
+            strokeWidth={0.5}
+            offsetX={40}
+            offsetY={-bounding.y2 / 2 + 70}
             vertical
           />
       </>

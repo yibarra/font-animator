@@ -1,22 +1,9 @@
-import type { Dispatch, RefObject, SetStateAction } from 'react'
-import type { IGlyph } from '../../../../contexts/Glyphs/interfaces'
-import type { Path } from 'konva/lib/shapes/Path'
-import type { IDataGlyphCommand } from '../../../../contexts/FontSettings/interfaces'
-
-export interface IPath extends Pick<IGlyph, 'charIndex' | 'axes' | 'id' | 'properties'>,
-  Pick<IDataGlyphCommand, 'arrows' | 'bounding' | 'path' | 'points'> {
-  baseLines: boolean
+export interface IPath {
   current?: boolean
   currentFrame: number
   index: number
-  metrics: boolean
-  shapeRef: RefObject<Path | null>
-  isDragging?: boolean
-  skeleton?: boolean
-  setIsDragging: Dispatch<SetStateAction<boolean>>
-  setPositionDrag: Dispatch<SetStateAction<[number, number, number]>>
-  viewPoints?: boolean
+  rotation: number
+  setPositionDrag: (value: [number, number, number]) => void
   x: number
   y: number
-  rotation: number
 }

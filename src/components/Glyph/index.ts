@@ -7,6 +7,8 @@ import Rotation from './Composite/Rotation'
 import Bounding from './Composite/Bounding'
 import FontMetricsLines from './Composite/FontMetricsLines'
 import Skeleton from './Composite/Skeleton'
+import Root from './Composite/Root'
+import Info from './Composite/Info'
 
 const Glyph = {
   ArrowsPoint,
@@ -14,7 +16,9 @@ const Glyph = {
   FontMetricsLines,
   Form,
   Letter,
+  Info,
   Rotation,
+  Root,
   Path,
   Points,
   Skeleton,

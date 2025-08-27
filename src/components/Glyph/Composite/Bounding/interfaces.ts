@@ -1,10 +1,7 @@
 import type { ShapeConfig } from 'konva/lib/Shape'
-import type { BoundingBoxPos } from '../../../../contexts/Glyphs/interfaces'
 
-export interface IBounding {
+export interface IBounding extends ShapeConfig {
   arrowHeight: number
   arrowWidth: number
-  bounding: BoundingBoxPos
-  properties: ShapeConfig
   vertical?: boolean
 }

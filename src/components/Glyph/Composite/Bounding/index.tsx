@@ -3,14 +3,17 @@ import type { Context } from 'konva/lib/Context'
 import type { Shape as IShape } from 'konva/lib/Shape'
 
 import type { IBounding } from './interfaces'
+import { UseGlyphContext } from '../../Context'
 
-const Bounding = ({ arrowHeight, arrowWidth, bounding, properties, vertical }: IBounding) => {
+const Bounding = ({ arrowHeight, arrowWidth, fill = '#FFF', vertical, ...props }: IBounding) => {
+  const { path: { bounding } } = UseGlyphContext()
+
   // text
   const drawText = (ctx: Context, text: string, x: number, y: number, rotate = false) => {
     const { width } = ctx.measureText(text)
 
     ctx.font = '10px Roboto Mono'
-    ctx.fillStyle = properties.fill ?? '#FFF'
+    ctx.fillStyle = fill
     ctx.textBaseline = 'bottom'
 
     if (rotate) {
@@ -93,7 +96,7 @@ const Bounding = ({ arrowHeight, arrowWidth, bounding, properties, vertical }: I
 
   return (
     <Shape
-      {...properties}
+      {...props}
       scaleX={vertical ? 1 : undefined}
       scaleY={vertical ? undefined : 1}
       sceneFunc={vertical ? drawVerticalBox : drawBox}

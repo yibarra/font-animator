@@ -1,15 +1,17 @@
 import { Shape } from 'react-konva'
 
 import type { IArrowsPointProps } from './interfaces'
+import { UseGlyphContext } from '../../Context'
 
 const ArrowsPoint = ({
-  arrows,
   count = 16,
   fill,
   pointerLength = 12,
   pointerWidth = 16,
   ...props
 }: IArrowsPointProps) => {
+  const { path: { arrows } } = UseGlyphContext()
+
   if (!arrows || arrows.length === 0) {
     return <></>
   }
