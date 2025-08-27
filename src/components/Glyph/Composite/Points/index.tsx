@@ -54,13 +54,10 @@ const Points = (props: IPointProps) => {
         ctx.fill()
         ctx.stroke()
 
-        ctx.fillStyle = 'transparent'
-        ctx.strokeStyle = '#fff'
-        ctx.lineWidth = 2
+        ctx.fillStyle = '#fff'
         ctx.beginPath();
-        ctx.arc(point.x, point.y, 1, 0, Math.PI * 2, false)
+        ctx.arc(point.x, point.y, 1.5, 0, Math.PI * 2, false)
         ctx.fill()
-        ctx.stroke()
       
         ctx.save()
         ctx.scale(1, -1)

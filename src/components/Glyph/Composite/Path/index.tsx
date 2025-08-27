@@ -81,14 +81,7 @@ const Path = ({
       onDragMove={(e) => onUpdate(e)}
       onTransform={(e) => onUpdate(e)}
       onTransformEnd={(e) => onUpdate(e, 'transform')}
-    >
-      {current && baseLines && (
-        <Base.MetricsLines
-          offsetY={-bounding.y2 / 2 + 70}
-          width={(bounding.x2 - bounding.x1) + 40}
-        />
-      )}
-      
+    >      
       <PathKonva
         {...properties}
         {...config.path}
@@ -108,19 +101,30 @@ const Path = ({
         <Base.ArrowsPoint {...config.arrows} offsetY={bounding.y2 / 2 - 70} />
       )}
 
-      {(current && metrics) && (
+      {(current) && (
         <>
-          <Base.Bounding
-            {...config.glyph.bounding}
-            offsetY={-bounding.y2 / 2 + 40}
-          />
+          {baseLines && (
+            <Base.MetricsLines
+              offsetY={-bounding.y2 / 2 + 70}
+              width={(bounding.x2 - bounding.x1) + 40}
+            />
+          )}
 
-          <Base.Bounding
-            {...config.glyph.bounding}
-            offsetX={40}
-            offsetY={-bounding.y2 / 2 + 70}
-            vertical
-          />
+          {metrics && (
+            <>
+              <Base.Bounding
+                {...config.glyph.bounding}
+                offsetY={-bounding.y2 / 2 + 40}
+              />
+
+              <Base.Bounding
+                {...config.glyph.bounding}
+                offsetX={40}
+                offsetY={-bounding.y2 / 2 + 70}
+                vertical
+              />
+            </>
+          )}
       </>
     )}
     </Group> 
