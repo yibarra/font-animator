@@ -2,16 +2,35 @@ import type { PropsWithChildren } from 'react'
 import type { Glyph } from 'fontkit'
 import type { ShapeConfig } from 'konva/lib/Shape'
 
-export interface BoundingBox {
-  minX: number
-  minY: number
-  maxX: number
-  maxY: number
-  width: number
-  height: number
+export interface IData {
+  current: number | null
+  glyphs: IGlyph[]
+  config: {
+    arrows: {
+      count: number
+      fill: string
+      pointerLength: number
+      pointerWidth: number
+    }
+    glyph: {
+      bounding: {
+        pointerLength: number
+        pointerWidth: number
+        fill: string
+        stroke: string
+        strokeWidth: number
+      }
+    },
+    path: {
+      shadowColor: string
+      shadowOffset: { x: number, y: number }
+      shadowBlur: number
+      shadowEnabled: boolean
+    }
+  }
 }
 
-export interface BoundingBoxPos {
+export interface IBoundingBoxPos {
   x1: number
   x2: number
   y1: number
@@ -41,17 +60,15 @@ export interface IGlyph {
   rotation: number
 }
 
-export interface IGlyphsState {
-  current: number | null
-  glyphs: IGlyph[]
+export interface IGlyphsState extends IData {
   addGlyph: (charIndex: number, x: number, y: number, axes: Record<string, number>) => void
   empty: () => void
   initializeData: (data: Partial<IGlyphsState>) => void
+  setCurrent: (current: number | null) => void
   remove: (id: string) => void
   updateGlyphFrames: (id: string, frames: IGlyph['frames']) => void
   updateGlyphs: (glyphs: IGlyph[]) => void
   updateGlyph: (id: string, charIndex: number) => void
-  setCurrent: (current: number | null) => void
 
   updateGlyphAxes: (id: string, axes: Record<string, number>, frame?: number) => void
   updateGlyphRotation: (id: string, rotation: number, frame?: number) => void

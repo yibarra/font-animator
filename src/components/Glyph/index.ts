@@ -5,7 +5,7 @@ import Path from './Composite/Path'
 import Points from './Composite/Points'
 import Rotation from './Composite/Rotation'
 import Bounding from './Composite/Bounding'
-import FontMetricsLines from './Composite/FontMetricsLines'
+import MetricsLines from './Composite/MetricsLines'
 import Skeleton from './Composite/Skeleton'
 import Root from './Composite/Root'
 import Info from './Composite/Info'
@@ -13,10 +13,10 @@ import Info from './Composite/Info'
 const Glyph = {
   ArrowsPoint,
   Bounding,
-  FontMetricsLines,
   Form,
   Letter,
   Info,
+  MetricsLines,
   Rotation,
   Root,
   Path,

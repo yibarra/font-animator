@@ -1,7 +1,7 @@
-import type { IGlyph } from '../Glyphs/interfaces'
+import type { IData } from '../Glyphs/interfaces'
 
 export const dataDefault = {
-  current: 0,
+  current: null,
   glyphs: [
     {
       "id":"1756166024718t2jttbl58",
@@ -19,7 +19,27 @@ export const dataDefault = {
       "rotation":0
     }
   ],
-} as {
-  current: number
-  glyphs: IGlyph[]
-}
+  config: {
+    arrows: {
+      count: 16,
+      fill: "#d71b15",
+      pointerLength: 12,
+      pointerWidth: 16,
+    },
+    glyph: {
+      bounding: {
+        pointerLength: 1,
+        pointerWidth: 1,
+        fill: "#fff",
+        stroke: "#fff",
+        strokeWidth: 0.5
+      },
+    },
+    path: {
+      shadowColor: "#0f1d44",
+      shadowOffset: { x: 0, y: -4 },
+      shadowBlur: 4,
+      shadowEnabled: true
+    }
+  }
+} as IData

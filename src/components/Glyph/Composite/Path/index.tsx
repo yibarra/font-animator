@@ -21,15 +21,16 @@ const Path = ({
 }: IPath) => {
   const shapeRef = useRef<IPathKonva | null>(null)
   const groupRef = useRef<IGroup | null>(null)
+
   const { setGlyphRotate, setGlyphPosition } = UseGlyphsContext()
-  const { setCurrent } = useGlyphsStore()
+  const { config, setCurrent } = useGlyphsStore()
 
   const { data, state, path } = UseGlyphContext()
   const { setIsDragging } = useMainStore()
 
   const { id, properties } = data
-  const { bounding, path: pathSVG, points } = path
-  const { metrics, skeleton, baseLines, viewPoints } = state
+  const { bounding, path: pathSVG } = path
+  const { metrics, skeleton, baseLines } = state
 
   const onUpdateMove = (event: KonvaEventObject<DragEvent>) => {
     const node = event.target
@@ -80,76 +81,48 @@ const Path = ({
       ref={groupRef}
       rotation={rotation}
       onClick={() => setCurrent(current ? null : index)}
-      onDragStart={() => setIsDragging(true)}
-      onTransformStart={() => setIsDragging(true)}
       onDragEnd={onUpdateTranslate}
       onDragMove={onUpdateMove}
+      onDragStart={() => setIsDragging(true)}
       onTransform={onUpdateMove}
       onTransformEnd={onUpdateTransform}
+      onTransformStart={() => setIsDragging(true)}
     >
       {current && baseLines && (
-        <Base.FontMetricsLines
-          path={pathSVG}
-          fontSize={properties.fontSize}
-          rotation={0}
+        <Base.MetricsLines
           offsetY={-bounding.y2 / 2 + 70}
-          x={0}
-          y={0}
           width={(bounding.x2 - bounding.x1) + 40}
         />
       )}
       
       <PathKonva
         {...properties}
+        {...config.path}
         data={pathSVG}
         offsetY={bounding.y2 / 2 - 70}
         opacity={skeleton ? 0 : 1}
         ref={shapeRef}
         scaleY={-1}
-        shadowColor="#0f1d44"
-        shadowOffset={{ x: 0, y: -4 }}
-        shadowBlur={4}
         shadowOpacity={current ? 0 : 0.4}
-        shadowEnabled
       />
 
       {skeleton && (
         <>
-          <Base.Skeleton
-            offsetY={bounding.y2 / 2 - 70}
-            points={points}
-          />
-
-          <Base.Points
-            offsetY={bounding.y2 / 2 - 70}
-            points={points}
-            viewPoints={viewPoints}
-          />
-
-          <Base.ArrowsPoint
-            count={16}
-            offsetY={bounding.y2 / 2 - 70}
-          />
+          <Base.Skeleton offsetY={bounding.y2 / 2 - 70} />
+          <Base.Points offsetY={bounding.y2 / 2 - 70} />
+          <Base.ArrowsPoint {...config.arrows} offsetY={bounding.y2 / 2 - 70} />
         </>
       )}
 
       {current && metrics && (
         <>
           <Base.Bounding
-            arrowHeight={4}
-            arrowWidth={6}
-            fill="#e3e9f9"
-            stroke="#e3e9f9"
-            strokeWidth={0.5}
+            {...config.glyph.bounding}
             offsetY={-bounding.y2 / 2 + 40}
           />
 
           <Base.Bounding
-            arrowHeight={4}
-            arrowWidth={6}
-            fill="#e3e9f9"
-            stroke="#e3e9f9"
-            strokeWidth={0.5}
+            {...config.glyph.bounding}
             offsetX={40}
             offsetY={-bounding.y2 / 2 + 70}
             vertical

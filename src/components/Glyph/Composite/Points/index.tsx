@@ -1,9 +1,12 @@
-import Konva from 'konva'
 import type { Context } from 'konva/lib/Context'
 import { Shape } from 'react-konva'
-import type { IPointProps } from './interfaces'
 
-const Points = ({ points, viewPoints = false, ...props }: IPointProps) => {
+import type { IPointProps } from './interfaces'
+import { UseGlyphContext } from '../../Context'
+
+const Points = (props: IPointProps) => {
+  const { state: { viewPoints }, path: { points = [] } } = UseGlyphContext()
+
   const sceneFunc = (ctx: Context) => {
     for (let i = 0; i < points.length; i++) {
       const p = points[i]
@@ -93,11 +96,10 @@ const Points = ({ points, viewPoints = false, ...props }: IPointProps) => {
       {...props}
       listening={false}
       sceneFunc={sceneFunc}
-      filters={[Konva.Filters.Invert]}
       scaleY={-1}
     />
   )
 }
 
-Points.displayName = 'Glyph.Points'
+Points.displayName = 'Components.Glyph.Points'
 export default Points

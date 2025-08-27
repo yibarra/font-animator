@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from 'react'
 import type { Font, PathCommand } from 'fontkit'
-import type { BoundingBoxPos, IGlyphPoint } from '../Glyphs/interfaces'
+import type { IBoundingBoxPos, IGlyphPoint } from '../Glyphs/interfaces'
 
 export interface ArrowPoint {
   x: number
@@ -17,7 +17,7 @@ export type IArrowsArray = (IArrowsProps | null)[]
 
 export interface IDataGlyphCommand {
   arrows: IArrowsArray | []
-  bounding: BoundingBoxPos
+  bounding: IBoundingBoxPos
   commands: PathCommand[]
   path: string
   points: IGlyphPoint[]

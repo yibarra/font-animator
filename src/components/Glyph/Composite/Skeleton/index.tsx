@@ -2,18 +2,19 @@ import type { Context } from 'konva/lib/Context'
 import { Shape } from 'react-konva'
 
 import type { ISkeletonProps } from './interfaces'
+import { UseGlyphContext } from '../../Context'
 
 const Skeleton = ({
-  points,
   lineColor = '#ffffff',
   lineWidth = 3,
   holeRadius = 6,
-  pathData,
   ...props
 }: ISkeletonProps) => {
+  const { path: { path, points = [] } } = UseGlyphContext()
+
   const sceneFunc = (ctx: Context) => {
-    if (pathData) {
-      const path2d = new window.Path2D(pathData)
+    if (path) {
+      const path2d = new window.Path2D(path)
 
       ctx.save()
       ctx.clip(path2d)
@@ -51,5 +52,5 @@ const Skeleton = ({
   )
 }
 
-Skeleton.displayName = 'Glyph.Skeleton'
+Skeleton.displayName = 'Components.Glyph.Skeleton'
 export default Skeleton

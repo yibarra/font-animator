@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 
+import { dataDefault } from './data'
 import type { IGlyph, IGlyphsState } from './interfaces'
 
 const GLYPHS_STORAGE_KEY = 'font-animator-data'
@@ -16,10 +17,11 @@ const getInitialState = () => {
     console.error('Failed to parse localStorage data:', error)
   }
 
-  return { current: 0, glyphs: [] }
+  return { current: 0, glyphs: [], config: dataDefault.config }
 }
 
 export const useGlyphsStore = create<IGlyphsState>((set) => ({
+  config: {},
   current: 0,
   glyphs: [],
   ...getInitialState(),

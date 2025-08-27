@@ -1,17 +1,12 @@
 import { Shape } from 'react-konva'
 
 import { useFontStore } from '../../../../contexts/Font/store'
-import type { FontMetricsLinesProps } from './interfaces'
+import { UseGlyphContext } from '../../Context'
+import type { MetricsLinesProps } from './interfaces'
 
-const FontMetricsLines = ({
-  fontSize,
-  rotation,
-  width,
-  x,
-  y,
-  ...props
-}: FontMetricsLinesProps) => {
+const MetricsLines = ({ width, ...props }: MetricsLinesProps) => {
   const { font } = useFontStore()
+  const { data: { properties: { fontSize }} } = UseGlyphContext()
 
   if (!font) {
     return null
@@ -19,11 +14,11 @@ const FontMetricsLines = ({
 
   const scaleFactor = fontSize / font.unitsPerEm
 
-  const baselineY = y
-  const descenderY = y + font.descent * scaleFactor
-  const xHeightY = y - font.xHeight * scaleFactor
-  const capHeightY = y - font.capHeight * scaleFactor
-  const ascenderY = y - font.ascent * scaleFactor
+  const baselineY = 0
+  const descenderY = font.descent * scaleFactor
+  const xHeightY = - font.xHeight * scaleFactor
+  const capHeightY = -font.capHeight * scaleFactor
+  const ascenderY = -font.ascent * scaleFactor
 
   const lines: { y: number; label: string }[] = [
     { y: baselineY, label: 'Baseline' },
@@ -39,9 +34,6 @@ const FontMetricsLines = ({
   return (
     <Shape
       {...props}
-      x={x}
-      y={y}
-      rotation={rotation}
       sceneFunc={(ctx) => {
         ctx.setLineDash([5, 5])
         ctx.strokeStyle = '#fff'
@@ -61,5 +53,5 @@ const FontMetricsLines = ({
   )
 }
 
-FontMetricsLines.displayName = 'Components.Glyph.FontMetricsLines'
-export default FontMetricsLines
+MetricsLines.displayName = 'Components.Glyph.MetricsLines'
+export default MetricsLines

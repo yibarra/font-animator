@@ -1,19 +1,23 @@
-import { Shape } from 'react-konva'
+import { Arrow, Shape } from 'react-konva'
 import type { Context } from 'konva/lib/Context'
-import type { Shape as IShape } from 'konva/lib/Shape'
 
 import type { IBounding } from './interfaces'
 import { UseGlyphContext } from '../../Context'
 
-const Bounding = ({ arrowHeight, arrowWidth, fill = '#FFF', vertical, ...props }: IBounding) => {
+const Bounding = ({
+  fill,
+  vertical,
+  ...props
+}: IBounding) => {
   const { path: { bounding } } = UseGlyphContext()
 
-  // text
+  const { x1, x2, y1, y2 } = bounding
+
   const drawText = (ctx: Context, text: string, x: number, y: number, rotate = false) => {
     const { width } = ctx.measureText(text)
 
     ctx.font = '10px Roboto Mono'
-    ctx.fillStyle = fill
+    ctx.fillStyle = fill || '#ffffff'
     ctx.textBaseline = 'bottom'
 
     if (rotate) {
@@ -28,79 +32,35 @@ const Bounding = ({ arrowHeight, arrowWidth, fill = '#FFF', vertical, ...props }
     }
   }
 
-  // box arrows
-  const drawBox = (ctx: Context, shape: IShape) => {
-    ctx.beginPath()
-
-    const { x1, x2, y1 } = bounding
-
-    ctx.moveTo(x1, y1)
-    ctx.lineTo(x1 + arrowHeight, y1 - arrowWidth / 2)
-    ctx.lineTo(x1 + arrowHeight, y1 + arrowWidth / 2)
-    ctx.closePath()
-
-    ctx.lineTo(x2, y1)
-
-    ctx.lineTo(x2 - arrowHeight, y1 - arrowWidth / 2)
-    ctx.lineTo(x2 - arrowHeight, y1 + arrowWidth / 2)
-    ctx.lineTo(x2, y1)
-    ctx.closePath()
-
-    ctx.moveTo(x1, y1 - arrowHeight)
-    ctx.lineTo(x1, y1 + arrowHeight)
-    ctx.closePath()
-
-    ctx.moveTo(x2, y1 - arrowHeight)
-    ctx.lineTo(x2, y1 + arrowHeight)
-    ctx.closePath()
-
-    drawText(ctx, `${Math.round(x2 - x1)}px`, (x1 + x2), y1 + 20)
-
-    ctx.fillShape(shape)
-    ctx.strokeShape(shape)
-  }
-
-  // box vertical
-  const drawVerticalBox = (ctx: Context, shape: IShape) => {
-    ctx.beginPath()
-
-    const { x1, y1, y2 } = bounding
-
-    ctx.moveTo(x1, y1)
-    ctx.lineTo(x1 + arrowWidth / 2, y1 - arrowHeight)
-    ctx.lineTo(x1 - arrowWidth / 2, y1 - arrowHeight)
-    ctx.closePath()
-
-    ctx.moveTo(x1, y1)
-    ctx.lineTo(x1, y2)
-    ctx.closePath()
-
-    ctx.moveTo(x1, y2)
-    ctx.lineTo(x1 + arrowWidth / 2, y2 + arrowHeight)
-    ctx.lineTo(x1 - arrowWidth / 2, y2 + arrowHeight)
-    ctx.closePath()
-
-    ctx.moveTo(x1 - arrowHeight, y1)
-    ctx.lineTo(x1 + arrowHeight, y1)
-    ctx.closePath()
-
-    ctx.moveTo(x1 - arrowHeight, y2)
-    ctx.lineTo(x1 + arrowHeight, y2)
-    ctx.closePath()
-
-    drawText(ctx, `${Math.round(y1 - y2)}px`, x1 - 10, y2 / 2, true)
-
-    ctx.fillShape(shape)
-    ctx.strokeShape(shape)
-  }
-
   return (
-    <Shape
-      {...props}
-      scaleX={vertical ? 1 : undefined}
-      scaleY={vertical ? undefined : 1}
-      sceneFunc={vertical ? drawVerticalBox : drawBox}
-    />
+    <>
+      {vertical ? (
+        <Arrow
+          {...props}
+          fill={fill || '#fff'}
+          pointerAtBeginning
+          points={[bounding.x1, bounding.y1, bounding.x1, bounding.y2]}
+        />
+      ) : (
+        <Arrow
+          {...props}
+          fill={fill || '#fff'}
+          pointerAtBeginning
+          points={[bounding.x1, bounding.y1, bounding.x2, bounding.y1]}
+        />
+      )}
+      
+      <Shape
+        {...props}
+        sceneFunc={(ctx) => {
+          const text = vertical ? `${Math.round(y1 - y2)}px` : `${Math.round(x2 - x1)}px`
+          const x = vertical ? x1 - 10 : (x1 + x2)
+          const y = vertical ? y2 / 2 : y1 + 20
+
+          drawText(ctx, text, x, y, vertical)
+        }}
+      />
+    </>
   )
 }
 
