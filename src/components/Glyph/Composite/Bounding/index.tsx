@@ -17,7 +17,7 @@ const Bounding = ({
     const { width } = ctx.measureText(text)
 
     ctx.font = '10px Roboto Mono'
-    ctx.fillStyle = fill || '#ffffff'
+    ctx.fillStyle = fill || '#fff'
     ctx.textBaseline = 'bottom'
 
     if (rotate) {

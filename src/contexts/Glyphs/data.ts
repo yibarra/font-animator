@@ -22,14 +22,14 @@ export const dataDefault = {
   config: {
     arrows: {
       count: 16,
-      fill: "#d71b15",
-      pointerLength: 12,
-      pointerWidth: 16,
+      fill: "#e43318ff",
+      pointerLength: 10,
+      pointerWidth: 12,
     },
     glyph: {
       bounding: {
-        pointerLength: 1,
-        pointerWidth: 1,
+        pointerLength: 4,
+        pointerWidth: 6,
         fill: "#fff",
         stroke: "#fff",
         strokeWidth: 0.5

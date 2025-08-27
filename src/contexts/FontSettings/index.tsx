@@ -1,8 +1,9 @@
 import { createContext, useCallback, useMemo, useContext } from 'react'
 
 import { useFontStore } from '../Font/store'
-import type { IDataGlyphCommand, IFontSettingsContext, IFontSettingsProvider } from './interfaces'
 import { convertPathToSvg, extractGlyphArrows, extractGlyphPoints } from './utils'
+import type { IDataGlyphCommand, IFontSettingsContext, IFontSettingsProvider } from './interfaces'
+import type { IGlyph } from '../Glyphs/interfaces'
 
 // load font context
 const FontSettingsContext = createContext({} as IFontSettingsContext)
@@ -43,60 +44,67 @@ const FontSettingsProvider = ({ children }: IFontSettingsProvider ) => {
   }, [font])
 
   // get path data - remove
-  const getPathDataGlyph = useCallback(
-    (id: number, coords: Record<string, string | number>, size: number): IDataGlyphCommand => {
-      if (!font || !id) {
-        return {
-          arrows: [],
-          commands: [],
-          bounding: {
-            x1: 0,
-            y1: 0,
-            x2: 0,
-            y2: 0
-          },
-          path: '',
-          points: []
-        }
-      }
-      
-      const fontInstance = font.getVariation(coords)
-      const glyph = fontInstance.getGlyph(id)
-      
-      if (glyph) {
-        const { bbox, path: { commands }} = glyph
-        const yFlip = -1
-        
-        const units = fontInstance.unitsPerEm || 1000
+  const getPathDataGlyph = useCallback((
+    id: number,
+    axes: IGlyph['axes'],
+    size: number
+  ): IDataGlyphCommand => {
+    const coords = Object.fromEntries(
+      Object.entries(axes).map(([key, value]) => [key, Number(value)])
+    )
 
-        const bounding = {
-          x1: bbox.minX * size / units,
-          y1: bbox.minY * (size / units) * yFlip,
-          x2: bbox.maxX * size / units,
-          y2: bbox.maxY * (size / units) * yFlip,
-        }
-
-        return {
-          bounding,
-          commands,
-          arrows: extractGlyphArrows(commands, size / units) ?? [],
-          path: convertPathToSvg(commands, size / units),
-          points: extractGlyphPoints(commands, size / units),
-        }
-      }
-
+    if (!font || !id) {
       return {
         arrows: [],
         commands: [],
-        path: '',
         bounding: {
           x1: 0,
           y1: 0,
           x2: 0,
           y2: 0
         },
+        path: '',
         points: []
       }
+    }
+    
+    const fontInstance = font.getVariation(coords)
+    const glyph = fontInstance.getGlyph(id)
+    
+    if (glyph) {
+      const { bbox, path: { commands }} = glyph
+      const yFlip = -1
+      
+      const units = fontInstance.unitsPerEm || 1000
+
+      const bounding = {
+        x1: bbox.minX * size / units,
+        y1: bbox.minY * (size / units) * yFlip,
+        x2: bbox.maxX * size / units,
+        y2: bbox.maxY * (size / units) * yFlip,
+      }
+
+      return {
+        bounding,
+        commands,
+        arrows: extractGlyphArrows(commands, size / units) ?? [],
+        path: convertPathToSvg(commands, size / units),
+        points: extractGlyphPoints(commands, size / units),
+      }
+    }
+
+    return {
+      arrows: [],
+      commands: [],
+      path: '',
+      bounding: {
+        x1: 0,
+        y1: 0,
+        x2: 0,
+        y2: 0
+      },
+      points: []
+    }
   }, [font])
 
   // render

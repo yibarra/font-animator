@@ -8,11 +8,8 @@ const GlyphContext = createContext<GlyphContextProps | undefined>(undefined)
 const GlyphProvider = ({ children, data, ...props }: IGlyphProviderProps) => {
   const { getPathDataGlyph } = UseFontSettingsContext()
 
-  const numericAxes = Object.fromEntries(
-    Object.entries(data.axes).map(([key, value]) => [key, Number(value)])
-  )
-
   const [state, setState] = useState<IViewOptions>({
+    currentFrame: 0,
     metrics: true,
     baseLines: true,
     skeleton: true,
@@ -22,8 +19,8 @@ const GlyphProvider = ({ children, data, ...props }: IGlyphProviderProps) => {
 
   const path = getPathDataGlyph(
     data.charIndex,
-    numericAxes,
-    data.properties.fontSize ?? 120
+    data.axes,
+    data.properties.fontSize
   )
 
   const updateState = useCallback((key: string, value: boolean) => (

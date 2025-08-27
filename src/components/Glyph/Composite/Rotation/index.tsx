@@ -4,12 +4,11 @@ import type { KonvaEventObject } from 'konva/lib/Node'
 
 import Progress from '../Progress'
 import { UseGlyphsContext } from '../../../../contexts/Glyphs/Glyphs'
-import type { IRotationProps } from './interfaces'
 import { UseGlyphContext } from '../../Context'
 import { useMainStore } from '../../../../contexts/Main/store'
+import type { IRotationProps } from './interfaces'
 
 const Rotation = ({
-  currentFrame,
   outerCircleRadius = 10,
   innerCircleRadius = 5,
   setPositionDrag,
@@ -20,10 +19,11 @@ const Rotation = ({
   const shapeRef = useRef(null)
 
   const { isDragging, setIsDragging } = useMainStore()
-  const { data, path } = UseGlyphContext()
+  const { data, path, state: { currentFrame } } = UseGlyphContext()
   const { setGlyphRotate } = UseGlyphsContext()
 
   const { bounding } = path
+  const { id, position } = data
 
   const handleDragMove = (event: KonvaEventObject<DragEvent>) => {
     const node = event.target
@@ -62,7 +62,7 @@ const Rotation = ({
         ref={shapeRef}
         onDragStart={() => setIsDragging(true)}
         onDragMove={handleDragMove}
-        onDragEnd={() => setGlyphRotate(data?.id, currentFrame, data?.position, rotation)}
+        onDragEnd={() => setGlyphRotate(id, currentFrame, position, rotation)}
         radius={outerCircleRadius}
         x={x + outerCircleRadius - innerCircleRadius}
         y={rotationY}

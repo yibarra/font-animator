@@ -13,7 +13,6 @@ import type { IPath } from './interfaces'
 
 const Path = ({
   current,
-  currentFrame,
   index,
   rotation,
   setPositionDrag,
@@ -30,33 +29,29 @@ const Path = ({
 
   const { id, properties } = data
   const { bounding, path: pathSVG } = path
-  const { metrics, skeleton, baseLines } = state
+  const { currentFrame, metrics, skeleton, baseLines } = state
 
-  const onUpdateMove = (event: KonvaEventObject<DragEvent>) => {
-    const node = event.target
-    const x = node.x()
-    const y = node.y()
-    const rotation = node.rotation()
-
-    setPositionDrag([x, y, rotation])
-  }
+  // on update pos rotate
+  const onUpdate = (event: KonvaEventObject<Event>, type?: string) => {
+    const { rotation: rotate , x, y } = event.currentTarget.attrs
   
-  const onUpdateTranslate = (event: KonvaEventObject<DragEvent>) => {
-    const node = event.target
-    const x = node.x()
-    const y = node.y()
+    switch (type) {
+      case 'translate':
+        setIsDragging(false)
+        setGlyphPosition(id, currentFrame, [x, y])
+        break
 
-    setIsDragging(false)
-    setGlyphPosition(id, currentFrame, [x, y])
+      case 'transform':
+        setIsDragging(false)
+        setGlyphRotate(id, currentFrame, [x, y], rotate)
+        break
+      default:
+        setPositionDrag([x, y, rotate])
+        break
+    }
   }
 
-  const onUpdateTransform = (event: KonvaEventObject<DragEvent>) => {
-    const { rotation, x, y } = event.target.attrs
-
-    setIsDragging(false)
-    setGlyphRotate(id, currentFrame, [x, y], rotation)
-  }
-
+  // center shape
   useEffect(() => {
     if (groupRef.current && bounding) {
       const shape = groupRef.current
@@ -80,13 +75,12 @@ const Path = ({
       draggable
       ref={groupRef}
       rotation={rotation}
-      onClick={() => setCurrent(current ? null : index)}
-      onDragEnd={onUpdateTranslate}
-      onDragMove={onUpdateMove}
       onDragStart={() => setIsDragging(true)}
-      onTransform={onUpdateMove}
-      onTransformEnd={onUpdateTransform}
       onTransformStart={() => setIsDragging(true)}
+      onDragEnd={(e) => onUpdate(e, 'translate')}
+      onDragMove={(e) => onUpdate(e)}
+      onTransform={(e) => onUpdate(e)}
+      onTransformEnd={(e) => onUpdate(e, 'transform')}
     >
       {current && baseLines && (
         <Base.MetricsLines
@@ -100,21 +94,21 @@ const Path = ({
         {...config.path}
         data={pathSVG}
         offsetY={bounding.y2 / 2 - 70}
+        onClick={() => setCurrent(current ? null : index)}
         opacity={skeleton ? 0 : 1}
         ref={shapeRef}
         scaleY={-1}
         shadowOpacity={current ? 0 : 0.4}
       />
 
+      <Base.Skeleton offsetY={bounding.y2 / 2 - 70} />
+      <Base.Points offsetY={bounding.y2 / 2 - 70} />
+
       {skeleton && (
-        <>
-          <Base.Skeleton offsetY={bounding.y2 / 2 - 70} />
-          <Base.Points offsetY={bounding.y2 / 2 - 70} />
-          <Base.ArrowsPoint {...config.arrows} offsetY={bounding.y2 / 2 - 70} />
-        </>
+        <Base.ArrowsPoint {...config.arrows} offsetY={bounding.y2 / 2 - 70} />
       )}
 
-      {current && metrics && (
+      {(current && metrics) && (
         <>
           <Base.Bounding
             {...config.glyph.bounding}
@@ -133,5 +127,5 @@ const Path = ({
   )
 }
 
-Path.displayName = 'Glyph.Path'
+Path.displayName = 'Components.Glyph.Path'
 export default Path

@@ -1,8 +1,7 @@
 import { useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
 
-import { default as Base } from './index'
 import { useMainStore } from '../../contexts/Main/store'
+import { default as Base } from './index'
 import type { IGlyphProps } from './interfaces'
 
 const Glyph = ({
@@ -11,52 +10,35 @@ const Glyph = ({
   index,
 }: IGlyphProps) => {
   const { isPlaying = false, isDragging } = useMainStore()
-
-  const [searchParams] = useSearchParams()
-  const currentFrame = Number(searchParams.get('frame') ?? 0)
-
   const [positionDrag, setPositionDrag] = useState<[number, number, number]>([...data.position, data.rotation])
 
-  const { position } = data
+  const { position, rotation } = data
 
-  const rotation = isDragging ? positionDrag[2] : data.rotation
+  const rotate = isDragging ? positionDrag[2] : rotation
   const x = isDragging ? positionDrag[0] : position[0]
   const y = isDragging ? positionDrag[1] : position[1]
 
   return (
     <Base.Root data={data}>
       <Base.Path
-        currentFrame={currentFrame}
         current={current}
         index={index}
+        rotation={rotate}
         setPositionDrag={setPositionDrag}
-        rotation={rotation}
         x={x}
         y={y}
       />
 
-      {current && (
+      {(current && !isPlaying) && (
         <>
-          {!isPlaying && (
-            <>
-              <Base.Rotation
-                currentFrame={currentFrame}
-                rotation={rotation}
-                setPositionDrag={setPositionDrag}
-                x={x}
-                y={y}
-              />
+          <Base.Rotation
+            rotation={rotate}
+            setPositionDrag={setPositionDrag}
+            x={x}
+            y={y}
+          />
 
-              {(
-                <Base.Info
-                  currentFrame={currentFrame}
-                  rotation={rotation}
-                  x={x}
-                  y={y}
-                />
-              )}
-            </>
-          )}
+          <Base.Info rotation={rotate} x={x} y={y} />
         </>
       )}
     </Base.Root>

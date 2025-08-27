@@ -8,13 +8,17 @@ const Points = (props: IPointProps) => {
   const { state: { viewPoints }, path: { points = [] } } = UseGlyphContext()
 
   const sceneFunc = (ctx: Context) => {
+    if (!viewPoints) {
+      return
+    }
+
     for (let i = 0; i < points.length; i++) {
       const p = points[i]
 
       if (p.type === 'on-curve') {
         if (points[i - 1]?.type === 'control') {
           ctx.save()
-          ctx.strokeStyle = '#ffffff'
+          ctx.strokeStyle = '#fff'
           ctx.lineWidth = 1
           ctx.setLineDash([6, 6])
           ctx.beginPath()
@@ -26,7 +30,7 @@ const Points = (props: IPointProps) => {
         
         if (points[i + 1]?.type === 'control') {
           ctx.save()
-          ctx.strokeStyle = '#ffffff'
+          ctx.strokeStyle = '#fff'
           ctx.lineWidth = 1
           ctx.beginPath()
           ctx.setLineDash([6, 6])
@@ -38,50 +42,35 @@ const Points = (props: IPointProps) => {
       }
     }
 
-    ctx.globalCompositeOperation = 'destination-out'
-
-    points.forEach((point) => {
-      if (point.type === 'on-curve') {
-        ctx.beginPath()
-        ctx.arc(point.x, point.y, 6 / (1), 0, Math.PI * 2, false)
-        ctx.fillStyle = 'black'
-        ctx.fill()
-      }
-    })
-
-    ctx.globalCompositeOperation = 'source-over'
-
     points.forEach((point) => {
       ctx.save()
 
       if (point.type === 'on-curve') {
         ctx.fillStyle = 'transparent'
-        ctx.strokeStyle = '#ffffff'
+        ctx.strokeStyle = '#fff'
         ctx.lineWidth = 2
-        ctx.beginPath();
+        ctx.beginPath()
         ctx.arc(point.x, point.y, 4, 0, Math.PI * 2, false)
         ctx.fill()
         ctx.stroke()
 
-        if (viewPoints) {
-          ctx.fillStyle = 'transparent'
-          ctx.strokeStyle = '#ffffff'
-          ctx.lineWidth = 2
-          ctx.beginPath();
-          ctx.arc(point.x, point.y, 1, 0, Math.PI * 2, false)
-          ctx.fill()
-          ctx.stroke()
-        
-          ctx.save()
-          ctx.scale(1, -1)
-  
-          ctx.fillStyle = '#FFF'
-          ctx.fillText(`${point.x.toFixed(1)}, ${point.y.toFixed(1)}`, point.x + 0, -(point.y + 10))
-          ctx.fill()
-          ctx.restore()
-        }
+        ctx.fillStyle = 'transparent'
+        ctx.strokeStyle = '#fff'
+        ctx.lineWidth = 2
+        ctx.beginPath();
+        ctx.arc(point.x, point.y, 1, 0, Math.PI * 2, false)
+        ctx.fill()
+        ctx.stroke()
+      
+        ctx.save()
+        ctx.scale(1, -1)
+
+        ctx.fillStyle = '#fff'
+        ctx.fillText(`(${point.x.toFixed(1)}, ${point.y.toFixed(1)})`, point.x + 6, -(point.y + 6))
+        ctx.fill()
+        ctx.restore()
       } else {
-        ctx.fillStyle = '#ffffff'
+        ctx.fillStyle = '#fff'
         ctx.beginPath()
         ctx.arc(point.x, point.y, 3, 0, Math.PI * 2, false)
         ctx.fill()
