@@ -45,7 +45,7 @@ const Rotation = ({
     }
   }
 
-  const rotationY = y + Math.abs(bounding.y1 / 2) + 6
+  const rotationY = y + Math.abs(bounding.y1 / 2)
 
   return (
     <>
@@ -62,7 +62,10 @@ const Rotation = ({
         ref={shapeRef}
         onDragStart={() => setIsDragging(true)}
         onDragMove={handleDragMove}
-        onDragEnd={() => setGlyphRotate(id, currentFrame, position, rotation)}
+        onDragEnd={() => {
+          setIsDragging(false)
+          setGlyphRotate(id, currentFrame, position, rotation)
+        }}
         radius={outerCircleRadius}
         x={x + outerCircleRadius - innerCircleRadius}
         y={rotationY}

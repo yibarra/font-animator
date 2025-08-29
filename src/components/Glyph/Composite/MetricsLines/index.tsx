@@ -16,7 +16,7 @@ const MetricsLines = ({ width, ...props }: MetricsLinesProps) => {
 
   const baselineY = 0
   const descenderY = font.descent * scaleFactor
-  const xHeightY = - font.xHeight * scaleFactor
+  const xHeightY = -font.xHeight * scaleFactor
   const capHeightY = -font.capHeight * scaleFactor
   const ascenderY = -font.ascent * scaleFactor
 

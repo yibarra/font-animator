@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useMainStore } from '../../contexts/Main/store'
 import { default as Base } from './index'
 import type { IGlyphProps } from './interfaces'
+import Pointer from './Composite/Pointer'
 
 const Glyph = ({
   current,
@@ -29,6 +30,8 @@ const Glyph = ({
         y={y}
       />
 
+      <Pointer position={position} x={x} y={y} />
+
       {(current && !isPlaying) && (
         <>
           <Base.Rotation
@@ -38,7 +41,9 @@ const Glyph = ({
             y={y}
           />
 
-          <Base.Info rotation={rotate} x={x} y={y} />
+          {!isDragging && (
+            <Base.Info rotation={rotate} x={x} y={y} />
+          )}
         </>
       )}
     </Base.Root>

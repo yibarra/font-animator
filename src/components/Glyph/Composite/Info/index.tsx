@@ -24,7 +24,7 @@ const Info = ({
         style={{
           left: x,
           transform: `translate(-50%, -50%) rotate(${rotation}deg)`,
-          top: y + Math.abs(bounding.y1 / 2) + 6,
+          top: y + Math.abs(bounding.y1 / 2),
         }}
       >
         <div className={styles["glyph--info--controls"]}>

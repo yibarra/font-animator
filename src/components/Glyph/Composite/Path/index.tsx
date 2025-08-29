@@ -77,10 +77,10 @@ const Path = ({
       rotation={rotation}
       onDragStart={() => setIsDragging(true)}
       onTransformStart={() => setIsDragging(true)}
-      onDragEnd={(e) => onUpdate(e, 'translate')}
-      onDragMove={(e) => onUpdate(e)}
-      onTransform={(e) => onUpdate(e)}
-      onTransformEnd={(e) => onUpdate(e, 'transform')}
+      onDragEnd={(event) => onUpdate(event, 'translate')}
+      onDragMove={(event) => onUpdate(event)}
+      onTransform={(event) => onUpdate(event)}
+      onTransformEnd={(event) => onUpdate(event, 'transform')}
     >      
       <PathKonva
         {...properties}
@@ -97,16 +97,13 @@ const Path = ({
       <Base.Skeleton offsetY={bounding.y2 / 2 - 70} />
       <Base.Points offsetY={bounding.y2 / 2 - 70} />
 
-      {skeleton && (
-        <Base.ArrowsPoint {...config.arrows} offsetY={bounding.y2 / 2 - 70} />
-      )}
-
       {(current) && (
         <>
           {baseLines && (
             <Base.MetricsLines
+              offsetX={-bounding.x1}
               offsetY={-bounding.y2 / 2 + 70}
-              width={(bounding.x2 - bounding.x1) + 40}
+              width={(bounding.x2 - bounding.x1)}
             />
           )}
 
@@ -125,8 +122,12 @@ const Path = ({
               />
             </>
           )}
-      </>
-    )}
+        </>
+      )}
+
+      {skeleton && (
+        <Base.ArrowsPoint {...config.arrows} offsetY={bounding.y2 / 2 - 70} />
+      )}
     </Group> 
   )
 }

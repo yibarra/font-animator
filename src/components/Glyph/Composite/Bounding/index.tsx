@@ -37,6 +37,7 @@ const Bounding = ({
       {vertical ? (
         <Arrow
           {...props}
+          listening={false}
           fill={fill || '#fff'}
           pointerAtBeginning
           points={[bounding.x1, bounding.y1, bounding.x1, bounding.y2]}
@@ -44,6 +45,7 @@ const Bounding = ({
       ) : (
         <Arrow
           {...props}
+          listening={false}
           fill={fill || '#fff'}
           pointerAtBeginning
           points={[bounding.x1, bounding.y1, bounding.x2, bounding.y1]}
@@ -52,6 +54,7 @@ const Bounding = ({
       
       <Shape
         {...props}
+        listening={false}
         sceneFunc={(ctx) => {
           const text = vertical ? `${Math.round(y1 - y2)}px` : `${Math.round(x2 - x1)}px`
           const x = vertical ? x1 - 10 : (x1 + x2)
