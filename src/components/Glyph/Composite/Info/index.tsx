@@ -76,23 +76,36 @@ const Info = ({
         </div>
 
         {viewCommands && (
-          <div className={styles["glyph--info--contours--wrapper"]}>
-            <div>
-              <p>chart Index: {data.charIndex}</p>
-              <p>rotate: {rotation}</p>
-              <p>position x: {x}, y: {y}</p>
-            </div>
-            <div>
-              <h6>Bounding Box</h6>
-              <p>X1: {bounding.x1}</p>
-              <p>Y1: {bounding.y1}</p>
-              <p>X2: {bounding.x2}</p>
-              <p>Y2: {bounding.y2}</p>
-              <p>Width: {bounding.x2 - bounding.x1}</p>
-              <p>Height: {Math.abs(bounding.y2) + Math.abs(bounding.y1)}</p>
+          <div
+            className={styles["glyph--info--wrapper"]}
+            style={{
+              left: '100%'
+            }}
+          >
+            <div className={styles["glyph--info--group"]}>
+              <p>chart Index: <strong>{data.charIndex}</strong></p>
+              <p>rotation: <strong>{rotation}</strong>deg</p>
+              <p>position: x = <strong>{x}</strong>, y = <strong>{y}</strong></p>
             </div>
 
-            <div>
+            <div className={styles["glyph--info--group"]}>
+              <h6>Bounding Box</h6>
+
+              <div className={styles["glyph--info--wrapper--group"]}>
+                <p>X1: <strong>{bounding.x1}</strong></p>
+                <p>Y1: <strong>{bounding.y1}</strong></p>
+              </div>
+              <div className={styles["glyph--info--wrapper--group"]}>
+                <p>X2: <strong>{bounding.x2}</strong></p>
+                <p>Y2: <strong>{bounding.y2}</strong></p>
+              </div>
+              <div className={styles["glyph--info--wrapper--group"]}>
+                <p>Width: <strong>{bounding.x2 - bounding.x1}</strong></p>
+                <p>Height: <strong>{Math.abs(bounding.y2) + Math.abs(bounding.y1)}</strong></p>
+              </div>
+            </div>
+
+            <div className={styles["glyph--info--group"]}>
               <h6>Commands</h6>
 
               <div
@@ -118,7 +131,7 @@ const Info = ({
                         key={index}
                       >
                         {displayedArgs.map((value, k) => (
-                          value !== null ? <strong>{argNames[k] || `arg${k + 1}`}: {value}</strong> : null
+                          value !== null ? <>{argNames[k].toUpperCase() || `arg${(k + 1)}`}: <strong>{value}</strong></> : null
                         ))}
                       </p>
                     )

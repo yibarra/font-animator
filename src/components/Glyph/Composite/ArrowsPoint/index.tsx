@@ -1,7 +1,7 @@
 import { Shape } from 'react-konva'
 
-import type { IArrowsPointProps } from './interfaces'
 import { UseGlyphContext } from '../../Context'
+import type { IArrowsPointProps } from './interfaces'
 
 const ArrowsPoint = ({
   count = 16,
@@ -56,8 +56,8 @@ const ArrowsPoint = ({
         })
       }}
     />
-  );
-};
+  )
+}
 
-ArrowsPoint.displayName = 'Components.Glyph.ArrowsPoint';
-export default ArrowsPoint;
+ArrowsPoint.displayName = 'Components.Glyph.ArrowsPoint'
+export default ArrowsPoint

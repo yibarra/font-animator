@@ -75,13 +75,12 @@
   &--contours {
     display: flex;
     flex-flow: row wrap;
-    gap: 8px;
+    gap: 7px;
     max-height: 30dvh;
     overflow: hidden;
     overflow-y: auto;
-    margin-top: 12px;
     pointer-events: auto;
-    padding: 0px 10px 0px 20px;
+    padding: 0px 10px;
     scrollbar-gutter: stable;
     width: 100%;
 
@@ -89,6 +88,7 @@
       display: flex;
       justify-content: flex-start;
       gap: 8px;
+      letter-spacing: -0.04rem;
       text-transform: none;
       width: 100%;
 
@@ -100,20 +100,6 @@
         text-transform: uppercase;
         white-space: nowrap;
         width: 70px;
-      }
-    }
-
-    &--wrapper {
-      bottom: 0px;
-      display: flex;
-      gap: 4px;
-      flex-flow: row wrap;
-      left: 100%;
-      padding: 0 0 0 12px;
-      position: absolute;
-
-      h5 {
-        font-weight: 400;
       }
     }
 
@@ -129,6 +115,45 @@
     &::-webkit-scrollbar-thumb {
       background: var(--text-main);
       border-radius: 0px;
+    }
+  }
+
+  &--group {
+    display: flex;
+    flex-flow: column wrap;
+    gap: 4px;
+  }
+
+  &--wrapper {
+    display: flex;
+    gap: 12px;
+    flex-flow: column wrap;
+    padding: 0 0 0 24px;
+    position: absolute;
+    transform: translate3d(0px, calc(-100% + 16px), 0px);
+
+    &--group {
+      display: flex;
+      flex-flow: row nowrap;
+      gap: 4px;
+      width: 100%;
+
+      > p {
+        width: 50%;
+      }
+    }
+
+    p,
+    h6 {
+      color: #fff;
+      letter-spacing: -0.04rem;
+      white-space: nowrap;
+    }
+
+    h6 {
+      font-size: 13px;
+      font-weight: 600;
+      margin: 0 0 8px;
     }
   }
 }

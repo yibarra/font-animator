@@ -72,7 +72,7 @@ const Path = ({
   return (
     <Group
       {...props}
-      draggable
+      draggable={current}
       ref={groupRef}
       rotation={rotation}
       onDragStart={() => setIsDragging(true)}
@@ -116,7 +116,7 @@ const Path = ({
 
               <Base.Bounding
                 {...config.glyph.bounding}
-                offsetX={40}
+                offsetX={20}
                 offsetY={-bounding.y2 / 2 + 70}
                 vertical
               />
