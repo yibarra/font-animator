@@ -3,7 +3,7 @@ import { Circle } from 'react-konva'
 import type { KonvaEventObject } from 'konva/lib/Node'
 
 import Progress from '../Progress'
-import { UseGlyphsContext } from '../../../../contexts/Glyphs/Glyphs'
+import { UseGlyphsContext } from '../../../../contexts/Glyphs'
 import { UseGlyphContext } from '../../Context'
 import { useMainStore } from '../../../../contexts/Main/store'
 import type { IRotationProps } from './interfaces'

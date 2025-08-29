@@ -5,7 +5,7 @@ import Form from '../Form'
 import { useMainStore } from '../../contexts/Main/store'
 import { useFontStore } from '../../contexts/Font/store'
 import { useGlyphsStore } from '../../contexts/Glyphs/store'
-import { UseGlyphsContext } from '../../contexts/Glyphs/Glyphs'
+import { UseGlyphsContext } from '../../contexts/Glyphs'
 import styles from './styles.module.scss'
 
 const GlyphSelector = () => {

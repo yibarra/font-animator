@@ -79,7 +79,7 @@ const Info = ({
           <div
             className={styles["glyph--info--wrapper"]}
             style={{
-              left: '100%'
+              left: `calc(50% + (${(bounding.x2 - bounding.x1)}px / 2))`
             }}
           >
             <div className={styles["glyph--info--group"]}>

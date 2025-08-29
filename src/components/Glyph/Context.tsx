@@ -1,4 +1,6 @@
-import { useState, createContext, useContext, useMemo, useCallback } from 'react'
+import { useState, createContext, useContext, useMemo, useCallback, useRef } from 'react'
+import type { Group } from 'konva/lib/Group'
+import type { Path } from 'konva/lib/shapes/Path'
 
 import { UseFontSettingsContext } from '../../contexts/FontSettings'
 import type { GlyphContextProps, IGlyphProviderProps, IViewOptions } from './interfaces'
@@ -7,6 +9,9 @@ const GlyphContext = createContext<GlyphContextProps | undefined>(undefined)
 
 const GlyphProvider = ({ children, data, ...props }: IGlyphProviderProps) => {
   const { getPathDataGlyph } = UseFontSettingsContext()
+
+  const groupRef = useRef<Group | null>(null)
+  const shapeRef = useRef<Path | null>(null)
 
   const [state, setState] = useState<IViewOptions>({
     currentFrame: 0,
@@ -35,6 +40,8 @@ const GlyphProvider = ({ children, data, ...props }: IGlyphProviderProps) => {
       useMemo(() => ({
         ...props,
         data,
+        groupRef,
+        shapeRef,
         path,
         state,
         setState,
@@ -42,6 +49,8 @@ const GlyphProvider = ({ children, data, ...props }: IGlyphProviderProps) => {
       }), [
         props,
         data,
+        groupRef,
+        shapeRef,
         path,
         state,
         setState,

@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { UseGlyphsContext } from '../../../../../contexts/Glyphs/Glyphs'
+import { UseGlyphsContext } from '../../../../../contexts/Glyphs'
 import { getFontVariation } from '../../../../../contexts/Glyphs/utils'
 import { useFontStore } from '../../../../../contexts/Font/store'
 import styles from '../../styles.module.scss'

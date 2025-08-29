@@ -22,7 +22,7 @@ const Glyph = ({ ...props }: IForm) => {
 
   const [char] = font?.stringsForGlyph(glyph?.charIndex ?? 0) ?? []
   
-  if (!glyph || isPlaying || !isOpenSelector) {
+  if (!glyph || isPlaying || isOpenSelector) {
     return <></>
   }
   

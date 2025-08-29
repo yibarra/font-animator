@@ -63,6 +63,7 @@ const Points = (props: IPointProps) => {
         ctx.scale(1, -1)
 
         ctx.fillStyle = '#fff'
+        ctx.font = '9px Roboto Mono'
         ctx.fillText(`(${point.x.toFixed(1)}, ${point.y.toFixed(1)})`, point.x + 6, -(point.y + 6))
         ctx.fill()
         ctx.restore()

@@ -1,4 +1,6 @@
-import type { Dispatch, PropsWithChildren, SetStateAction } from 'react'
+import type { Dispatch, PropsWithChildren, RefObject, SetStateAction } from 'react'
+import type { Group } from 'konva/lib/Group'
+import type { Path } from 'konva/lib/shapes/Path'
 
 import type { IGlyph } from '../../contexts/Glyphs/interfaces'
 import type { IDataGlyphCommand } from '../../contexts/FontSettings/interfaces'
@@ -8,6 +10,8 @@ export interface IGlyphProviderProps extends PropsWithChildren {
 }
 
 export interface GlyphContextProps extends Pick<IGlyphProviderProps, 'data'> {
+  groupRef: RefObject<Group | null>
+  shapeRef: RefObject<Path | null>
   path: IDataGlyphCommand
   state: IViewOptions
   setState: Dispatch<SetStateAction<IViewOptions>>

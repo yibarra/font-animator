@@ -1,10 +1,8 @@
 import { Group, Path as PathKonva } from 'react-konva'
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import type { KonvaEventObject } from 'konva/lib/Node'
-import type { Group as IGroup } from 'konva/lib/Group'
-import type { Path as IPathKonva } from 'konva/lib/shapes/Path'
 
-import { UseGlyphsContext } from '../../../../contexts/Glyphs/Glyphs'
+import { UseGlyphsContext } from '../../../../contexts/Glyphs'
 import { default as Base } from '../../index'
 import { useGlyphsStore } from '../../../../contexts/Glyphs/store'
 import { UseGlyphContext } from '../../Context'
@@ -18,13 +16,10 @@ const Path = ({
   setPositionDrag,
   ...props
 }: IPath) => {
-  const shapeRef = useRef<IPathKonva | null>(null)
-  const groupRef = useRef<IGroup | null>(null)
-
   const { setGlyphRotate, setGlyphPosition } = UseGlyphsContext()
   const { config, setCurrent } = useGlyphsStore()
 
-  const { data, state, path } = UseGlyphContext()
+  const { data, groupRef, shapeRef, state, path } = UseGlyphContext()
   const { setIsDragging } = useMainStore()
 
   const { id, properties } = data
@@ -67,7 +62,7 @@ const Path = ({
       
       shape.getLayer()?.batchDraw()
     }
-  }, [bounding])
+  }, [bounding, groupRef])
 
   return (
     <Group
