@@ -5,9 +5,7 @@ import type { IGlyphProviderProps } from '../interfaces'
 
 const Root = ({ children, ...props }: IGlyphProviderProps) => (
   <GlyphProvider {...props}>
-    <Group>
-      {children}
-    </Group>
+    <Group>{children}</Group>
   </GlyphProvider>
 )
 

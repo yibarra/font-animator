@@ -21,7 +21,7 @@ const getInitialState = () => {
 }
 
 export const useGlyphsStore = create<IGlyphsState>((set) => ({
-  config: {},
+  config: dataDefault?.config ?? {},
   current: 0,
   glyphs: [],
   ...getInitialState(),

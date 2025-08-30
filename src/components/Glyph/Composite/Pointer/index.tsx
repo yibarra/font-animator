@@ -1,45 +1,28 @@
-import { Arrow, Circle, Shape } from 'react-konva'
-import type { Context } from 'konva/lib/Context'
+import { Arrow, Circle, Text } from 'react-konva'
 
 import { useMainStore } from '../../../../contexts/Main/store'
-import { calculateDashArray, getDistance } from '../../../../contexts/Grid/helpers'
+import { getDistance } from '../../../../contexts/Grid/helpers'
 import type { IPointerProps } from './interfaces'
 
 const Pointer = ({ position, x, y }: IPointerProps) => {
   const { isDragging } = useMainStore()
 
-  const createLine = (ctx: Context) => {    
-    const dist = getDistance([x, y], position)
-      
-    ctx.setLineDash(calculateDashArray(dist, 4))
-    ctx.lineTo(position[0], position[1])
-  }
+  const dist = getDistance([x, y], position)
 
   return (
     <>
-      {isDragging && (
+      {isDragging && (dist > 24) && (
         <>
-          <Shape
-            sceneFunc={(ctx) => {
-              ctx.beginPath()
-              ctx.moveTo(x, y)
-              createLine(ctx)
-              ctx.lineWidth = 1
-              ctx.strokeStyle = '#fff'
-              ctx.stroke()
-              ctx.closePath()
-            }}
-          />
-
           <Arrow
-            points={[...position,x,y]}
+            points={[x,y,...position]}
             pointerLength={6}
             pointerWidth={10}
-            pointerAtBeginning
+            dash={[6, 4]}
             fill="#fff"
             stroke="#fff"
             strokeWidth={1}
           />
+          
           <Circle
             listening={false}
             fill="transparent"
@@ -48,6 +31,24 @@ const Pointer = ({ position, x, y }: IPointerProps) => {
             radius={4}
             x={position[0]}
             y={position[1]}
+          />
+
+          <Text
+            fill="#fff"
+            fontFamily="Roboto Mono"
+            fontSize={9}
+            text={`(${position[0].toFixed(0)}, ${position[1].toFixed(0)})`}
+            x={position[0]}
+            y={position[1] + 12}
+          />
+
+          <Text
+            fill="#fff"
+            fontFamily="Roboto Mono"
+            fontSize={9}
+            text={`(${x.toFixed(0)}, ${y.toFixed(0)})`}
+            x={x + 12}
+            y={y}
           />
         </>
       )}

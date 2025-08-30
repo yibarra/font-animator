@@ -3,10 +3,10 @@ import { useEffect } from 'react'
 import type { KonvaEventObject } from 'konva/lib/Node'
 
 import { UseGlyphsContext } from '../../../../contexts/Glyphs'
-import { default as Base } from '../../index'
-import { useGlyphsStore } from '../../../../contexts/Glyphs/store'
 import { UseGlyphContext } from '../../Context'
+import { useGlyphsStore } from '../../../../contexts/Glyphs/store'
 import { useMainStore } from '../../../../contexts/Main/store'
+import { default as Base } from '../../index'
 import type { IPath } from './interfaces'
 
 const Path = ({

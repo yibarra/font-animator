@@ -3,11 +3,11 @@ import { useMemo } from 'react'
 
 import Axes from './Composite/Axes/Axes'
 import Properties from './Composite/Properties'
-import type { IForm } from './interfaces'
-import styles from './styles.module.scss'
 import { useMainStore } from '../../../contexts/Main/store'
 import { useFontStore } from '../../../contexts/Font/store'
 import { useGlyphsStore } from '../../../contexts/Glyphs/store'
+import styles from './styles.module.scss'
+import type { IForm } from './interfaces'
 
 const Glyph = ({ ...props }: IForm) => {
   const { font } = useFontStore()

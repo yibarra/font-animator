@@ -28,7 +28,7 @@ const Skeleton = ({
         if (point.type === 'on-curve') {
           ctx.beginPath()
           ctx.arc(point.x, point.y, holeRadius, 0, Math.PI * 2, false)
-          ctx.fillStyle = 'rgba(0, 0, 0, 1)'
+          ctx.fillStyle = '#000'
           ctx.fill()
         }
       })
