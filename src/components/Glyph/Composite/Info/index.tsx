@@ -2,8 +2,9 @@ import { Html } from 'react-konva-utils'
 
 import { UseGlyphContext } from '../../Context'
 import { useGlyphsStore } from '../../../../contexts/Glyphs/store'
-import styles from './style.module.scss'
+import Glyph from './Glyph'
 import type { IInfo } from './interfaces'
+import styles from './style.module.scss'
 
 const Info = ({
   rotation,
@@ -28,6 +29,14 @@ const Info = ({
         }}
       >
         <div className={styles["glyph--info--controls"]}>
+          <button>
+            <span className="material-symbols-outlined">titlecase</span>
+          </button>
+
+          <button>
+            <span className="material-symbols-outlined">widget_small</span>
+          </button>
+
           <button
             data-active={skeleton}
             onClick={() => updateState('skeleton', !skeleton)}
@@ -43,15 +52,15 @@ const Info = ({
           </button>
 
           <button
+            className={styles['glyph--info--controls--disabled']}
+          />
+
+          <button
             data-active={metrics}
             onClick={() => updateState('metrics', !metrics)}
           >
             <span className="material-symbols-outlined">straighten</span>
           </button>
-
-          <button
-            className={styles['glyph--info--controls--disabled']}
-          />
 
           <button
             data-active={baseLines}
@@ -82,29 +91,6 @@ const Info = ({
               left: `calc(50% + (${(bounding.x2 - bounding.x1)}px / 2))`
             }}
           >
-            <div className={styles["glyph--info--group"]}>
-              <p>chart Index: <strong>{data.charIndex}</strong></p>
-              <p>rotation: <strong>{rotation}</strong>deg</p>
-              <p>position: x = <strong>{x}</strong>, y = <strong>{y}</strong></p>
-            </div>
-
-            <div className={styles["glyph--info--group"]}>
-              <h6>Bounding Box</h6>
-
-              <div className={styles["glyph--info--wrapper--group"]}>
-                <p>X1: <strong>{bounding.x1}</strong></p>
-                <p>Y1: <strong>{bounding.y1}</strong></p>
-              </div>
-              <div className={styles["glyph--info--wrapper--group"]}>
-                <p>X2: <strong>{bounding.x2}</strong></p>
-                <p>Y2: <strong>{bounding.y2}</strong></p>
-              </div>
-              <div className={styles["glyph--info--wrapper--group"]}>
-                <p>Width: <strong>{bounding.x2 - bounding.x1}</strong></p>
-                <p>Height: <strong>{Math.abs(bounding.y2) + Math.abs(bounding.y1)}</strong></p>
-              </div>
-            </div>
-
             <div className={styles["glyph--info--group"]}>
               <h6>Commands</h6>
 

@@ -117,6 +117,8 @@ const Path = ({
               />
             </>
           )}
+
+          <Base.InfoGlyph {...props} rotation={rotation} />
         </>
       )}
 

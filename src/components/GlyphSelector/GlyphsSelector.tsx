@@ -72,8 +72,6 @@ const GlyphSelector = () => {
       </div>
 
       <Tabs.Tabs defaultActiveTab={0}>
-        <Tabs.Info />
-
         <Tabs.TabHead isActive={isActive} items={tabData} callback={setIsActive} />
 
         <>

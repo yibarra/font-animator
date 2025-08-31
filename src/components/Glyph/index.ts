@@ -1,6 +1,7 @@
 import ArrowsPoint from './Composite/ArrowsPoint'
 import Bounding from './Composite/Bounding'
 import Form from '../Form/Glyph'
+import { default as InfoGlyph } from './Composite/Info/Glyph'
 import Info from './Composite/Info'
 import Letter from './Glyph'
 import MetricsLines from './Composite/MetricsLines'
@@ -16,6 +17,7 @@ const Glyph = {
   Bounding,
   Form,
   Info,
+  InfoGlyph,
   Letter,
   MetricsLines,
   Rotation,

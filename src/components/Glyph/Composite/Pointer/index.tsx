@@ -1,7 +1,7 @@
 import { Arrow, Circle, Text } from 'react-konva'
 
 import { useMainStore } from '../../../../contexts/Main/store'
-import { getDistance } from '../../../../contexts/Grid/helpers'
+import { calculateDashArray, getDistance } from '../../../../contexts/Grid/helpers'
 import type { IPointerProps } from './interfaces'
 
 const Pointer = ({ position, x, y }: IPointerProps) => {
@@ -17,7 +17,7 @@ const Pointer = ({ position, x, y }: IPointerProps) => {
             points={[x,y,...position]}
             pointerLength={6}
             pointerWidth={10}
-            dash={[6, 4]}
+            dash={calculateDashArray(dist, 8)}
             fill="#fff"
             stroke="#fff"
             strokeWidth={1}
