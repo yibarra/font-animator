@@ -31,17 +31,16 @@
       width: auto;
 
       &--item {
-        align-items: flex-start;
+        align-items: flex-end;
         display: flex;
         gap: 12px;
         flex-flow: column wrap;
-        justify-content: flex-start;
-        width: 40px;
+        justify-content: flex-end;
+        width: 46px;
 
         p {
           overflow: hidden;
           text-overflow: ellipsis;
-          white-space: nowrap;
           width: 100%;
         }
 

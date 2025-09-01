@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react'
 
 import Form from '../../..'
-import Instances from './Instances'
-import styles from '../../styles.module.scss'
 import { UseFontSettingsContext } from '../../../../../contexts/FontSettings'
 import { useGlyphsStore } from '../../../../../contexts/Glyphs/store'
 import type { IAxes } from './interfaces'
+import styles from '../../styles.module.scss'
 
-const Axes = ({ currentFrame, char, id, frame }: IAxes) => {
+const Axes = ({ currentFrame, id, frame }: IAxes) => {
   const { axes } = UseFontSettingsContext()
   const { updateGlyphAxes } = useGlyphsStore()
 
@@ -58,13 +57,6 @@ const Axes = ({ currentFrame, char, id, frame }: IAxes) => {
           ))}
         </div>
       </div>
-
-      <Instances
-        currentFrame={currentFrame}
-        char={char}
-        id={id}
-        frame={frame}
-      />
     </>
   )
 }

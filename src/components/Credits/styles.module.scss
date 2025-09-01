@@ -1,11 +1,10 @@
 .credits {
-  bottom: 0px;
   display: flex;
   gap: 12px;
-  right: 100%;
+  left: 0%;
   padding: 0px 12px;
   position: absolute;
-  transform: translate3d(0px, -50%, 0px);
+  top: 8px;
   white-space: nowrap;
 
   a,
@@ -13,7 +12,7 @@
     color: #FFF;
     font-size: 10px;
     font-weight: 400;
-    letter-spacing: -0.02rem;
+    letter-spacing: -0.04rem;
   }
 
   a {

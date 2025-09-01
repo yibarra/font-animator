@@ -9,6 +9,7 @@ import Glyph from '../../components/Glyph'
 import Grid from '../../components/Grid/Grid'
 import GlyphSelector from '../../components/GlyphSelector'
 import MenuContext from '../../components/MenuContext'
+import Credits from '../../components/Credits'
 
 const Main = () => {
   const stageRef = useRef<IStage>(null)
@@ -60,6 +61,8 @@ const Main = () => {
           </Layer>
         </Stage>
       </MenuContext>
+
+      <Credits />
 
       <Form.Glyph />
 

@@ -33,7 +33,6 @@ const TabPanel = ({ id, items, frame, isActive }: ITabPanelProps) => {
             <p
               data-char={g}
               style={{
-                fontFamily: font?.familyName,
                 fontVariationSettings: axes ? getFontVariationSettings(frame['axes']) : ''
               }}
             >
