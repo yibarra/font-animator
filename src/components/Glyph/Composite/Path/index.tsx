@@ -22,7 +22,7 @@ const Path = ({
   const { data, groupRef, shapeRef, state, path } = UseGlyphContext()
   const { setIsDragging } = useMainStore()
 
-  const { id, properties } = data
+  const { id } = data
   const { bounding, path: pathSVG } = path
   const { currentFrame, metrics, skeleton, baseLines } = state
 
@@ -78,8 +78,8 @@ const Path = ({
       onTransformEnd={(event) => onUpdate(event, 'transform')}
     >      
       <PathKonva
-        {...properties}
         {...config.path}
+        fill="#fff"
         data={pathSVG}
         offsetY={bounding.y2 / 2 - 70}
         onClick={() => setCurrent(current ? null : index)}

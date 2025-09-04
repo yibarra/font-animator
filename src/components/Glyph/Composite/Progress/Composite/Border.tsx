@@ -45,7 +45,11 @@ const Border = ({ radius, rotation, x, y }: IBorder) => {
 
     const rotationNormalize = 360 - Math.round((((rotation + 90) % 360) + 360) % 360)
 
-    ctx.fillText(`${rotationNormalize === 360 ? 0 : rotationNormalize}°`, 4, radius + 16)
+    ctx.fillText(
+      `${rotationNormalize === 360 ? 0 : rotationNormalize}°`,
+      3,
+      6 + ((22 * (rotationNormalize > 90 && rotationNormalize < 260 ? -1 : 1)))
+    )
     ctx.restore()
   }
 

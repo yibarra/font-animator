@@ -9,8 +9,6 @@ const SmartContextMenu = ({ children, menuItems }: SmartContextMenuProps) => {
   const menuRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
-  const PADDING = 30
-
   // position
   const calculateMenuPosition = useCallback((clientX: number, clientY: number) => {
     const menuWidth = menuRef.current ? menuRef.current.offsetWidth : 0;
@@ -22,20 +20,12 @@ const SmartContextMenu = ({ children, menuItems }: SmartContextMenuProps) => {
     let newX = clientX;
     let newY = clientY;
 
-    if (clientX + menuWidth > viewportWidth - PADDING) {
-      newX = viewportWidth - menuWidth - PADDING;
+    if (clientX + menuWidth > viewportWidth) {
+      newX = viewportWidth - menuWidth;
     }
 
-    if (clientY + menuHeight > viewportHeight - PADDING) {
-      newY = viewportHeight - menuHeight - PADDING;
-    }
-
-    if (newX < PADDING) {
-      newX = PADDING;
-    }
-
-    if (newY < PADDING) {
-      newY = PADDING;
+    if (clientY + menuHeight > viewportHeight) {
+      newY = viewportHeight - menuHeight;
     }
 
     setPosition({ x: newX, y: newY })
@@ -46,16 +36,16 @@ const SmartContextMenu = ({ children, menuItems }: SmartContextMenuProps) => {
 
     setIsVisible(true)
     calculateMenuPosition(event.clientX, event.clientY)
-  }, [calculateMenuPosition])
+  }, [calculateMenuPosition, setIsVisible])
 
   // scroll
   const handleClickOutside = useCallback((event: MouseEvent) => {
     if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
       setIsVisible(false)
     }
-  }, [])
+  }, [setIsVisible])
 
-  const handleScroll = useCallback(() => setIsVisible(false), [])
+  const handleScroll = useCallback(() => setIsVisible(false), [setIsVisible])
 
   // event listeners ---
   useEffect(() => {
@@ -114,7 +104,8 @@ const SmartContextMenu = ({ children, menuItems }: SmartContextMenuProps) => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default SmartContextMenu;
+SmartContextMenu.displayName = 'Glyph.MenuContext'
+export default SmartContextMenu

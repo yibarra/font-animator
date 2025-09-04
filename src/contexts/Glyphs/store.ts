@@ -33,7 +33,13 @@ export const useGlyphsStore = create<IGlyphsState>((set) => ({
     set((state) => {
       const id =
         Date.now().toString() + Math.random().toString(36).substr(2, 9)
-      const defaultProperties = { fontSize: 464, fill: "#e3e9f9", textBaseline: 'alphabetic', stroke: "none", strokeWidth: 0 }
+      const defaultProperties = {
+        fill: "#fff",
+        fontSize: 464,
+        stroke: "none",
+        strokeWidth: 0,
+        textBaseline: 'alphabetic',
+      }
 
       const glyph: IGlyph = {
         id,

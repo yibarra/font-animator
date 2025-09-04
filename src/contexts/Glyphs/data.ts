@@ -13,7 +13,7 @@ export const dataDefault = {
         {"axes":{"wght":400},"position":[758,559],"rotation":0}
       ],
       "properties":{
-        "fontSize":464,"fill":"#e3e9f9","textBaseline":"alphabetic","stroke":"none","strokeWidth":0
+        "fontSize":464,"fill":"#fff","textBaseline":"alphabetic","stroke":"none","strokeWidth":0
       },
       "position":[718,717],
       "rotation":0
@@ -36,6 +36,7 @@ export const dataDefault = {
       },
     },
     path: {
+      fill: "#fff",
       shadowColor: "#0f1d44",
       shadowOffset: { x: 0, y: -4 },
       shadowBlur: 4,
