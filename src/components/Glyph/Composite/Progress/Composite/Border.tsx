@@ -43,7 +43,7 @@ const Border = ({ radius, rotation, x, y }: IBorder) => {
     ctx.textAlign = 'center'
     ctx.textBaseline = 'bottom'
 
-    const rotationNormalize = 360 - Math.round((((rotation + 90) % 360) + 360) % 360)
+    const rotationNormalize = 360 - Math.round(((rotation % 360) + 360) % 360)
 
     ctx.fillText(
       `${rotationNormalize === 360 ? 0 : rotationNormalize}°`,

@@ -18,29 +18,33 @@ const Rotation = ({
 }: IRotationProps) => {
   const shapeRef = useRef(null)
 
-  const { isDragging, setIsDragging } = useMainStore()
-  const { data, state: { currentFrame } } = UseGlyphContext()
+  const { setIsDragging } = useMainStore()
+  const { data, state: { currentFrame }, path: { bounding } } = UseGlyphContext()
   const { setGlyphRotate } = UseGlyphsContext()
 
   const { id, position } = data
+  const posY = y + Math.abs(bounding.y1 / 2)
 
   const handleDragMove = (event: KonvaEventObject<DragEvent>) => {
     const node = event.target
     const pos = node.position()
 
     const distance = Math.sqrt(
-      Math.pow(pos.x - x, 2) + Math.pow(pos.y - y, 2)
+      Math.pow(pos.x - x, 2) + Math.pow(pos.y - posY, 2)
     )
 
     const maxDistance = outerCircleRadius - innerCircleRadius
 
     if (distance > maxDistance) {
-      const angle = Math.atan2(pos.y - y, pos.x - x)
+      const angle = Math.atan2(pos.y - posY, pos.x - x)
 
       node.x((x) + maxDistance * Math.cos(angle))
-      node.y((y) + maxDistance * Math.sin(angle))
+      node.y((posY) + maxDistance * Math.sin(angle))
 
-      setPositionDrag((prev) => [prev[0], prev[1], angle * (180 / Math.PI)])
+      const adjustedAngle = angle + Math.PI / 2
+      const normalizedAngle = (adjustedAngle + 2 * Math.PI) % (2 * Math.PI)
+
+      setPositionDrag((prev) => [prev[0], prev[1], normalizedAngle * (180 / Math.PI)])
     }
   }
 
@@ -48,9 +52,9 @@ const Rotation = ({
     <>
       <Progress.Border
         radius={outerCircleRadius - 2}
-        rotation={-((isDragging ? rotation : data.rotation) + 90)}
+        rotation={-rotation}
         x={x}
-        y={y}
+        y={posY}
       />
 
       <Circle
@@ -64,8 +68,8 @@ const Rotation = ({
           setGlyphRotate(id, currentFrame, position, rotation)
         }}
         radius={outerCircleRadius - 6}
-        x={x + outerCircleRadius - innerCircleRadius}
-        y={y}
+        x={x}
+        y={posY - (outerCircleRadius - innerCircleRadius)}
       />
     </>
   )

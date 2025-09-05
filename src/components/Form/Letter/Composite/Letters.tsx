@@ -25,8 +25,12 @@ const Letters = ({ font }: LetterProps) => {
       onClick={(event) => {
         event.preventDefault()
 
-        setIsVisible(false)
-        onHandlerAddGlyph(item?.id ?? 70, event.clientX, event.clientY + 220)}
+        if (event.currentTarget) {
+          const { x } = event.currentTarget.getBoundingClientRect()
+  
+          setIsVisible(false)
+          onHandlerAddGlyph(item?.id ?? 70, x, event.clientY)}
+        }
       }
     >
       <span className="material-symbols-outlined">

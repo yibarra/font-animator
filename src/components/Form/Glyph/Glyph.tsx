@@ -13,7 +13,7 @@ const Glyph = ({ ...props }: IForm) => {
   const { font } = useFontStore()
   const [searchParams] = useSearchParams()
   const { current, glyphs } = useGlyphsStore()
-  const { isPlaying = false, isOpenSelector = false } = useMainStore()
+  const { isPlaying = false, isOpenSelector = false, isDragging } = useMainStore()
 
   const currentFrame = Number(searchParams.get('frame') ?? 0)
   
@@ -22,7 +22,7 @@ const Glyph = ({ ...props }: IForm) => {
 
   const [char] = font?.stringsForGlyph(glyph?.charIndex ?? 0) ?? []
   
-  if (!glyph || isPlaying || isOpenSelector) {
+  if (!glyph || isPlaying || isOpenSelector || isDragging) {
     return <></>
   }
   

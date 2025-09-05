@@ -7,6 +7,38 @@
   top: 8px;
   white-space: nowrap;
 
+  &--me {
+    align-items: center;
+    background: #fff;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    left: 50%;
+    height: 50px;
+    opacity: 0;
+    padding: 2px;
+    position: absolute;
+    transform: translate3d(-50%, 0px, 0px);
+    top: 30px;
+    width: 50px;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &:before {
+      border-left: 10px solid transparent;
+      border-right: 7px solid transparent;
+      border-bottom: 7px solid #fff;
+      content: "";
+      height: 0;
+      position: absolute;
+      transform: translate3d(1px, calc(-100% + 3px), 0px);
+      top: 0px;
+      width: 0;
+    }
+  }
+
   a,
   p {
     color: #FFF;
@@ -17,5 +49,16 @@
 
   a {
     letter-spacing: 0rem;
+    text-decoration: none;
+
+    &:hover {
+      & + div {
+        opacity: 1;
+      }
+    }
+  }
+
+  img {
+    width: 40px;
   }
 }

@@ -24,7 +24,7 @@ const Path = ({
 
   const { id } = data
   const { bounding, path: pathSVG } = path
-  const { currentFrame, metrics, skeleton, baseLines } = state
+  const { currentFrame, metrics, skeleton } = state
 
   // on update pos rotate
   const onUpdate = (event: KonvaEventObject<Event>, type?: string) => {
@@ -67,7 +67,7 @@ const Path = ({
   return (
     <Group
       {...props}
-      draggable={current}
+      draggable
       ref={groupRef}
       rotation={rotation}
       onDragStart={() => setIsDragging(true)}
@@ -92,35 +92,29 @@ const Path = ({
       <Base.Skeleton offsetY={bounding.y2 / 2 - 70} />
       <Base.Points offsetY={bounding.y2 / 2 - 70} />
 
-      {(current) && (
+      {metrics && (
         <>
-          {baseLines && (
-            <Base.MetricsLines
-              offsetX={-bounding.x1}
-              offsetY={-bounding.y2 / 2 + 70}
-              width={(bounding.x2 - bounding.x1)}
-            />
-          )}
+          <Base.MetricsLines
+            offsetX={-bounding.x1}
+            offsetY={-bounding.y2 / 2 + 70}
+            width={(bounding.x2 - bounding.x1)}
+          />
 
-          {metrics && (
-            <>
-              <Base.Bounding
-                {...config.glyph.bounding}
-                offsetY={-bounding.y2 / 2 + 40}
-              />
+          <Base.Bounding
+            {...config.glyph.bounding}
+            offsetY={-bounding.y2 / 2 + 40}
+          />
 
-              <Base.Bounding
-                {...config.glyph.bounding}
-                offsetX={20}
-                offsetY={-bounding.y2 / 2 + 70}
-                vertical
-              />
-            </>
-          )}
-
-          <Base.InfoGlyph {...props} rotation={rotation} />
+          <Base.Bounding
+            {...config.glyph.bounding}
+            offsetX={20}
+            offsetY={-bounding.y2 / 2 + 70}
+            vertical
+          />
         </>
       )}
+
+      <Base.InfoGlyph {...props} rotation={rotation} />
 
       {skeleton && (
         <Base.ArrowsPoint {...config.arrows} offsetY={bounding.y2 / 2 - 70} />

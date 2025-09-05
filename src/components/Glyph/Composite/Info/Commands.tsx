@@ -45,8 +45,6 @@ const Commands = ({ x, y }: any) => {
     ? Math.max(...commandGroup.commands.map(cmd => cmd.args.length))
     : 0
 
-  console.info(totalColumns)
-
   return (
     <Group x={x} y={y}>
       <Text {...props} {...propsBold} text="Commands" />
@@ -76,7 +74,6 @@ const Commands = ({ x, y }: any) => {
             </Group>
           )
         })}
-
       
     </Group>
   )

@@ -21,7 +21,6 @@ export interface GlyphContextProps extends Pick<IGlyphProviderProps, 'data'> {
 export interface IViewOptions {
   currentFrame: number
   metrics: boolean
-  baseLines: boolean
   skeleton: boolean
   viewPoints: boolean
   viewCommands: boolean

@@ -28,8 +28,8 @@ export const dataDefault = {
     },
     glyph: {
       bounding: {
-        pointerLength: 4,
-        pointerWidth: 6,
+        pointerLength: 8,
+        pointerWidth: 5,
         fill: "#fff",
         stroke: "#fff",
         strokeWidth: 0.5

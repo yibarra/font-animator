@@ -16,8 +16,7 @@ const GlyphProvider = ({ children, data, ...props }: IGlyphProviderProps) => {
   const [state, setState] = useState<IViewOptions>({
     currentFrame: 0,
     metrics: true,
-    baseLines: true,
-    skeleton: true,
+    skeleton: false,
     viewPoints: false,
     viewCommands: false,
   })

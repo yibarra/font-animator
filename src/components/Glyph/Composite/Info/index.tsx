@@ -15,7 +15,7 @@ const Info = ({
 
   const { id } = data
   const { bounding } = path
-  const { metrics, skeleton, baseLines, viewCommands, viewPoints } = state
+  const { metrics, skeleton, viewCommands, viewPoints } = state
 
   return (
     <Html>
@@ -55,21 +55,12 @@ const Info = ({
             className={styles['glyph--info--controls--disabled']}
           />
 
-          <div className={styles['glyph--info--controls--group']}>
-            <button
-              data-active={metrics}
-              onClick={() => updateState('metrics', !metrics)}
-            >
-              <span className="material-symbols-outlined">straighten</span>
-            </button>
-
-            <button
-              data-active={baseLines}
-              onClick={() => updateState('baseLines', !baseLines)}
-            >
-              <span className="material-symbols-outlined">square_foot</span>
-            </button>
-          </div>
+          <button
+            data-active={metrics}
+            onClick={() => updateState('metrics', !metrics)}
+          >
+            <span className="material-symbols-outlined">straighten</span>
+          </button>
 
           <button
             data-active="true"
