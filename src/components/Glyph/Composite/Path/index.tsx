@@ -81,7 +81,6 @@ const Path = ({
         {...config.path}
         fill="#fff"
         data={pathSVG}
-        offsetY={bounding.y2 / 2 - 70}
         onClick={() => setCurrent(current ? null : index)}
         opacity={skeleton ? 0 : 1}
         ref={shapeRef}
@@ -89,26 +88,17 @@ const Path = ({
         shadowOpacity={current ? 0 : 0.4}
       />
 
-      <Base.Skeleton offsetY={bounding.y2 / 2 - 70} />
-      <Base.Points offsetY={bounding.y2 / 2 - 70} />
+      <Base.Skeleton />
+      <Base.Points />
 
       {metrics && (
         <>
-          <Base.MetricsLines
-            offsetX={-bounding.x1}
-            offsetY={-bounding.y2 / 2 + 70}
-            width={(bounding.x2 - bounding.x1)}
-          />
+          <Base.MetricsLines />
+
+          <Base.Bounding {...config.glyph.bounding} />
 
           <Base.Bounding
             {...config.glyph.bounding}
-            offsetY={-bounding.y2 / 2 + 40}
-          />
-
-          <Base.Bounding
-            {...config.glyph.bounding}
-            offsetX={20}
-            offsetY={-bounding.y2 / 2 + 70}
             vertical
           />
         </>
@@ -117,7 +107,7 @@ const Path = ({
       <Base.InfoGlyph {...props} rotation={rotation} />
 
       {skeleton && (
-        <Base.ArrowsPoint {...config.arrows} offsetY={bounding.y2 / 2 - 70} />
+        <Base.ArrowsPoint {...config.arrows} />
       )}
     </Group> 
   )

@@ -6,9 +6,11 @@ export const useMainStore = create<IMainStore>((set) => ({
   isPlaying: false,
   isDragging: false,
   isOpenSelector: false,
+  isRotation: false,
 
   setIsVisible: (visible) => set({ isVisible: visible }),
   setIsPlaying: (playing) => set({ isPlaying: playing }),
   setIsDragging: (dragging) => set({ isDragging: dragging }),
+  setIsRotation: (rotation) => set({ isRotation: rotation }),
   setIsOpenSelector: (open) => set({ isOpenSelector: open }),
 }))

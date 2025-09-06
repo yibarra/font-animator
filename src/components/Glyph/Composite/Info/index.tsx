@@ -11,10 +11,9 @@ const Info = ({
   y,
 }: IInfo) => {
   const { remove } = useGlyphsStore()
-  const { data, path, state, updateState } = UseGlyphContext()
+  const { data, state, updateState } = UseGlyphContext()
 
   const { id } = data
-  const { bounding } = path
   const { metrics, skeleton, viewCommands, viewPoints } = state
 
   return (
@@ -24,7 +23,7 @@ const Info = ({
         style={{
           left: x,
           transform: `translate(-50%, -50%) rotate(${rotation}deg)`,
-          top: y + Math.abs(bounding.y1 / 2),
+          top: y
         }}
       >
         <div className={styles["glyph--info--controls"]}>

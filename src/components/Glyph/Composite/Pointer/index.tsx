@@ -3,15 +3,10 @@ import { Arrow, Circle, Text } from 'react-konva'
 import { useMainStore } from '../../../../contexts/Main/store'
 import { calculateDashArray, getDistance } from '../../../../contexts/Grid/helpers'
 import type { IPointerProps } from './interfaces'
-import { UseGlyphContext } from '../../Context'
 
 const Pointer = ({ position, x, y }: IPointerProps) => {
-  const { isDragging } = useMainStore()
-  const { path: { bounding } } = UseGlyphContext()
-
+  const { isRotation } = useMainStore()
   const dist = getDistance([x, y], position)
-
-  const posY = y + Math.abs(bounding.y1 / 2)
 
   const props = {
     align: 'center',
@@ -24,26 +19,34 @@ const Pointer = ({ position, x, y }: IPointerProps) => {
 
   return (
     <>
-      {isDragging && (dist > 24) && (
+      {!isRotation && (dist > 18) && (
         <>
           <Arrow
-            points={[x,posY,...position]}
+            dash={calculateDashArray(dist, 8)}
+            fill="#fff"
+            points={[x,y,...position]}
             pointerLength={8}
             pointerWidth={6}
             pointerAtBeginning
-            dash={calculateDashArray(dist, 8)}
-            fill="#fff"
             stroke="#fff"
             strokeWidth={1}
           />
 
-           <Circle
+          <Circle
             listening={false}
             fill="#fff"
             radius={4}
             globalCompositeOperation="destination-out"
             x={x}
-            y={posY}
+            y={y}
+          />
+
+           <Circle
+            listening={false}
+            fill="red"
+            radius={2}
+            x={x}
+            y={y}
           />
 
           <Circle
@@ -57,7 +60,7 @@ const Pointer = ({ position, x, y }: IPointerProps) => {
 
           <Circle
             listening={false}
-            fill="#fff"
+            fill="red"
             radius={2}
             x={position[0]}
             y={position[1]}
@@ -72,9 +75,10 @@ const Pointer = ({ position, x, y }: IPointerProps) => {
 
           <Text
             {...props}
+            height={20}
             text={`(${x.toFixed(0)}, ${y.toFixed(0)})`}
             x={position[0] < x ? x + 10 : x - (props.width + 10)}
-            y={y}
+            y={y - 5}
           />
         </>
       )}

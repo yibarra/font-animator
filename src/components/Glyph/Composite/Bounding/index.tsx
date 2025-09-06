@@ -9,9 +9,16 @@ const Bounding = ({
   vertical,
   ...props
 }: IBounding) => {
-  const { path: { bounding } } = UseGlyphContext()
-
-  const { x1, x2, y1, y2 } = bounding
+  const {
+    factor: {
+      descender
+    },
+    path: {
+      bounding: {
+        x1, x2, y1, y2
+      }
+    }
+  } = UseGlyphContext()
 
   const drawText = (ctx: Context, text: string, x: number, y: number, rotate = false) => {
     const { width } = ctx.measureText(text)
@@ -40,7 +47,7 @@ const Bounding = ({
           listening={false}
           fill={fill || '#fff'}
           pointerAtBeginning
-          points={[bounding.x1, bounding.y1, bounding.x1, bounding.y2]}
+          points={[x1 - 20, y1, x1 - 20, y2]}
         />
       ) : (
         <Arrow
@@ -48,7 +55,7 @@ const Bounding = ({
           listening={false}
           fill={fill || '#fff'}
           pointerAtBeginning
-          points={[bounding.x1, bounding.y1, bounding.x2, bounding.y1]}
+          points={[x1, -(descender - 30), x2, -(descender - 30)]}
         />
       )}
       
@@ -57,8 +64,8 @@ const Bounding = ({
         listening={false}
         sceneFunc={(ctx) => {
           const text = vertical ? `${Math.round(y1 - y2)}px` : `${Math.round(x2 - x1)}px`
-          const x = vertical ? x1 - 10 : (x1 + x2)
-          const y = vertical ? y2 / 2 : y1 + 20
+          const x = vertical ? x1 - 30 : (x1 + x2)
+          const y = vertical ? y1 + (y2 - y1) / 2 : -(descender - 50)
 
           drawText(ctx, text, x, y, vertical)
         }}

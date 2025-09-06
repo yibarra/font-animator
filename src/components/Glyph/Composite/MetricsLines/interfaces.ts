@@ -1,5 +1,3 @@
-import type { NodeConfig } from 'konva/lib/Node'
+import type { ShapeConfig } from 'konva/lib/Shape'
 
-export interface MetricsLinesProps extends NodeConfig {
-  width: number
-}
+export type MetricsLinesProps = ShapeConfig

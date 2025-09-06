@@ -1,4 +1,4 @@
-import { Group, Text } from 'react-konva'
+import { Group, Rect, Text } from 'react-konva'
 import { UseGlyphContext } from '../../Context'
 import { useMemo, useState } from 'react'
 

@@ -19,8 +19,13 @@ export interface IDataGlyphCommand {
   arrows: IArrowsArray | []
   bounding: IBoundingBoxPos
   commands: PathCommand[]
+  height: number
+  isLigature: boolean
+  isMark: boolean
+  name: string
   path: string
   points: IGlyphPoint[]
+  width: number
 }
 
 export interface IFontSettingsContext {

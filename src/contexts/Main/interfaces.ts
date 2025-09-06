@@ -1,17 +1,19 @@
 import type { PropsWithChildren } from 'react'
 
 interface IMainStoreState {
-  isVisible: boolean
-  isPlaying: boolean
   isDragging: boolean
   isOpenSelector: boolean
+  isRotation: boolean
+  isPlaying: boolean
+  isVisible: boolean
 }
 
 interface IMainStoreActions {
-  setIsVisible: (visible: boolean) => void
-  setIsPlaying: (playing: boolean) => void
   setIsDragging: (dragging: boolean) => void
+  setIsPlaying: (playing: boolean) => void
+  setIsRotation: (rotation: boolean) => void
   setIsOpenSelector: (open: boolean) => void
+  setIsVisible: (visible: boolean) => void
 }
 
 export type IMainStore = IMainStoreState & IMainStoreActions

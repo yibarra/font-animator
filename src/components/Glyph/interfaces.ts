@@ -9,11 +9,21 @@ export interface IGlyphProviderProps extends PropsWithChildren {
   data: IGlyph
 }
 
+export interface GlyphFactorScale {
+  scaleFactor: number
+  ascender: number
+  baseLine: number
+  capHeight: number
+  descender: number
+  xHeight: number
+}
+
 export interface GlyphContextProps extends Pick<IGlyphProviderProps, 'data'> {
   groupRef: RefObject<Group | null>
   shapeRef: RefObject<Path | null>
   path: IDataGlyphCommand
   state: IViewOptions
+  factor: GlyphFactorScale
   setState: Dispatch<SetStateAction<IViewOptions>>
   updateState: (key: string, value: boolean) => void
 }

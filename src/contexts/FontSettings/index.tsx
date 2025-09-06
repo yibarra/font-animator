@@ -63,8 +63,13 @@ const FontSettingsProvider = ({ children }: IFontSettingsProvider ) => {
           x2: 0,
           y2: 0
         },
+        height: 0,
+        isLigature: false,
+        isMark: false,
+        name: '',
         path: '',
-        points: []
+        points: [],
+        width: 0,
       }
     }
     
@@ -72,7 +77,7 @@ const FontSettingsProvider = ({ children }: IFontSettingsProvider ) => {
     const glyph = fontInstance.getGlyph(id)
     
     if (glyph) {
-      const { bbox, path: { commands }} = glyph
+      const { bbox, path: { commands }, name, isLigature, isMark } = glyph
       const yFlip = -1
       
       const units = fontInstance.unitsPerEm || 1000
@@ -85,25 +90,35 @@ const FontSettingsProvider = ({ children }: IFontSettingsProvider ) => {
       }
 
       return {
+        arrows: extractGlyphArrows(commands, size / units) ?? [],
         bounding,
         commands,
-        arrows: extractGlyphArrows(commands, size / units) ?? [],
+        height: bbox.height,
+        isLigature,
+        isMark,
+        name,
         path: convertPathToSvg(commands, size / units),
         points: extractGlyphPoints(commands, size / units),
+        width: bbox.width
       }
     }
 
     return {
       arrows: [],
-      commands: [],
-      path: '',
       bounding: {
         x1: 0,
         y1: 0,
         x2: 0,
         y2: 0
       },
-      points: []
+      commands: [],
+      height: 0,
+      isLigature: false,
+      isMark: false,
+      name: '',
+      path: '',
+      points: [],
+      width: 0,
     }
   }, [font])
 
