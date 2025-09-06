@@ -34,6 +34,16 @@ export const dataDefault = {
         stroke: "#fff",
         strokeWidth: 0.5
       },
+      metrics: {
+        fill: '#fff',
+        fontFamily: 'Roboto Mono',
+        fontSize: 9,
+        lineWidth: 0.5,
+        dash: [5, 5],
+        stroke: '#fff',
+        strokeWidth: 0.5,
+        letterSpacing: -0.4
+      }
     },
     path: {
       fill: "#fff",

@@ -88,19 +88,14 @@ const Path = ({
         shadowOpacity={current ? 0 : 0.4}
       />
 
-      <Base.Skeleton />
+      {skeleton && <Base.Skeleton />}
       <Base.Points />
 
       {metrics && (
         <>
-          <Base.MetricsLines />
-
+          <Base.MetricsLines {...config.glyph.metrics} />
           <Base.Bounding {...config.glyph.bounding} />
-
-          <Base.Bounding
-            {...config.glyph.bounding}
-            vertical
-          />
+          <Base.Bounding {...config.glyph.bounding} vertical />
         </>
       )}
 

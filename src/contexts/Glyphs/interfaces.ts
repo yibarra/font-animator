@@ -1,6 +1,7 @@
 import type { PropsWithChildren } from 'react'
 import type { Glyph } from 'fontkit'
 import type { ShapeConfig } from 'konva/lib/Shape'
+import type { TextConfig } from 'konva/lib/shapes/Text'
 
 export interface IData {
   current: number | null
@@ -13,20 +14,10 @@ export interface IData {
       pointerWidth: number
     }
     glyph: {
-      bounding: {
-        pointerLength: number
-        pointerWidth: number
-        fill: string
-        stroke: string
-        strokeWidth: number
-      }
+      bounding: ShapeConfig & TextConfig
+      metrics: ShapeConfig & TextConfig
     },
-    path: {
-      shadowColor: string
-      shadowOffset: { x: number, y: number }
-      shadowBlur: number
-      shadowEnabled: boolean
-    }
+    path: ShapeConfig
   }
 }
 
