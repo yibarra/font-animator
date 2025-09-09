@@ -1,10 +1,16 @@
 import { Shape } from 'react-konva'
 import type { Context } from 'konva/lib/Context'
 
+import { UseGlyphContext } from '../../../Context'
 import type { IMaskProps } from '../interfaces'
+import { getPoints } from '../../../helpers'
 
 // mask points
-const Mask = ({ points, ...props }: IMaskProps) => {
+const Mask = (props: IMaskProps) => {
+  const { path: { commands } } = UseGlyphContext()
+
+  const points = getPoints(commands)
+
   const sceneFunc = (ctx: Context) => {
     ctx.save()
 
@@ -20,7 +26,12 @@ const Mask = ({ points, ...props }: IMaskProps) => {
   }
   
   return (
-    <Shape {...props} listening={false} sceneFunc={sceneFunc} globalCompositeOperation="destination-out" />
+    <Shape
+      {...props}
+      globalCompositeOperation="destination-out"
+      listening={false}
+      sceneFunc={sceneFunc}
+    />
   )
 }
 

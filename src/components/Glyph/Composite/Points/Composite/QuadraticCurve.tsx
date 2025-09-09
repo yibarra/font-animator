@@ -1,5 +1,6 @@
-import { Circle, Line } from 'react-konva'
+import { Line } from 'react-konva'
 
+import { default as Base } from '../index'
 import type { QuadraticCurveProps } from '../interfaces'
 import { adjustedLine } from '../../../helpers'
 
@@ -16,7 +17,7 @@ const QuadraticCurve = ({ args, onChange, x, y }: QuadraticCurveProps) => {
 
   const propsLine = {
     dash: [6, 4],
-    stroke: '#fff',
+    stroke: 'red',
     strokeWidth: 1
   }
 
@@ -32,23 +33,19 @@ const QuadraticCurve = ({ args, onChange, x, y }: QuadraticCurveProps) => {
       )}
 
       {[
-        { x: points[0], y: points[1], radius: 4, listening: false }, // start
-        { x: points[2], y: points[3], radius: 4 }, // control
-        { x: points[4], y: points[5], radius: 4 }, // end
+        { x: points[0], y: points[1], listening: false }, // start
+        { x: points[2], y: points[3], }, // control
+        { x: points[4], y: points[5], }, // end
       ].map((p, i) => (
-        <Circle
+        <Base.Point
           {...p}
-          draggable
-          fill="transparent"
           key={i}
-          
-          onDragMove={(event) => {
-            const node = event.target
-            
-            updatePoint(i * 2, node.x(), node.y())
+          radius={4}
+          callback={(node) => {
+            if (node) {
+              updatePoint(i * 2, node.x(), node.y())
+            }
           }}
-          stroke="red"
-          strokeWidth={2}
         />
       ))}
     </>

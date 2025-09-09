@@ -109,7 +109,7 @@ const Path = ({
         </>
       )}
 
-      <Base.Points offsetY={offsetY} />
+      <Base.Points offsetY={offsetY} scaleY={-1} />
 
       <Base.InfoGlyph {...props} rotation={rotation} />
     </Group> 
