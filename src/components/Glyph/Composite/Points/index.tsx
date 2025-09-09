@@ -1,9 +1,11 @@
 import { Circle, Group } from 'react-konva'
 
+import { UseGlyphContext } from '../../Context'
 import BezierCurve from './BezierCurve'
 import QuadraticCurve from './QuadraticCurve'
-import { UseGlyphContext } from '../../Context'
+import Mask from './Mask'
 import type { IPointProps } from './interfaces'
+import { getPoints } from '../../helpers'
 
 const Points = (props: IPointProps) => {
   const { state: { viewPoints }, path: { commands }, updateCommand } = UseGlyphContext()
@@ -13,16 +15,19 @@ const Points = (props: IPointProps) => {
   }
 
   return (
-    <>
-      <Group {...props} scaleY={-1}>
+    <Group {...props} scaleY={-1}>
+      <Mask points={getPoints(commands)} />
+
+      <>
         {Array.isArray(commands) && commands.map(({ command, args }, k) => {
           if (command === 'closePath') {
             return <></>
           }
 
+          const pos = { x: args[0], y: args[1] }
+
           if (command === 'bezierCurveTo' || command === 'quadraticCurveTo') {
             const prev = commands[k - 1]
-            const pos = { x: 0, y: 0 }
 
             if (prev?.command === "moveTo" || prev?.command === "lineTo") {
               pos.x = prev.args[0]
@@ -54,6 +59,7 @@ const Points = (props: IPointProps) => {
 
           return (
             <Circle
+              {...pos}
               draggable
               onDragMove={(event) => {
                 const node = event.target
@@ -65,13 +71,11 @@ const Points = (props: IPointProps) => {
               key={`${command}-${k}`}
               strokeWidth={2}
               stroke="red"
-              x={args[0]}
-              y={args[1]}
             />
           )
         })}
-      </Group>
-    </>
+      </>
+    </Group>
   )
 }
 
