@@ -1,6 +1,7 @@
 import { Circle, Line } from 'react-konva'
-import type { QuadraticCurveProps } from './interfaces'
-import { adjustedLine } from '../../helpers'
+
+import type { QuadraticCurveProps } from '../interfaces'
+import { adjustedLine } from '../../../helpers'
 
 const QuadraticCurve = ({ args, onChange, x, y }: QuadraticCurveProps) => {
   const points = [x, y, ...args]

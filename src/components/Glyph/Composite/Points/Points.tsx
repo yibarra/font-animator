@@ -1,9 +1,7 @@
 import { Circle, Group } from 'react-konva'
 
 import { UseGlyphContext } from '../../Context'
-import BezierCurve from './BezierCurve'
-import QuadraticCurve from './QuadraticCurve'
-import Mask from './Mask'
+import { default as Base } from './'
 import type { IPointProps } from './interfaces'
 import { getPoints } from '../../helpers'
 
@@ -16,7 +14,7 @@ const Points = (props: IPointProps) => {
 
   return (
     <Group {...props} scaleY={-1}>
-      <Mask points={getPoints(commands)} />
+      <Base.Mask points={getPoints(commands)} />
 
       <>
         {Array.isArray(commands) && commands.map(({ command, args }, k) => {
@@ -41,14 +39,14 @@ const Points = (props: IPointProps) => {
             }
             
             return command === 'quadraticCurveTo' ? (
-              <QuadraticCurve
+              <Base.QuadraticCurve
                 {...pos}
                 args={args}
                 key={`${command}-${k}`}
                 onChange={(value) => updateCommand(k, { args: value })}
               />
             ) : (
-              <BezierCurve
+              <Base.BezierCurve
                 {...pos}
                 args={args}
                 key={`${command}-${k}`}

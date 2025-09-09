@@ -1,7 +1,7 @@
 import { Shape } from 'react-konva'
 import type { Context } from 'konva/lib/Context'
 
-import type { IMaskProps } from './interfaces'
+import type { IMaskProps } from '../interfaces'
 
 // mask points
 const Mask = ({ points, ...props }: IMaskProps) => {
@@ -20,7 +20,7 @@ const Mask = ({ points, ...props }: IMaskProps) => {
   }
   
   return (
-    <Shape {...props} sceneFunc={sceneFunc} globalCompositeOperation="destination-out" />
+    <Shape {...props} listening={false} sceneFunc={sceneFunc} globalCompositeOperation="destination-out" />
   )
 }
 

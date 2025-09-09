@@ -8,7 +8,7 @@ import MetricsLines from './Composite/MetricsLines'
 import Rotation from './Composite/Rotation'
 import Root from './Composite/Root'
 import Path from './Composite/Path'
-import Points from './Composite/Points'
+import Points from './Composite/Points/Points'
 import Pointer from './Composite/Pointer'
 import Skeleton from './Composite/Skeleton'
 

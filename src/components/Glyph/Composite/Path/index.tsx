@@ -100,8 +100,6 @@ const Path = ({
           <Base.ArrowsPoint {...config.arrows} offsetY={offsetY} />
         </>
       )}
-      
-      <Base.Points offsetY={offsetY} />
 
       {metrics && (
         <>
@@ -110,6 +108,8 @@ const Path = ({
           <Base.Bounding {...config.glyph.bounding} offsetY={-offsetY} vertical />
         </>
       )}
+
+      <Base.Points offsetY={offsetY} />
 
       <Base.InfoGlyph {...props} rotation={rotation} />
     </Group> 

@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react'
 import { Circle } from 'react-konva'
 
-import type { BezierCurveProps } from './interfaces'
+import type { BezierCurveProps } from '../interfaces'
 
 const BezierCurve = ({ args, onChange, x, y }: BezierCurveProps) => {
   const [points, setPoints] = useState([x, y, ...args])
