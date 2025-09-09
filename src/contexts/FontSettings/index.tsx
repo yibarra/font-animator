@@ -1,9 +1,7 @@
 import { createContext, useCallback, useMemo, useContext } from 'react'
 
 import { useFontStore } from '../Font/store'
-import { convertPathToSvg, extractGlyphArrows, extractGlyphPoints } from './utils'
-import type { IDataGlyphCommand, IFontSettingsContext, IFontSettingsProvider } from './interfaces'
-import type { IGlyph } from '../Glyphs/interfaces'
+import type { IFontSettingsContext, IFontSettingsProvider } from './interfaces'
 
 // load font context
 const FontSettingsContext = createContext({} as IFontSettingsContext)
@@ -14,26 +12,6 @@ const FontSettingsProvider = ({ children }: IFontSettingsProvider ) => {
 
   const axes = useMemo(() => (font?.variationAxes), [font?.variationAxes])
 
-  const getGlyphs = useMemo(() => {
-    const count = (font?.numGlyphs ?? 0) - 1
-    const glyphs = []
-
-    const allowedUnicodeCharRegex = /^[\p{L}]$/u
-    
-    for (let i = 0; i < count; i++) {
-      const item = String(font?.stringsForGlyph(i)?.[0] ?? ' ').trim()
-
-      if (item.length === 1 && allowedUnicodeCharRegex.test(item)) {
-        glyphs.push({
-          charCode: i,
-          item
-        })
-      }
-    }
-
-    return glyphs
-  }, [font])
-
   // get axes
   const getVariationAxes = useCallback(() => {
     if (font && font.variationAxes) {
@@ -43,98 +21,15 @@ const FontSettingsProvider = ({ children }: IFontSettingsProvider ) => {
     return false
   }, [font])
 
-  // get path data - remove
-  const getPathDataGlyph = useCallback((
-    id: number,
-    axes: IGlyph['axes'],
-    size: number
-  ): IDataGlyphCommand => {
-    const coords = Object.fromEntries(
-      Object.entries(axes).map(([key, value]) => [key, Number(value)])
-    )
-
-    if (!font || !id) {
-      return {
-        arrows: [],
-        commands: [],
-        bounding: {
-          x1: 0,
-          y1: 0,
-          x2: 0,
-          y2: 0
-        },
-        height: 0,
-        isLigature: false,
-        isMark: false,
-        name: '',
-        path: '',
-        points: [],
-        width: 0,
-      }
-    }
-    
-    const fontInstance = font.getVariation(coords)
-    const glyph = fontInstance.getGlyph(id)
-    
-    if (glyph) {
-      const { bbox, path: { commands }, name, isLigature, isMark } = glyph
-      const yFlip = -1
-      
-      const units = fontInstance.unitsPerEm || 1000
-
-      const bounding = {
-        x1: bbox.minX * size / units,
-        y1: bbox.minY * (size / units) * yFlip,
-        x2: bbox.maxX * size / units,
-        y2: bbox.maxY * (size / units) * yFlip,
-      }
-
-      return {
-        arrows: extractGlyphArrows(commands, size / units) ?? [],
-        bounding,
-        commands,
-        height: bbox.height,
-        isLigature,
-        isMark,
-        name,
-        path: convertPathToSvg(commands, size / units),
-        points: extractGlyphPoints(commands, size / units),
-        width: bbox.width
-      }
-    }
-
-    return {
-      arrows: [],
-      bounding: {
-        x1: 0,
-        y1: 0,
-        x2: 0,
-        y2: 0
-      },
-      commands: [],
-      height: 0,
-      isLigature: false,
-      isMark: false,
-      name: '',
-      path: '',
-      points: [],
-      width: 0,
-    }
-  }, [font])
-
   // render
   return (
     <FontSettingsContext.Provider
       value={
         useMemo(() => ({
           axes,
-          getGlyphs,
-          getPathDataGlyph,
           getVariationAxes,
         }), [
           axes,
-          getGlyphs,
-          getPathDataGlyph,
           getVariationAxes,
         ]
       )}

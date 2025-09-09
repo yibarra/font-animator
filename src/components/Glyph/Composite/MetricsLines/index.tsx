@@ -1,4 +1,4 @@
-import { Rect, Shape } from 'react-konva'
+import { Shape } from 'react-konva'
 
 import { UseGlyphContext } from '../../Context'
 import type { MetricsLinesProps } from './interfaces'
@@ -31,38 +31,26 @@ const MetricsLines = ({
   const width = (x2 - x1) // width
 
   return (
-    <>
-      <Rect
-        fill="red"
-        height={(ascender + descender)}
-        listening={false}
-        offsetX={-x1}
-        offsetY={descender}
-        opacity={0.1}
-        width={width}
-      />
+    <Shape
+      {...props}
+      offsetX={-x1}
+      sceneFunc={(ctx) => {
+        ctx.setLineDash(dash)
+        ctx.fillStyle = fill ?? '#fff'
+        ctx.strokeStyle = stroke ?? '#fff'
+        ctx.letterSpacing = `${letterSpacing ?? 0}px`
 
-      <Shape
-        {...props}
-        offsetX={-x1}
-        sceneFunc={(ctx) => {
-          ctx.setLineDash(dash)
-          ctx.fillStyle = fill ?? '#fff'
-          ctx.strokeStyle = stroke ?? '#fff'
-          ctx.letterSpacing = `${letterSpacing ?? 0}px`
+        for (const line of lines) {
+          ctx.beginPath()
+          ctx.moveTo(0, line.y)
+          ctx.lineTo(width, line.y)
+          ctx.stroke()
 
-          for (const line of lines) {
-            ctx.beginPath()
-            ctx.moveTo(0, line.y)
-            ctx.lineTo(width, line.y)
-            ctx.stroke()
-
-            ctx.font = `${fontSize}px ${fontFamily}`
-            ctx.fillText(line.label, 0, line.y + (fontSize ?? 0) * 2)
-          }
-        }}
-      />
-    </>
+          ctx.font = `${fontSize}px ${fontFamily}`
+          ctx.fillText(line.label, 0, line.y + (fontSize ?? 0) * 2)
+        }
+      }}
+    />
   )
 }
 

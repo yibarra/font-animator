@@ -3,36 +3,8 @@ import type { IGlyphPoint } from '../Glyphs/interfaces'
 
 import type { IArrowsArray, IArrowsProps } from './interfaces'
 
-// convert to svg
-export const convertPathToSvg = (commands: PathCommand[], scaleFactor: number): string => {
-  let svgData = ''
-
-  commands.forEach((cmd) => {
-    switch (cmd.command) {
-      case 'moveTo':
-        svgData += `M${cmd.args[0] * scaleFactor},${cmd.args[1] * scaleFactor} `
-        break
-      case 'lineTo':
-        svgData += `L${cmd.args[0] * scaleFactor},${cmd.args[1] * scaleFactor} `
-        break
-      case 'quadraticCurveTo':
-        svgData += `Q${cmd.args[0] * scaleFactor},${cmd.args[1] * scaleFactor} ${cmd.args[2] * scaleFactor},${cmd.args[3] * scaleFactor} `
-        break
-      case 'bezierCurveTo':
-        svgData += `C${cmd.args[0] * scaleFactor},${cmd.args[1] * scaleFactor} ${cmd.args[2] * scaleFactor},${cmd.args[3] * scaleFactor} ${cmd.args[4] * scaleFactor},${cmd.args[5] * scaleFactor} `
-        break
-      case 'closePath':
-        svgData += 'Z '
-        break
-      default:
-    }
-  })
-  
-  return svgData.trim()
-}
-
 // extract glyph
-export const extractGlyphArrows = (commands: PathCommand[], scaleFactor: number): IArrowsArray => {
+export const extractGlyphArrows = (commands: PathCommand[]): IArrowsArray => {
   let startInfo: IArrowsProps | null = null
   let endInfo: IArrowsProps | null = null
 
@@ -50,13 +22,13 @@ export const extractGlyphArrows = (commands: PathCommand[], scaleFactor: number)
     const command = commands[i]
 
     // Antes de procesar el comando, guardamos la posición anterior
-    lastX = currentX * scaleFactor
-    lastY = currentY * scaleFactor
+    lastX = currentX
+    lastY = currentY
 
     switch (command.command) {
       case 'moveTo': {
-        currentX = command.args[0] * scaleFactor
-        currentY = command.args[1] * scaleFactor
+        currentX = command.args[0]
+        currentY = command.args[1]
         startOfSubpathX = currentX // subpath
         startOfSubpathY = currentY
 
@@ -71,8 +43,8 @@ export const extractGlyphArrows = (commands: PathCommand[], scaleFactor: number)
       }
 
       case 'lineTo': {
-        currentX = command.args[0] * scaleFactor
-        currentY = command.args[1] * scaleFactor
+        currentX = command.args[0]
+        currentY = command.args[1]
 
         const lineDirX = currentX - lastX
         const lineDirY = currentY - lastY
@@ -93,12 +65,12 @@ export const extractGlyphArrows = (commands: PathCommand[], scaleFactor: number)
       }
 
       case 'bezierCurveTo': { // Curva Bézier cúbica
-        const x1_bezier = command.args[0] * scaleFactor
-        const y1_bezier = command.args[1] * scaleFactor
-        const x2_bezier = command.args[2] * scaleFactor
-        const y2_bezier = command.args[3] * scaleFactor
-        currentX = command.args[4] * scaleFactor
-        currentY = command.args[5] * scaleFactor
+        const x1_bezier = command.args[0]
+        const y1_bezier = command.args[1]
+        const x2_bezier = command.args[2]
+        const y2_bezier = command.args[3]
+        currentX = command.args[4]
+        currentY = command.args[5]
 
         const startDirX_bezier = x1_bezier - lastX
         const startDirY_bezier = y1_bezier - lastY
@@ -118,10 +90,10 @@ export const extractGlyphArrows = (commands: PathCommand[], scaleFactor: number)
       }
 
       case 'quadraticCurveTo': { // Curva Bézier cuadrática
-        const x1_quad = command.args[0] * scaleFactor
-        const y1_quad = command.args[1] * scaleFactor
-        currentX = command.args[2] * scaleFactor
-        currentY = command.args[3] * scaleFactor
+        const x1_quad = command.args[0]
+        const y1_quad = command.args[1]
+        currentX = command.args[2]
+        currentY = command.args[3]
 
         const startDirX_quad = x1_quad - lastX
         const startDirY_quad = y1_quad - lastY
@@ -176,54 +148,49 @@ export const extractGlyphArrows = (commands: PathCommand[], scaleFactor: number)
 }
 
 // extract glyph points
-export const extractGlyphPoints = (commands: PathCommand[], scaleFactor: number): IGlyphPoint[] => {
+export const extractGlyphPoints = (commands: PathCommand[]): IGlyphPoint[] => {
   const points: IGlyphPoint[] = []
 
-  commands.forEach((cmd: PathCommand) => {
+  commands.forEach((cmd) => {
     switch (cmd.command) {
       case 'moveTo':
       case 'lineTo':
-        points.push({
-          x: cmd.args[0] * scaleFactor,
-          y: cmd.args[1] * scaleFactor,
-          type: 'on-curve',
-        })
+        points.push({ x: cmd.args[0], y: cmd.args[1], type: 'on-curve', })
         break
       case 'quadraticCurveTo':
         points.push({
-          x: cmd.args[0] * scaleFactor,
-          y: cmd.args[1] * scaleFactor,
+          x: cmd.args[0],
+          y: cmd.args[1],
           type: 'control',
         })
 
         points.push({
-          x: cmd.args[2] * scaleFactor,
-          y: cmd.args[3] * scaleFactor,
+          x: cmd.args[2],
+          y: cmd.args[3],
           type: 'on-curve',
         })
         break
       case 'bezierCurveTo':
         points.push({
-          x: cmd.args[0] * scaleFactor,
-          y: cmd.args[1] * scaleFactor,
+          x: cmd.args[0],
+          y: cmd.args[1],
           type: 'control',
         })
 
         points.push({
-          x: cmd.args[2] * scaleFactor,
-          y: cmd.args[3] * scaleFactor,
+          x: cmd.args[2],
+          y: cmd.args[3],
           type: 'control',
         })
         
         points.push({
-          x: cmd.args[4] * scaleFactor,
-          y: cmd.args[5] * scaleFactor,
+          x: cmd.args[4],
+          y: cmd.args[5],
           type: 'on-curve',
         })
         break
       case 'closePath':
-        // closePath doesn't add new points, it just closes the path.
-        break
+        break // closePath doesn't add new points, it just closes the path.
       default:
         console.warn('Unknown fontkit path command type for point extraction:', cmd.command)
     }
@@ -231,3 +198,36 @@ export const extractGlyphPoints = (commands: PathCommand[], scaleFactor: number)
 
   return points
 }
+
+// svg 
+export const pathToSvg = (commands: PathCommand[]): string => {
+  return commands
+    .map(({ command, args }) => {
+      switch (command) {
+        case "moveTo":
+          return `M ${args.join(" ")}`
+        case "lineTo":
+          return `L ${args.join(" ")}`
+        case "quadraticCurveTo":
+          return `Q ${args.join(" ")}`
+        case "bezierCurveTo":
+          return `C ${args.join(" ")}`
+        case "closePath":
+          return "Z"
+        default:
+          return ""
+      }
+    })
+    .join(" ")
+}
+
+// update command
+export const updateCommand = (
+  commands: PathCommand[],
+  index: number,
+  newCommand: Partial<PathCommand>
+): PathCommand[] => (
+  commands.map((cmd, i) =>
+    i === index ? { ...cmd, ...newCommand } : cmd
+  )
+)

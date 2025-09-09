@@ -23,7 +23,10 @@ const Path = ({
   const { setIsDragging } = useMainStore()
 
   const { id } = data
-  const { bounding, path: pathSVG } = path
+  const {
+    bounding: { x1, x2, y1, y2 },
+    path: pathSVG
+  } = path
   const { currentFrame, metrics, skeleton } = state
 
   // on update pos rotate
@@ -48,21 +51,23 @@ const Path = ({
 
   // center shape
   useEffect(() => {
-    if (groupRef.current && bounding) {
+    if (groupRef.current) {
       const shape = groupRef.current
 
-      const width = bounding.x2 - bounding.x1
-      const height = bounding.y2 - bounding.y1
+      const width = x2 - x1
+      const height = y2 - y1
 
-      const centerX = bounding.x1 + width / 2
-      const centerY = bounding.y1 + height / 2
+      const centerX = x1 + width / 2
+      const centerY = y1 + height / 2
 
       shape.offsetX(centerX)
       shape.offsetY(centerY)
       
       shape.getLayer()?.batchDraw()
     }
-  }, [bounding, groupRef])
+  }, [x1, x2, y1, y2, groupRef])
+
+  const offsetY = (((y2 - y1) / 2) - 40)
 
   return (
     <Group
@@ -84,26 +89,29 @@ const Path = ({
         onClick={() => setCurrent(current ? null : index)}
         opacity={skeleton ? 0 : 1}
         ref={shapeRef}
+        offsetY={offsetY}
         scaleY={-1}
         shadowOpacity={current ? 0 : 0.4}
       />
 
-      {skeleton && <Base.Skeleton />}
-      <Base.Points />
+      {skeleton && (
+        <>
+          <Base.Skeleton offsetY={offsetY} />
+          <Base.ArrowsPoint {...config.arrows} offsetY={offsetY} />
+        </>
+      )}
+      
+      <Base.Points offsetY={offsetY} />
 
       {metrics && (
         <>
-          <Base.MetricsLines {...config.glyph.metrics} />
-          <Base.Bounding {...config.glyph.bounding} />
-          <Base.Bounding {...config.glyph.bounding} vertical />
+          <Base.MetricsLines {...config.glyph.metrics} offsetY={-offsetY} />
+          <Base.Bounding {...config.glyph.bounding} offsetY={-offsetY} />
+          <Base.Bounding {...config.glyph.bounding} offsetY={-offsetY} vertical />
         </>
       )}
 
       <Base.InfoGlyph {...props} rotation={rotation} />
-
-      {skeleton && (
-        <Base.ArrowsPoint {...config.arrows} />
-      )}
     </Group> 
   )
 }

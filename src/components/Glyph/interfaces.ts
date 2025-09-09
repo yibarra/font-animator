@@ -26,6 +26,7 @@ export interface GlyphContextProps extends Pick<IGlyphProviderProps, 'data'> {
   factor: GlyphFactorScale
   setState: Dispatch<SetStateAction<IViewOptions>>
   updateState: (key: string, value: boolean) => void
+  updateCommand: (index: number, newCommand: Partial<IDataGlyphCommand['commands'][number]>) => void
 }
 
 export interface IViewOptions {

@@ -43,6 +43,11 @@ export const dataDefault = {
         stroke: '#fff',
         strokeWidth: 0.5,
         letterSpacing: -0.4
+      },
+      controls: {
+        dash: [5, 8],
+        lineWidth: 1,
+        stroke: "#fff",
       }
     },
     path: {

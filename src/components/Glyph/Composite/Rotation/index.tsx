@@ -10,7 +10,7 @@ import type { IRotationProps } from './interfaces'
 
 const Rotation = ({
   outerCircleRadius = 10,
-  innerCircleRadius = 5,
+  innerCircleRadius = 2,
   setPositionDrag,
   rotation,
   x = 20,

@@ -1,92 +1,75 @@
-import type { Context } from 'konva/lib/Context'
-import { Circle, Group, Shape } from 'react-konva'
+import { Circle, Group } from 'react-konva'
 
+import BezierCurve from './BezierCurve'
+import QuadraticCurve from './QuadraticCurve'
 import { UseGlyphContext } from '../../Context'
 import type { IPointProps } from './interfaces'
 
 const Points = (props: IPointProps) => {
-  const { state: { viewPoints }, path: { points = [] } } = UseGlyphContext()
+  const { state: { viewPoints }, path: { commands }, updateCommand } = UseGlyphContext()
 
   if (!viewPoints) {
     return <></>
   }
 
-  const sceneFunc = (ctx: Context) => {
-    for (let i = 0; i < points.length; i++) {
-      const p = points[i]
-
-      if (p.type === 'on-curve') {
-        if (points[i - 1]?.type === 'control') {
-          ctx.save()
-          ctx.strokeStyle = '#fff'
-          ctx.lineWidth = 1
-          ctx.beginPath()
-          ctx.moveTo(p.x, p.y)
-          ctx.lineTo(points[i - 1].x, points[i - 1].y)
-          ctx.stroke()
-          ctx.restore()
-        }
-        
-        if (points[i + 1]?.type === 'control') {
-          ctx.save()
-          ctx.strokeStyle = '#fff'
-          ctx.lineWidth = 1
-          ctx.beginPath()
-          ctx.moveTo(p.x, p.y)
-          ctx.lineTo(points[i + 1].x, points[i + 1].y)
-          ctx.stroke()
-          ctx.restore()
-        }
-      }
-    }
-
-    points.forEach((point) => {
-      ctx.save()
-      ctx.scale(1, -1)
-      ctx.beginPath()
-      ctx.fillStyle = '#fff'
-      ctx.font = '9px Roboto Mono'
-      ctx.letterSpacing = '-0.5px'
-      ctx.fillText(`(${point.x.toFixed(1)}, ${point.y.toFixed(1)})`, point.x + 6, -(point.y + 6))
-      ctx.fill()
-      ctx.closePath()
-      ctx.restore()
-    })
-
-    ctx.globalCompositeOperation = 'destination-out'
-
-    points.forEach((point) => {
-      if (point.type === 'on-curve') {
-        ctx.beginPath()
-        ctx.arc(point.x, point.y, 4, 0, Math.PI * 2, false)
-        ctx.fillStyle = '#000'
-        ctx.fill()
-      }
-    })
-
-    ctx.restore()
-  }
-
   return (
     <>
-      <Shape
-        {...props}
-        listening={false}
-        sceneFunc={sceneFunc}
-        scaleY={-1}
-      />
-
       <Group {...props} scaleY={-1}>
-        { Array.isArray(points) && points.map((point, k) => (
-          <Circle
-            {...point}
-            stroke="#fff"
-            strokeWidth={point.type === 'on-curve' ? 2 : 0}
-            fill={point.type === 'on-curve' ? 'transparent' : '#fff'}
-            key={k}
-            radius={point.type === 'on-curve' ? 4 : 3}
-          />
-        ))}
+        {Array.isArray(commands) && commands.map(({ command, args }, k) => {
+          if (command === 'closePath') {
+            return <></>
+          }
+
+          if (command === 'bezierCurveTo' || command === 'quadraticCurveTo') {
+            const prev = commands[k - 1]
+            const pos = { x: 0, y: 0 }
+
+            if (prev?.command === "moveTo" || prev?.command === "lineTo") {
+              pos.x = prev.args[0]
+              pos.y = prev.args[1]
+            } else if (prev?.command === "quadraticCurveTo") {
+              pos.x = prev.args[2]
+              pos.y = prev.args[3]
+            } else if (prev?.command === "bezierCurveTo") {
+              pos.x = prev.args[4]
+              pos.y = prev.args[5]
+            }
+            
+            return command === 'quadraticCurveTo' ? (
+              <QuadraticCurve
+                {...pos}
+                args={args}
+                key={`${command}-${k}`}
+                onChange={(value) => updateCommand(k, { args: value })}
+              />
+            ) : (
+              <BezierCurve
+                {...pos}
+                args={args}
+                key={`${command}-${k}`}
+                onChange={(value) => updateCommand(k, { args: value })}
+              />
+            )
+          }
+
+          return (
+            <Circle
+              draggable
+              onDragMove={(event) => {
+                const node = event.target
+                
+                updateCommand(k, { args: [node.x(), node.y()] })
+              }}
+              fill="transparent"
+              radius={4}
+              key={`${command}-${k}`}
+              strokeWidth={2}
+              stroke="red"
+              x={args[0]}
+              y={args[1]}
+            />
+          )
+        })}
       </Group>
     </>
   )
