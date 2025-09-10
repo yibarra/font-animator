@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { Circle } from 'react-konva'
 
+import { useGlyphsStore } from '../../../../../contexts/Glyphs/store'
 import type { IPointItemProps } from '../interfaces'
 
 const Point = ({ callback, ...props }: IPointItemProps) => {
+  const { config } = useGlyphsStore()
   const [isDragging, setIsDragging] = useState(false)
 
   return (
@@ -12,15 +14,15 @@ const Point = ({ callback, ...props }: IPointItemProps) => {
         <Circle
           {...props}
           listening={false}
-          fill="red"
-          radius={2}
+          fill={config.glyph.controlPoint.stroke}
+          radius={(config.glyph.controlPoint.radius ?? 0) / 2}
         />
       )}
 
       <Circle
         {...props}
+        {...config.glyph.controlPoint}
         draggable
-        fill="transparent"
         onMouseEnter={() => setIsDragging(true)}
         onMouseLeave={() => setIsDragging(false)}
         onDragStart={() => setIsDragging(true)}
@@ -32,9 +34,6 @@ const Point = ({ callback, ...props }: IPointItemProps) => {
           }
         }}
         onDragEnd={() => setIsDragging(false)}
-        radius={4}
-        strokeWidth={2}
-        stroke="red"
       />
     </>
   )

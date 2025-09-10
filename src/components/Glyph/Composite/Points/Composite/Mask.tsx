@@ -2,11 +2,13 @@ import { Shape } from 'react-konva'
 import type { Context } from 'konva/lib/Context'
 
 import { UseGlyphContext } from '../../../Context'
+import { useGlyphsStore } from '../../../../../contexts/Glyphs/store'
 import type { IMaskProps } from '../interfaces'
 import { getPoints } from '../../../helpers'
 
 // mask points
 const Mask = (props: IMaskProps) => {
+  const { config } = useGlyphsStore()
   const { path: { commands } } = UseGlyphContext()
 
   const points = getPoints(commands)
@@ -17,7 +19,7 @@ const Mask = (props: IMaskProps) => {
     points.map(({ x, y }) => {
       ctx.beginPath()
 
-      ctx.arc(x, y, 4, 0, Math.PI * 2, false)
+      ctx.arc(x, y, config.glyph.controlPoint.radius ?? 2, 0, Math.PI * 2, false)
       ctx.fillStyle = '#000'
       ctx.fill()
     })

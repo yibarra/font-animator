@@ -10,7 +10,7 @@ import type { IRotationProps } from './interfaces'
 
 const Rotation = ({
   outerCircleRadius = 10,
-  innerCircleRadius = 2,
+  innerCircleRadius = 10,
   setPositionDrag,
   rotation,
   x = 20,
@@ -30,23 +30,21 @@ const Rotation = ({
     },
   } = UseGlyphContext()
 
-  const posY = y
-
   const handleDragMove = (event: KonvaEventObject<DragEvent>) => {
     const node = event.target
     const pos = node.position()
 
     const distance = Math.sqrt(
-      Math.pow(pos.x - x, 2) + Math.pow(pos.y - posY, 2)
+      Math.pow(pos.x - x, 2) + Math.pow(pos.y - y, 2)
     )
 
     const maxDistance = outerCircleRadius - innerCircleRadius
 
     if (distance > maxDistance) {
-      const angle = Math.atan2(pos.y - posY, pos.x - x)
+      const angle = Math.atan2(pos.y - y, pos.x - x)
 
       node.x((x) + maxDistance * Math.cos(angle))
-      node.y((posY) + maxDistance * Math.sin(angle))
+      node.y((y) + maxDistance * Math.sin(angle))
 
       const adjustedAngle = angle + Math.PI / 2
       const normalizedAngle = (adjustedAngle + 2 * Math.PI) % (2 * Math.PI)
@@ -62,10 +60,10 @@ const Rotation = ({
   return (
     <>
       <Progress.Border
-        radius={outerCircleRadius - 2}
+        radius={outerCircleRadius}
         rotation={-rotation}
         x={x}
-        y={posY}
+        y={y}
       />
 
       <Circle
@@ -85,7 +83,7 @@ const Rotation = ({
         }}
         radius={outerCircleRadius - 6}
         x={x}
-        y={posY - (outerCircleRadius - innerCircleRadius)}
+        y={y - (outerCircleRadius - innerCircleRadius)}
       />
     </>
   )

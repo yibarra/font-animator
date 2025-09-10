@@ -2,6 +2,8 @@ import type { PropsWithChildren } from 'react'
 import type { Glyph } from 'fontkit'
 import type { ShapeConfig } from 'konva/lib/Shape'
 import type { TextConfig } from 'konva/lib/shapes/Text'
+import type { CircleConfig } from 'konva/lib/shapes/Circle'
+import type { LineConfig } from 'konva/lib/shapes/Line'
 
 export interface IData {
   current: number | null
@@ -15,6 +17,9 @@ export interface IData {
     }
     glyph: {
       bounding: ShapeConfig & TextConfig
+      controlLabel: ShapeConfig & TextConfig
+      controlLine: ShapeConfig & LineConfig
+      controlPoint: ShapeConfig & CircleConfig
       metrics: ShapeConfig & TextConfig
     },
     path: ShapeConfig

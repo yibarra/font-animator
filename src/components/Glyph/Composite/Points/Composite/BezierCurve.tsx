@@ -1,9 +1,9 @@
 import { useCallback, useState } from 'react'
-import { Circle } from 'react-konva'
 
-import type { BezierCurveProps } from '../interfaces'
+import { default as Base } from '../index'
+import type { IBezierCurveProps } from '../interfaces'
 
-const BezierCurve = ({ args, onChange, x, y }: BezierCurveProps) => {
+const BezierCurve = ({ args, onChange, x, y }: IBezierCurveProps) => {
   const [points, setPoints] = useState([x, y, ...args])
 
   const updatePoint = useCallback(
@@ -25,15 +25,11 @@ const BezierCurve = ({ args, onChange, x, y }: BezierCurveProps) => {
         { x: points[2], y: points[3], fill: "red" },    // cp1
         { x: points[4], y: points[5], fill: "orange" }, // cp2
         { x: points[6], y: points[7], fill: "blue" },   // end
-      ].map((p, i) => (
-        <Circle
-          {...p}
+      ].map((point, i) => (
+        <Base.Point
+          {...point}
           key={i}
-          radius={4}
-          draggable
-          onDragMove={(e) => {
-            updatePoint(i * 2, e.target.x(), e.target.y())
-          }}
+          callback={(node) => updatePoint(i * 2, node.x(), node.y())}
         />
       ))}
     </>

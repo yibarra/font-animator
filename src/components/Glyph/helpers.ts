@@ -3,7 +3,7 @@ import type { PathCommand } from 'fontkit'
 import type { IGlyphPoint } from '../../contexts/Glyphs/interfaces'
 
 // line cut fraction radius
-export const adjustedLine = (args: number[], offset: number) => {
+export const offsetLineByRadius = (args: number[], offset: number) => {
   const [x1, y1, x2, y2] = args
 
   const dx = x2 - x1

@@ -13,7 +13,7 @@ export const dataDefault = {
         {"axes":{"wght":400},"position":[758,559],"rotation":0}
       ],
       "properties":{
-        "fontSize":464,"fill":"#fff","textBaseline":"alphabetic","stroke":"none","strokeWidth":0
+        "fontSize":464,"fill":"#E0E0E0","textBaseline":"alphabetic","stroke":"none","strokeWidth":0
       },
       "position":[718,717],
       "rotation":0
@@ -22,7 +22,7 @@ export const dataDefault = {
   config: {
     arrows: {
       count: 16,
-      fill: "#e43318ff",
+      fill: "#ff2200",
       pointerLength: 10,
       pointerWidth: 12,
     },
@@ -44,14 +44,26 @@ export const dataDefault = {
         strokeWidth: 0.5,
         letterSpacing: -0.4
       },
-      controls: {
-        dash: [5, 8],
-        lineWidth: 1,
-        stroke: "#fff",
+      controlLabel: {
+        fill: '#fff',
+        fontFamily: 'Roboto Mono',
+        fontSize: 9,
+        letterSpacing: -0.4
+      },
+      controlLine: {
+        dash: [6, 4],
+        stroke: "red",
+        strokeWidth: 1
+      },
+      controlPoint: {
+        fill: "transparent",
+        stroke: "red",
+        strokeWidth: 2,
+        radius: 4
       }
     },
     path: {
-      fill: "#fff",
+      fill: "#E0E0E0",
       shadowColor: "#0f1d44",
       shadowOffset: { x: 0, y: -4 },
       shadowBlur: 4,

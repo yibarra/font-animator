@@ -53,7 +53,7 @@ const Border = ({ radius, rotation, x, y }: IBorder) => {
     ctx.restore()
   }
 
-  return <Shape sceneFunc={draw} invert={true} />
+  return <Shape sceneFunc={draw} />
 }
 
 Border.displayName = 'Components.Glyph.Progress.Border'

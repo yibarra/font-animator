@@ -2,7 +2,7 @@ import type { NodeConfig } from 'konva/lib/Node'
 import type { Shape, ShapeConfig } from 'konva/lib/Shape'
 import type { Stage } from 'konva/lib/Stage'
 
-export interface BezierCurveProps {
+export interface IBezierCurveProps {
   args: number[]
   onChange?: (args: number[]) => void
   x: number
@@ -11,7 +11,7 @@ export interface BezierCurveProps {
 
 export type IMaskProps = ShapeConfig
 
-export interface QuadraticCurveProps {
+export interface IQuadraticCurveProps {
   args: number[]
   onChange?: (args: number[]) => void
   x: number

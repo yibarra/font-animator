@@ -1,42 +1,51 @@
+import type { PathCommand } from 'fontkit'
+
 import { default as Base } from '../index'
 import { UseGlyphContext } from '../../../Context'
 
 const Controls = () => {
   const { path: { commands }, updateCommand } = UseGlyphContext()
 
+  const getPrevPos = (prev: PathCommand) => {
+    if (!prev) {
+      return { x: 0, y: 0 }
+    }
+
+    switch (prev.command) {
+      case 'moveTo':
+      case 'lineTo':
+        return { x: prev.args[0], y: prev.args[1] }
+      case 'quadraticCurveTo':
+        return { x: prev.args[2], y: prev.args[3] }
+      case 'bezierCurveTo':
+        return { x: prev.args[4], y: prev.args[5] }
+      default:
+        return { x: 0, y: 0 }
+    }
+  }
+
   return (
     <>
-      {Array.isArray(commands) && commands.map(({ command, args }, k) => {
+      {commands.map(({ command, args }, k) => {
         if (command === 'closePath') {
-          return <></>
+          return null
         }
 
-        const pos = { x: args[0], y: args[1] }
+        const startPoint = { x: args[0], y: args[1] }
 
         if (command === 'bezierCurveTo' || command === 'quadraticCurveTo') {
-          const prev = commands[k - 1]
-
-          if (prev?.command === "moveTo" || prev?.command === "lineTo") {
-            pos.x = prev.args[0]
-            pos.y = prev.args[1]
-          } else if (prev?.command === "quadraticCurveTo") {
-            pos.x = prev.args[2]
-            pos.y = prev.args[3]
-          } else if (prev?.command === "bezierCurveTo") {
-            pos.x = prev.args[4]
-            pos.y = prev.args[5]
-          }
+          const prev = getPrevPos(commands[k - 1])
           
           return command === 'quadraticCurveTo' ? (
             <Base.QuadraticCurve
-              {...pos}
+              {...prev}
               args={args}
               key={`${command}-${k}`}
               onChange={(value) => updateCommand(k, { args: value })}
             />
           ) : (
             <Base.BezierCurve
-              {...pos}
+              {...prev}
               args={args}
               key={`${command}-${k}`}
               onChange={(value) => updateCommand(k, { args: value })}
@@ -46,13 +55,9 @@ const Controls = () => {
 
         return (
           <Base.Point
-            {...pos}
+            {...startPoint}
             key={`${command}-${k}`}
-            callback={(node) => {
-              if (node) {
-                updateCommand(k, { args: [node.x(), node.y()] })
-              }
-            }}
+            callback={(node) => updateCommand(k, { args: [node.x(), node.y()] })}
           />
         )
       })}

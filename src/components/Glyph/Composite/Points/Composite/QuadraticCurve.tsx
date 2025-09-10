@@ -1,10 +1,13 @@
 import { Line } from 'react-konva'
 
 import { default as Base } from '../index'
-import type { QuadraticCurveProps } from '../interfaces'
-import { adjustedLine } from '../../../helpers'
+import { useGlyphsStore } from '../../../../../contexts/Glyphs/store'
+import type { IQuadraticCurveProps } from '../interfaces'
+import { offsetLineByRadius } from '../../../helpers'
 
-const QuadraticCurve = ({ args, onChange, x, y }: QuadraticCurveProps) => {
+const QuadraticCurve = ({ args, onChange, x, y }: IQuadraticCurveProps) => {
+  const { config } = useGlyphsStore()
+  
   const points = [x, y, ...args]
 
   const updatePoint = (index: number, newX: number, newY: number) => {
@@ -15,21 +18,13 @@ const QuadraticCurve = ({ args, onChange, x, y }: QuadraticCurveProps) => {
     onChange?.(newPoints.slice(2))
   }
 
-  const propsLine = {
-    dash: [6, 4],
-    stroke: 'red',
-    strokeWidth: 1
-  }
-
-  const linePoints = [
-    adjustedLine([...points], 6),
-    adjustedLine([points[4], points[5], points[2], points[3]], 6)
-  ]
-
   return (
     <>
-      {Array.isArray(linePoints) && linePoints.map(
-        (l, k) => (<Line {...propsLine} points={l} key={k} />)
+      {[
+        offsetLineByRadius([...points], 6),
+        offsetLineByRadius([points[4], points[5], points[2], points[3]], 6)
+      ].map(
+        (l, k) => (<Line {...config.glyph.controlLine} points={l} key={k} />)
       )}
 
       {[

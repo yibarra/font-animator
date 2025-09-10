@@ -4,6 +4,8 @@ import { UseGlyphContext } from '../../Context'
 import { useGlyphsStore } from '../../../../contexts/Glyphs/store'
 import type { IInfo } from './interfaces'
 import styles from './style.module.scss'
+import { Group } from 'react-konva'
+import Button from './Button'
 
 const Info = ({
   rotation,
@@ -17,7 +19,14 @@ const Info = ({
   const { metrics, skeleton, viewCommands, viewPoints } = state
 
   return (
-    <Html>
+    <Group rotation={rotation} x={x} y={y}>
+      <Button />
+    </Group>
+  )
+}
+
+/*
+<Html>
       <div
         className={styles["glyph--info"]}
         style={{
@@ -46,7 +55,7 @@ const Info = ({
               data-active={viewPoints}
               onClick={() => updateState('viewPoints', !viewPoints)}
             >
-              <span className="material-symbols-outlined">point_scan</span>
+              <span className="material-symbols-outlined">diagonal_line</span>
             </button>
           </div>
 
@@ -70,8 +79,7 @@ const Info = ({
         </div>
       </div>
     </Html>
-  )
-}
+*/
 
 Info.displayName = 'Glyph.Info'
 export default Info

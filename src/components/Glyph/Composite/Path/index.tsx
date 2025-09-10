@@ -20,7 +20,7 @@ const Path = ({
   const { config, setCurrent } = useGlyphsStore()
 
   const { data, groupRef, shapeRef, state, path } = UseGlyphContext()
-  const { setIsDragging } = useMainStore()
+  const { isDragging, setIsDragging } = useMainStore()
 
   const { id } = data
   const {
@@ -84,7 +84,6 @@ const Path = ({
     >      
       <PathKonva
         {...config.path}
-        fill="#fff"
         data={pathSVG}
         onClick={() => setCurrent(current ? null : index)}
         opacity={skeleton ? 0 : 1}
@@ -101,7 +100,7 @@ const Path = ({
         </>
       )}
 
-      {metrics && (
+      {metrics && !isDragging && (
         <>
           <Base.MetricsLines {...config.glyph.metrics} offsetY={-offsetY} />
           <Base.Bounding {...config.glyph.bounding} offsetY={-offsetY} />
