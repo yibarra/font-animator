@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Circle } from 'react-konva'
 
 import { useGlyphsStore } from '../../../../../contexts/Glyphs/store'
@@ -6,36 +5,22 @@ import type { IPointItemProps } from '../interfaces'
 
 const Point = ({ callback, ...props }: IPointItemProps) => {
   const { config } = useGlyphsStore()
-  const [isDragging, setIsDragging] = useState(false)
+
+  const stylePoint = config.glyph.controlPoint
 
   return (
-    <>
-      {isDragging && (
-        <Circle
-          {...props}
-          listening={false}
-          fill={config.glyph.controlPoint.stroke}
-          radius={(config.glyph.controlPoint.radius ?? 0) / 2}
-        />
-      )}
+    <Circle
+      {...props}
+      {...stylePoint}
+      draggable
+      onDragMove={(event) => {
+        const node = event.target
 
-      <Circle
-        {...props}
-        {...config.glyph.controlPoint}
-        draggable
-        onMouseEnter={() => setIsDragging(true)}
-        onMouseLeave={() => setIsDragging(false)}
-        onDragStart={() => setIsDragging(true)}
-        onDragMove={(event) => {
-          const node = event.target
-
-          if (typeof callback === 'function') {
-            callback(node)
-          }
-        }}
-        onDragEnd={() => setIsDragging(false)}
-      />
-    </>
+        if (typeof callback === 'function') {
+          callback(node)
+        }
+      }}
+    />
   )
 }
 

@@ -17,7 +17,7 @@ const GlyphProvider = ({ children, data, ...props }: IGlyphProviderProps) => {
     metrics: true,
     skeleton: true,
     viewPoints: true,
-    viewCommands: false,
+    viewCommands: true,
   })
 
   const [commands, setCommands] = useState<IDataGlyphCommand["commands"]>([])

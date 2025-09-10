@@ -1,9 +1,9 @@
-import { Group, Rect, Text } from 'react-konva'
-import { UseGlyphContext } from '../../Context'
-import { useMemo, useState } from 'react'
+import { Group, Text } from 'react-konva'
+import { useMemo } from 'react'
 
-const Commands = ({ x, y }: any) => {
-  const [current, setCurrent] = useState(0)
+import { UseGlyphContext } from '../../../Context'
+
+const Commands = () => {
   const { path } = UseGlyphContext()
 
   const { commands } = path
@@ -40,13 +40,13 @@ const Commands = ({ x, y }: any) => {
     fontSize: 12,
   }
 
-  const commandGroup = commandTab[current]
+  const commandGroup = commandTab[0]
   const totalColumns = commandGroup
     ? Math.max(...commandGroup.commands.map(cmd => cmd.args.length))
     : 0
 
   return (
-    <Group x={x} y={y}>
+    <Group>
       <Text {...props} {...propsBold} text="Commands" />
       <Text {...props} x={120*(totalColumns-1)} text={`Total: ${commands.length}`} y={2} />
 

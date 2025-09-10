@@ -20,7 +20,7 @@ const Path = ({
   const { config, setCurrent } = useGlyphsStore()
 
   const { data, groupRef, shapeRef, state, path } = UseGlyphContext()
-  const { isDragging, setIsDragging } = useMainStore()
+  const { isDragging, isRotation, setIsDragging } = useMainStore()
 
   const { id } = data
   const {
@@ -67,8 +67,6 @@ const Path = ({
     }
   }, [x1, x2, y1, y2, groupRef])
 
-  const offsetY = (((y2 - y1) / 2) - 40)
-
   return (
     <Group
       {...props}
@@ -85,32 +83,30 @@ const Path = ({
       <PathKonva
         {...config.path}
         data={pathSVG}
+        fill={skeleton ? 'transparent' : config.path.fill}
         onClick={() => setCurrent(current ? null : index)}
-        opacity={skeleton ? 0 : 1}
         ref={shapeRef}
-        offsetY={offsetY}
         scaleY={-1}
-        shadowOpacity={current ? 0 : 0.4}
+        shadowOpacity={skeleton ? 0 : 0.4}
+        stroke={skeleton ? config.path.fill : 'transparent'}
+        strokeWidth={skeleton ? 2 : 0}
       />
 
-      {skeleton && (
-        <>
-          <Base.Skeleton offsetY={offsetY} />
-          <Base.ArrowsPoint {...config.arrows} offsetY={offsetY} />
-        </>
-      )}
+      {skeleton && (<Base.ArrowsPoint {...config.arrows} />)}
 
       {metrics && !isDragging && (
         <>
-          <Base.MetricsLines {...config.glyph.metrics} offsetY={-offsetY} />
-          <Base.Bounding {...config.glyph.bounding} offsetY={-offsetY} />
-          <Base.Bounding {...config.glyph.bounding} offsetY={-offsetY} vertical />
+          <Base.MetricsLines {...config.glyph.metrics} />
+          <Base.Bounding {...config.glyph.bounding} />
+          <Base.Bounding {...config.glyph.bounding} vertical />
         </>
       )}
 
-      <Base.Points offsetY={offsetY} scaleY={-1} />
+      {!isRotation && (
+        <Base.Points scaleY={-1} />
+      )}
 
-      <Base.InfoGlyph {...props} rotation={rotation} />
+      <Base.Info {...props} rotation={rotation} />
     </Group> 
   )
 }

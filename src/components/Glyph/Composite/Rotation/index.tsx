@@ -81,7 +81,7 @@ const Rotation = ({
 
           setGlyphRotate(id, currentFrame, position, rotation)
         }}
-        radius={outerCircleRadius - 6}
+        radius={innerCircleRadius - 6}
         x={x}
         y={y - (outerCircleRadius - innerCircleRadius)}
       />

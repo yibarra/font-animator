@@ -28,22 +28,14 @@ const Glyph = ({
         x={x}
         y={y}
       />
-
-      <Base.Pointer position={position} x={x} y={y} />
       
       {(current && !isPlaying) && (
-        <>
-          <Base.Rotation
-            rotation={rotate}
-            setPositionDrag={setPositionDrag}
-            x={x}
-            y={y}
-          />
-
-          {!isDragging && (
-            <Base.Info rotation={rotate} x={x} y={y} />
-          )}
-        </>
+        <Base.Rotation
+          rotation={rotate}
+          setPositionDrag={setPositionDrag}
+          x={x}
+          y={y}
+        />
       )}
     </Base.Root>
   )

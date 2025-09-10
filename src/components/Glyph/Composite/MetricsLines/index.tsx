@@ -55,7 +55,6 @@ const MetricsLines = ({
           }
         }}
       />
-
       {viewPoints && (<Points.Mask points={points} scaleY={-1} />)}
     </Group>
   )

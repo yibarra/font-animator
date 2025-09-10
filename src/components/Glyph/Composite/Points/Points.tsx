@@ -13,7 +13,7 @@ const Points = (props: IPointProps) => {
 
   return (
     <Group {...props}>
-      <Base.Mask {...props} />
+      <Base.Mask />
 
       <Base.Controls />
     </Group>
