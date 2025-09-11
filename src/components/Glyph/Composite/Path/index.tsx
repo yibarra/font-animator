@@ -92,6 +92,8 @@ const Path = ({
         strokeWidth={skeleton ? 2 : 0}
       />
 
+      <Base.Info {...props} rotation={rotation} />
+
       {skeleton && (<Base.ArrowsPoint {...config.arrows} />)}
 
       {metrics && !isDragging && (
@@ -105,8 +107,6 @@ const Path = ({
       {!isRotation && (
         <Base.Points scaleY={-1} />
       )}
-
-      <Base.Info {...props} rotation={rotation} />
     </Group> 
   )
 }

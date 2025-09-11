@@ -1,4 +1,4 @@
-import { useState, createContext, useContext } from 'react'
+import { useState, createContext, useContext, useMemo } from 'react'
 import type { Dispatch, SetStateAction } from 'react'
 
 interface GridConfig {
@@ -27,7 +27,23 @@ const GridProvider = ({
   const [offsetY, setOffsetY] = useState(initialOffsetY)
 
   return (
-    <GridContext.Provider value={{ offsetX, offsetY, setOffsetX, setOffsetY, gridConfig }}>
+    <GridContext.Provider
+      value={
+        useMemo(() => ({
+          gridConfig,
+          offsetX,
+          offsetY,
+          setOffsetX,
+          setOffsetY,
+        }), [
+          gridConfig,
+          offsetX,
+          offsetY,
+          setOffsetX,
+          setOffsetY,
+        ])
+      }
+    >
       {children}
     </GridContext.Provider>
   )

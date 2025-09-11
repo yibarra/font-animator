@@ -25,9 +25,11 @@ const Info = ({ rotation, x, y, ...props }: IInfoGlyphProps) => {
   }
 
   const offsetY = 160
+  const hex = parseInt(name.replace('uni', ''), 16)
+  const str = String.fromCodePoint(isNaN(hex) ? 0 : hex)
 
   return (
-    <Group {...props} offsetY={offsetY} x={x2 + 40}>
+    <Group {...props} offsetY={offsetY} x={x2 + 20}>
       {viewCommands && (
         <>
           <Text {...label} text="Unicode:" y={0} />
@@ -35,11 +37,17 @@ const Info = ({ rotation, x, y, ...props }: IInfoGlyphProps) => {
           <Text {...label} text="Rotation:" y={32} />
           <Text {...label} text="deg" x={116} y={32} />
           <Text {...label} text="Position:" y={48} />
+          {str && (
+            <>
+              <Text {...label} text="Character:" x={140} y={0} />
+              <Text {...propsBold} text={str} x={210} y={-2} />
+            </>
+          )}
           <Text {...propsBold} text={name} x={80} y={-2} />
           <Text {...propsBold} text={charIndex.toString()} x={80} y={14} />
           <Text {...propsBold} align="right" text={Math.abs(rotation).toFixed(0)} x={80} y={30} width={30} />
-          <Text {...propsBold} text={x.toFixed(1)} x={80} y={46} />
-          <Text {...propsBold} text={y.toFixed(1)} x={210} y={46} />
+          <Text {...propsBold} text={x.toFixed(0)} x={80} y={46} />
+          <Text {...propsBold} text={y.toFixed(0)} x={210} y={46} />
 
           <Text {...label} text="X1:" y={96} />
           <Text {...label} text="Y1:" x={140} y={96} />

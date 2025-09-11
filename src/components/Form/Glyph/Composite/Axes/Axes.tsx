@@ -42,6 +42,7 @@ const Axes = ({ currentFrame, id, frame }: IAxes) => {
               <div className={styles['form--glyph--axes--controls--item--range']}>
                 <Form.RangeSlider
                   {...axes[axe]}
+                  defaultValue={axes[axe]?.default}
                   onHandler={(value) => {
                     const newAxes = ({
                       ...axesState,

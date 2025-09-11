@@ -17,17 +17,17 @@ const Glyph = (props: IInfoProps) => {
   const { id } = data
   const { metrics, skeleton, viewCommands, viewPoints } = state
 
-  const size = 32
+  const size = 31
   const gap = size + 1
 
   return (
     <Group {...props}>
       {[
-        { icon: 'skeleton', x: 0, y: 0, onClick: () => updateState('skeleton', !skeleton) },
-        { icon: 'diagonal_line', x: gap, y: 0, onClick: () => updateState('viewPoints', !viewPoints) },
-        { icon: 'code_blocks', x: 0, y: gap, onClick: () => updateState('viewCommands', !viewCommands) },
-        { icon: 'straighten', x: gap, y: gap, onClick: () => updateState('metrics', !metrics) },
-        { icon: 'delete', x: 0, y: gap * 2, onClick: () => remove(id) },
+        { active: skeleton, icon: 'skeleton', x: 0, y: 0, onClick: () => updateState('skeleton', !skeleton) },
+        { active: viewPoints, icon: 'diagonal_line', x: gap, y: 0, onClick: () => updateState('viewPoints', !viewPoints) },
+        { active: viewCommands, icon: 'code_blocks', x: gap * 2, y: 0, onClick: () => updateState('viewCommands', !viewCommands) },
+        { active: metrics, icon: 'straighten', x: gap, y: gap, onClick: () => updateState('metrics', !metrics) },
+        { icon: 'delete', x: gap * 3, y: 0, onClick: () => remove(id) },
       ].map((button, key) => (
         <Base.Button {...button} height={size} key={key} width={size} />
       ))}

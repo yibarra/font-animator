@@ -32,7 +32,7 @@ const ArrowsPoint = ({
             ctx.beginPath()
             ctx.moveTo(fromX, fromY)
             ctx.lineTo(toX, toY)
-            ctx.strokeStyle = fill || '#d71b15'
+            ctx.strokeStyle = fill || 'red'
             ctx.lineWidth = 1
             ctx.stroke()
 
@@ -48,7 +48,7 @@ const ArrowsPoint = ({
             ctx.lineTo(-pointerLength, pointerWidth / 2)
             
             ctx.closePath()
-            ctx.fillStyle = fill || '#d71b15'
+            ctx.fillStyle = fill || 'red'
             ctx.fill()
 
             ctx.restore()

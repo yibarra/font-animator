@@ -2,6 +2,7 @@ import type { GroupConfig } from 'konva/lib/Group'
 import type { ShapeConfig } from 'konva/lib/Shape'
 
 export interface IButtonProps extends GroupConfig {
+  active?: boolean
   icon: string
 }
 

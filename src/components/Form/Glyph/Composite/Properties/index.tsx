@@ -1,16 +1,16 @@
 import { useCallback } from 'react'
 
-import Form from '../../..'
-import styles from '../../styles.module.scss'
+import Form from '../../../'
 import { useGlyphsStore } from '../../../../../contexts/Glyphs/store'
 import type { IPropertiesProps } from './interfaces'
+import styles from '../../styles.module.scss'
 
 const Properties = ({ glyph }: IPropertiesProps) => {
   const { updateGlyphProperties } = useGlyphsStore()
 
-  const onHandler = useCallback((value: number) => {
+  const onHandler = useCallback((value: number) => (
     updateGlyphProperties(glyph.id, { fontSize: value })
-  }, [glyph?.id, updateGlyphProperties])
+  ), [glyph?.id, updateGlyphProperties])
 
   return (
     <div className={styles['form--glyph--axes--controls--item']}>
@@ -19,8 +19,8 @@ const Properties = ({ glyph }: IPropertiesProps) => {
       <div className={styles['form--glyph--axes--controls--item--range']}>
         <Form.RangeSlider
           defaultValue={glyph.properties.fontSize}
-          min={70}
-          max={6000}
+          min={120}
+          max={1200}
           onHandler={onHandler}
         />
       </div>
@@ -28,4 +28,5 @@ const Properties = ({ glyph }: IPropertiesProps) => {
   )
 }
 
+Properties.displayName = 'Form.Glyph.Properties'
 export default Properties
